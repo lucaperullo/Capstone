@@ -397,7 +397,7 @@ body.dark {
  */
 
 .md body.dark {
-  --ion-background-color: #121212;
+  --ion-background-color: #00000046;
   --ion-background-color-rgb: 18, 18, 18;
 
   --ion-text-color: #ffffff;
@@ -504,7 +504,7 @@ body.light {
  */
 
 .ios body.light {
-  --ion-background-color: #f0f0f0;
+  --ion-background-color: #f0f0f02c;
   --ion-background-color-rgb: 0, 0, 0;
 
   --ion-text-color: #0f0a0a;
@@ -547,7 +547,7 @@ body.light {
  */
 
 .md body.light {
-  --ion-background-color: #ffffff;
+  --ion-background-color: #ffffff38;
   --ion-background-color-rgb: 18, 18, 18;
 
   --ion-text-color: #000000;

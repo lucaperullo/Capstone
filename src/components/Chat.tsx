@@ -28,8 +28,8 @@ import CreateGroup from "./CreateGroup";
 import { url } from "inspector";
 import "../theme/style.css";
 // socket
-const endpoint = "http://localhost:5000";
-const socket = io(endpoint, { transports: ["websocket"] });
+// const endpoint = "http://localhost:5000";
+// const socket = io(endpoint, { transports: ["websocket"] });
 // interface color {
 
 // }
@@ -42,11 +42,11 @@ const Chat = () => {
   const [message, setMessage] = useState<string>("");
   const [Background, setBackground] = useState<string>("");
   const [BackgroundColor, setBackgroundColor] = useState("");
-  const handleSendMessage = () => {
-    socket.emit("sendMessage", message, () => {
-      setMessage("");
-    });
-  };
+  // const handleSendMessage = () => {
+  //   socket.emit("sendMessage", message, () => {
+  //     setMessage("");
+  //   });
+  // };
 
   // useEffect(() => {
   //   console.log(status);
@@ -95,9 +95,16 @@ const Chat = () => {
         )}
       </IonHeader>
       <ChatContainer>
-        <IonContent style={{ zIndex: 1, height: "100%" }}>
+        <IonContent
+          style={{
+            zIndex: 1,
+            height: "100%",
+            backgroundImage: `url(${Background})`,
+            backgroundColor: `transparent`,
+          }}
+        >
           <div className="left">
-            <IonCard>
+            <IonCard style={{ borderRadius: "15px 15px 15px 0px" }}>
               <IonCardContent>
                 Hi its Chiara here!
                 <div className="ion-text-end">
@@ -107,7 +114,10 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color={messageTheme}>
+            <IonCard
+              style={{ borderRadius: "15px 0px 15px 15px" }}
+              color={messageTheme}
+            >
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -117,7 +127,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="left">
-            <IonCard>
+            <IonCard style={{ borderRadius: "15px 15px 15px 0px" }}>
               <IonCardContent>
                 Im doing great, i would like to know if we could meetup tonight!
                 <div className="ion-text-end">
@@ -127,7 +137,34 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color={messageTheme}>
+            <IonCard
+              style={{ borderRadius: "15px 0px 15px 15px" }}
+              color={messageTheme}
+            >
+              <IonCardContent>
+                Sure thing, tell me where and at what time
+                <div className="ion-text-end">
+                  <span>2:54</span>
+                </div>
+              </IonCardContent>
+            </IonCard>
+          </div>
+
+          <div className="left">
+            <IonCard style={{ borderRadius: "15px 15px 15px 0px" }}>
+              <IonCardContent>
+                Im doing great, i would like to know if we could meetup tonight!
+                <div className="ion-text-end">
+                  <span>2:54</span>
+                </div>
+              </IonCardContent>
+            </IonCard>
+          </div>
+          <div className="right">
+            <IonCard
+              style={{ borderRadius: "15px 0px 15px 15px" }}
+              color={messageTheme}
+            >
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -137,7 +174,10 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color={messageTheme}>
+            <IonCard
+              style={{ borderRadius: "15px 0px 15px 15px" }}
+              color={messageTheme}
+            >
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -147,7 +187,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="left">
-            <IonCard>
+            <IonCard style={{ borderRadius: "15px 15px 15px 0px" }}>
               <IonCardContent>
                 Im doing great, i would like to know if we could meetup tonight!
                 <div className="ion-text-end">
@@ -157,37 +197,10 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color={messageTheme}>
-              <IonCardContent>
-                Sure thing, tell me where and at what time
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard color={messageTheme}>
-              <IonCardContent>
-                Hey Chiara how are you? :D
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="left">
-            <IonCard>
-              <IonCardContent>
-                Im doing great, i would like to know if we could meetup tonight!
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard color={messageTheme}>
+            <IonCard
+              style={{ borderRadius: "15px 0px 15px 15px" }}
+              color={messageTheme}
+            >
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -211,7 +224,7 @@ const Chat = () => {
           <IonTextarea
             placeholder="Write some text..."
             value={message}
-            onKeyPress={handleSendMessage}
+            // onKeyPress={handleSendMessage}
             onIonChange={(e) => setMessage(e.detail.value!)}
           />
         </div>
@@ -686,7 +699,6 @@ const Chat = () => {
       <IonRouterOutlet
         id="main2"
         style={{
-          backgroundImage: `url(${Background})`,
           backgroundColor: `${BackgroundColor}`,
         }}
       ></IonRouterOutlet>
@@ -694,18 +706,7 @@ const Chat = () => {
   );
 };
 
-const IonContainer = styled(IonContent)`
-  display: flex;
-  flex-direction: column-reverse;
-`;
-const IonItems = styled(IonItem)`
-  position: fixed;
-  bottom: 1rem;
-  width: 62%;
-`;
 const ChatContainer = styled.div`
-  padding-left: 2rem;
-  padding-right: 2rem;
   display: flex;
   flex-direction: column;
   height: 80vh;
