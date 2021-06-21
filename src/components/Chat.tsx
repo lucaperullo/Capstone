@@ -34,6 +34,7 @@ const socket = io(endpoint, { transports: ["websocket"] });
 
 // }
 const Chat = () => {
+  const [messageTheme, setMessageTheme] = useState<string>("primary");
   const [userNumber] = useLocalStorage<string>("userNumber", "");
   const [SettingsModalShow, setSettingsModalShow] = useState<boolean>(false);
   const [GroupModalShow, setGroupModalShow] = useState<boolean>(false);
@@ -106,7 +107,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color="primary">
+            <IonCard color={messageTheme}>
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -126,7 +127,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color="primary">
+            <IonCard color={messageTheme}>
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -136,7 +137,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color="primary">
+            <IonCard color={messageTheme}>
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -156,7 +157,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color="primary">
+            <IonCard color={messageTheme}>
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -166,7 +167,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color="primary">
+            <IonCard color={messageTheme}>
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -186,7 +187,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard color="primary">
+            <IonCard color={messageTheme}>
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -249,6 +250,8 @@ const Chat = () => {
           </IonItem>
 
           <SettingsModal
+            messageTheme={messageTheme}
+            setMessageTheme={setMessageTheme}
             setChatBackgroundColor={setBackgroundColor}
             chatBackgroundColor={BackgroundColor}
             setChatBackground={setBackground}

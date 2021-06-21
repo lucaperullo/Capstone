@@ -14,12 +14,19 @@ import {
   IonRow,
   IonImg,
   IonContent,
+  IonChip,
+  IonRadio,
+  IonRadioGroup,
+  IonSegment,
+  IonSegmentButton,
 } from "@ionic/react";
-import { colorPaletteSharp, moon, sunny, trashSharp } from "ionicons/icons";
+import { chatbubblesSharp, moon, sunny, trashSharp } from "ionicons/icons";
 
 import "../theme/style.css";
 
 interface SettingsProps {
+  messageTheme: string;
+  setMessageTheme: (theme: string) => void;
   chatBackgroundColor: string;
   setChatBackgroundColor: (arg0: string) => void;
   chatBackground: string;
@@ -53,13 +60,13 @@ const SettingsModal = (props: SettingsProps) => {
           style={{ position: "fixed", top: 0, backgroundColor: "black" }}
         >
           <IonText color="primary">
-            <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Settings</h1>
+            <h1>‏‏‎ ‎‏‏‎ Theme</h1>
           </IonText>
         </IonHeader>
         <div className="modalContainer">
           <IonItem>
-            <IonText>
-              <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Theme</h1>
+            <IonText slot="start">
+              <h1>‏‏‎ ‎‏‏‎ Light/Dark</h1>
             </IonText>
             <IonIcon slot="end" icon={dark ? sunny : moon} />
 
@@ -70,8 +77,44 @@ const SettingsModal = (props: SettingsProps) => {
               onIonChange={toggleDarkModeHandler}
             />
           </IonItem>
+          <IonItem>
+            <IonText slot="start">
+              <h1>‏‏‎ ‎‏‏‎ Bubbles</h1>
+            </IonText>
+            <IonSegment
+              onIonChange={(e) => props.setMessageTheme(e.detail.value!)}
+              value={props.messageTheme}
+            >
+              <IonSegmentButton value="primary">
+                <IonIcon icon={chatbubblesSharp} color="primary" />
+              </IonSegmentButton>
+              <IonSegmentButton value="secondary">
+                <IonIcon icon={chatbubblesSharp} color="secondary" />
+              </IonSegmentButton>
+              <IonSegmentButton value="tertiary">
+                <IonIcon icon={chatbubblesSharp} color="tertiary" />
+              </IonSegmentButton>
+            </IonSegment>
+            {/* <IonRadioGroup
+              style={{ display: "flex" }}
+              value={props.messageTheme}
+              onIonChange={(e) => props.setMessageTheme(e.detail.value)}
+            >
+              <IonItem>
+                <IonRadio mode="md" color="primary" value="primary" />
+              </IonItem>
+              <IonItem>
+                <IonText slot="start"></IonText>
+                <IonRadio mode="md" color="secondary" value="secondary" />
+              </IonItem>
+              <IonItem>
+                <IonRadio mode="md" color="tertiary" value="tertiary" />
+              </IonItem>
+            </IonRadioGroup> */}
+          </IonItem>
+
           <IonItem style={{ height: "150px" }}>
-            <IonText>
+            <IonText slot="start">
               <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Wallpaper Color</h1>
             </IonText>
             <IonItem style={{ zIndex: 2, height: "150px" }}>
@@ -84,7 +127,7 @@ const SettingsModal = (props: SettingsProps) => {
           </IonItem>
           <IonItem style={{ height: "80vh" }}>
             <div style={{ display: "flex", flexDirection: "column" }}>
-              <IonText>
+              <IonText slot="start">
                 <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Wallpaper</h1>
               </IonText>
 
