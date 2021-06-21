@@ -106,7 +106,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard>
+            <IonCard color="primary">
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -126,7 +126,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard>
+            <IonCard color="primary">
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -136,7 +136,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard>
+            <IonCard color="primary">
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -156,7 +156,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard>
+            <IonCard color="primary">
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
@@ -166,7 +166,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard>
+            <IonCard color="primary">
               <IonCardContent>
                 Hey Chiara how are you? :D
                 <div className="ion-text-end">
@@ -186,7 +186,7 @@ const Chat = () => {
             </IonCard>
           </div>
           <div className="right">
-            <IonCard>
+            <IonCard color="primary">
               <IonCardContent>
                 Sure thing, tell me where and at what time
                 <div className="ion-text-end">
