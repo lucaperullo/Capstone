@@ -1,0 +1,8 @@
+{
+  "name": "whatzapp",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react",
+  "id": "53fd2f3f"
+}

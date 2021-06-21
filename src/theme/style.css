@@ -1,0 +1,100 @@
+/* .scrollbar {
+  margin-left: 30px;
+  float: left;
+  height: 300px;
+  width: 65px;
+  background: #F5F5F5;
+  overflow-y: scroll;
+  margin-bottom: 25px;
+}
+
+.force-overflow {
+  min-height: 450px;
+}
+
+#style-3::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar {
+  width: 6px;
+  background-color: #F5F5F5;
+}
+
+#style-3::-webkit-scrollbar-thumb {
+  background-color: #000000;
+} */
+
+/* ion-content {
+  --offset-bottom: auto !important;
+  --overflow: hidden;
+  overflow: auto;
+}
+
+ion-content ::-webkit-scrollbar {
+    display: none;
+} */
+.modalContainer {
+  height: 100%;
+}
+.modalButtons {
+  z-index: 2;
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 6px;
+  background-color: #f5f5f5;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #00000000;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  transition: 0.5s ease;
+  background-color: #818181de;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(54, 88, 43, 0.747);
+  box-shadow: 11px;
+}
+.settings {
+  transition: ease 0.15s;
+  padding: 6px;
+  border: 1px solid rgba(231, 231, 231, 0.322);
+}
+.settings:hover {
+  border-radius: 15px;
+  cursor: pointer;
+  transform: scale(1.2);
+  border: 1px solid rgba(53, 99, 45, 0.932);
+}
+.right {
+  z-index: 1;
+  display: flex;
+  flex-direction: row-reverse;
+  background-color: rgba(3, 7, 3, 0.158);
+}
+.left {
+  z-index: 1;
+  display: flex;
+  flex-direction: row;
+}
+.ion-text-end {
+  display: flex;
+  align-content: center;
+  justify-content: flex-end;
+}
+/* .contact-header {
+  position: absolute;
+  width: 100%;
+  top: 0;
+} */
