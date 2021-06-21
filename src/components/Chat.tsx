@@ -16,7 +16,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import styled from "styled-components";
-import io from "socket.io-client";
+import { io } from "socket.io-client";
 import "../theme/style.css";
 import SettingsModal from "./Settings";
 import { happySharp, personAddOutline, settingsOutline } from "ionicons/icons";
@@ -27,9 +27,12 @@ import { sendSharp } from "ionicons/icons";
 import CreateGroup from "./CreateGroup";
 import { url } from "inspector";
 import "../theme/style.css";
-// socket
-// const endpoint = "http://localhost:5000";
-// const socket = io(endpoint, { transports: ["websocket"] });
+
+const socket = io("http://localhost:7000", {
+  transports: ["websocket"],
+  path: "/chat",
+});
+socket.emit("hello", "");
 // interface color {
 
 // }

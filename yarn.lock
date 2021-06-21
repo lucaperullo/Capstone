@@ -10208,6 +10208,11 @@ schema-utils@^3.0.0:
     ajv "^6.12.5"
     ajv-keywords "^3.5.2"
 
+scroll-to-bottom@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/scroll-to-bottom/-/scroll-to-bottom-1.0.1.tgz#0f5a391dc5c31b4383a9b76fc9a71811a721c503"
+  integrity sha1-D1o5HcXDG0ODqbdvyacYEachxQM=
+
 select-hose@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/select-hose/-/select-hose-2.0.0.tgz"
@@ -10452,7 +10457,7 @@ snapdragon@^0.8.1:
 
 socket.io-client@^4.1.2:
   version "4.1.2"
-  resolved "https://registry.npmjs.org/socket.io-client/-/socket.io-client-4.1.2.tgz"
+  resolved "https://registry.yarnpkg.com/socket.io-client/-/socket.io-client-4.1.2.tgz#95ad7113318ea01fba0860237b96d71e1b1fd2eb"
   integrity sha512-RDpWJP4DQT1XeexmeDyDkm0vrFc0+bUsHDKiVGaNISJvJonhQQOMqV9Vwfg0ZpPJ27LCdan7iqTI92FRSOkFWQ==
   dependencies:
     "@types/component-emitter" "^1.2.10"
