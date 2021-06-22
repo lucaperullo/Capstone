@@ -1,22 +1,24 @@
-import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react"
-import { useState } from "react"
-import styled from "styled-components"
-import { backend } from "../config"
-import { useLocalStorage } from "../hooks/useLocalStorage"
+import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react";
+import { useState } from "react";
+import styled from "styled-components";
+import { backend } from "../config";
+import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const RegisterPage = () => {
-  const [username, setUsername] = useState<string>("")
-  const [userNumber, setUserNumber] = useLocalStorage<string>("userNumber", "")
+  const [username, setUsername] = useState<string>("");
+  const [Email, setEmail] = useState<string>("");
+  const [password, setpassword] = useLocalStorage<string>("password", "");
 
   const registerHandler = async (e: any) => {
-    e.preventDefault()
-    const res = await backend.post("/api/user/register", {
-      userNumber: userNumber,
-      name: username,
-    })
+    e.preventDefault();
+    const res = await backend.post("/auth/register", {
+      email: Email,
+      password: password,
+      username: username,
+    });
 
-    res.status === 200 && window.location.assign("/chat")
-  }
+    res.status === 200 && window.location.assign("/chat");
+  };
   return (
     <>
       <Container>
@@ -28,7 +30,7 @@ const RegisterPage = () => {
             flexDirection: "column",
           }}
           onSubmit={(e) => {
-            registerHandler(e)
+            registerHandler(e);
           }}
         >
           <IonItem
@@ -39,19 +41,26 @@ const RegisterPage = () => {
             }}
           >
             <div>
-              <IonLabel style={{ paddingTop: "10px" }}>Phone : </IonLabel>
-              <IonInput
-                type="text"
-                value={userNumber}
-                placeholder="Enter Number"
-                onIonChange={(e) => setUserNumber(e.detail.value!)}
-              ></IonInput>
               <IonLabel style={{ paddingTop: "10px" }}>Username : </IonLabel>
               <IonInput
                 type="text"
                 value={username}
                 placeholder="your username here"
                 onIonChange={(e) => setUsername(e.detail.value!)}
+              ></IonInput>
+              <IonLabel style={{ paddingTop: "10px" }}>Username : </IonLabel>
+              <IonInput
+                type="text"
+                value={Email}
+                placeholder="your Email here"
+                onIonChange={(e) => setEmail(e.detail.value!)}
+              ></IonInput>
+              <IonLabel style={{ paddingTop: "10px" }}>Password : </IonLabel>
+              <IonInput
+                type="password"
+                value={password}
+                placeholder="8 characters ore more"
+                onIonChange={(e) => setpassword(e.detail.value!)}
               ></IonInput>
             </div>
           </IonItem>
@@ -68,11 +77,11 @@ const RegisterPage = () => {
         </form>
       </Container>
     </>
-  )
-}
+  );
+};
 
 const Container = styled.div`
-  background-image: url(${"https://www.transparenttextures.com/patterns/food.png"});
+  background-image: url(${"https://i.stack.imgur.com/pMAiU.jpg"});
   display: flex;
   flex-direction: column;
   padding-top: 30vh;
@@ -82,6 +91,6 @@ const Container = styled.div`
   top: 50 vh;
   align-self: center;
   justify-self: center;
-`
+`;
 
-export default RegisterPage
+export default RegisterPage;
