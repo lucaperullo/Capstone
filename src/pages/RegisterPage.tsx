@@ -6,13 +6,15 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState<string>("");
-  const [Email, setEmail] = useState<string>("");
-  const [password, setpassword] = useLocalStorage<string>("password", "");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const registerHandler = async (e: any) => {
     e.preventDefault();
     const res = await backend.post("/auth/register", {
-      email: Email,
+      email: email,
+      phone: phone,
       password: password,
       username: username,
     });
@@ -41,6 +43,13 @@ const RegisterPage = () => {
             }}
           >
             <div>
+              <IonLabel style={{ paddingTop: "10px" }}>Phone : </IonLabel>
+              <IonInput
+                type="text"
+                value={phone}
+                placeholder="your phone here(optional)"
+                onIonChange={(e) => setPhone(e.detail.value!)}
+              ></IonInput>
               <IonLabel style={{ paddingTop: "10px" }}>Username : </IonLabel>
               <IonInput
                 type="text"
@@ -51,8 +60,8 @@ const RegisterPage = () => {
               <IonLabel style={{ paddingTop: "10px" }}>Username : </IonLabel>
               <IonInput
                 type="text"
-                value={Email}
-                placeholder="your Email here"
+                value={email}
+                placeholder="your email here"
                 onIonChange={(e) => setEmail(e.detail.value!)}
               ></IonInput>
               <IonLabel style={{ paddingTop: "10px" }}>Password : </IonLabel>
@@ -60,7 +69,7 @@ const RegisterPage = () => {
                 type="password"
                 value={password}
                 placeholder="8 characters ore more"
-                onIonChange={(e) => setpassword(e.detail.value!)}
+                onIonChange={(e) => setPassword(e.detail.value!)}
               ></IonInput>
             </div>
           </IonItem>
