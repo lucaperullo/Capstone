@@ -8,6 +8,7 @@ import {
   IonInput,
   IonText,
   useIonToast,
+  IonContent,
 } from "@ionic/react";
 
 import { useMutation } from "react-query";
@@ -46,57 +47,59 @@ const NewContactModal = (props: ModalProps) => {
       cssClass="add-contact-modal"
       backdropDismiss={false}
     >
-      <form onSubmit={handleSubmit}>
-        <IonHeader>
-          <IonText color="primary">
-            <h1>‏‏‎‏‏‎‏‏‏‏‎‎‎‎‎ ‎‏‏‎ ‎‏‏‎ Add a new contact</h1>
-          </IonText>
-        </IonHeader>
-        <div className="modalContainer" style={{ width: "100%" }}>
-          <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>
-            <IonLabel>Phone Number: </IonLabel>
-            <IonInput
-              value={contactsNumber}
-              onIonChange={(e: any) => setContactsNumber(e.target.value)}
-              type="text"
-            ></IonInput>
-          </IonItem>
+      <IonContent style={{ backgroundColor: "white" }}>
+        <form onSubmit={handleSubmit}>
+          <IonHeader>
+            <IonText color="primary">
+              <h1>‏‏‎‏‏‎‏‏‏‏‎‎‎‎‎ ‎‏‏‎ ‎‏‏‎ Add a new contact</h1>
+            </IonText>
+          </IonHeader>
+          <div className="modalContainer" style={{ width: "100%" }}>
+            <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>
+              <IonLabel>Phone Number: </IonLabel>
+              <IonInput
+                value={contactsNumber}
+                onIonChange={(e: any) => setContactsNumber(e.target.value)}
+                type="text"
+              ></IonInput>
+            </IonItem>
 
-          <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>
-            <IonLabel>Name: </IonLabel>
-            <IonInput
-              value={contactsName}
-              onIonChange={(e: any) => setContactsName(e.target.value)}
-              type="text"
-            ></IonInput>
-          </IonItem>
-          <div className="modalButtons">
-            <IonButton
-              type="submit"
-              onClick={(e) => {
-                return (
-                  handleSubmit(e),
-                  present({
-                    position: "top",
-                    mode: "ios",
-                    color: "warning",
+            <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>
+              <IonLabel>Name: </IonLabel>
+              <IonInput
+                value={contactsName}
+                onIonChange={(e: any) => setContactsName(e.target.value)}
+                type="text"
+              ></IonInput>
+            </IonItem>
+            <div className="modalButtons">
+              <IonButton
+                type="submit"
+                onClick={(e) => {
+                  return (
+                    handleSubmit(e),
+                    present({
+                      position: "top",
+                      mode: "ios",
+                      color: "warning",
 
-                    buttons: [{ text: "hide", handler: () => dismiss() }],
-                    message: "Contact added successfully",
-                    onDidDismiss: () => console.log("dismissed"),
-                    onWillDismiss: () => console.log("will dismiss"),
-                  })
-                );
-              }}
-            >
-              Add contact
-            </IonButton>
-            <IonButton onClick={() => props.setModalShow(false)}>
-              Close
-            </IonButton>
+                      buttons: [{ text: "hide", handler: () => dismiss() }],
+                      message: "Contact added successfully",
+                      onDidDismiss: () => console.log("dismissed"),
+                      onWillDismiss: () => console.log("will dismiss"),
+                    })
+                  );
+                }}
+              >
+                Add contact
+              </IonButton>
+              <IonButton onClick={() => props.setModalShow(false)}>
+                Close
+              </IonButton>
+            </div>
           </div>
-        </div>
-      </form>
+        </form>
+      </IonContent>
     </IonModal>
   );
 };

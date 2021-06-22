@@ -101,23 +101,7 @@ const SettingsModal = (props: SettingsProps) => {
                 <IonIcon icon={chatbubblesSharp} color="light" />
               </IonSegmentButton>
             </IonSegment>
-            <IonSegment
-              onIonChange={(e) => props.setMessageTheme(e.detail.value!)}
-              value={props.messageTheme}
-            >
-              <IonSegmentButton value="success">
-                <IonIcon icon={chatbubblesSharp} color="success" />
-              </IonSegmentButton>
-              <IonSegmentButton value="warning">
-                <IonIcon icon={chatbubblesSharp} color="warning" />
-              </IonSegmentButton>
-              <IonSegmentButton value="medium">
-                <IonIcon icon={chatbubblesSharp} color="medium" />
-              </IonSegmentButton>
-              <IonSegmentButton value="danger">
-                <IonIcon icon={chatbubblesSharp} color="danger" />
-              </IonSegmentButton>
-            </IonSegment>
+
             {/* <IonRadioGroup
               style={{ display: "flex" }}
               value={props.messageTheme}
@@ -136,8 +120,6 @@ const SettingsModal = (props: SettingsProps) => {
             </IonRadioGroup> */}
           </IonItem>
           <IonItem>
-          
-         
             <IonSegment
               onIonChange={(e) => props.setMessageTheme(e.detail.value!)}
               value={props.messageTheme}
@@ -155,7 +137,6 @@ const SettingsModal = (props: SettingsProps) => {
                 <IonIcon icon={chatbubblesSharp} color="danger" />
               </IonSegmentButton>
             </IonSegment>
-          
           </IonItem>
           <IonItem style={{ height: "150px" }}>
             <IonText slot="start">
