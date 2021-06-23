@@ -4,7 +4,7 @@ import { Contact } from "../types/"
 
 export function useContacts(userNumber?: string) {
   return useQuery<Contact[], Error>("contacts", async () => {
-    const { data } = await backend.get(`/api/contacts/${userNumber}`)
+    const { data } = await backend.get(`/contacts`)
     return data
   })
 }

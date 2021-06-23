@@ -5,15 +5,20 @@ import { backend } from "../config";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const LoginPage = () => {
-  const [userNumber, setUserNumber] = useLocalStorage<string>("userNumber", "");
+  const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
 
   const loginHandler = async (e: any) => {
     e.preventDefault();
-    const res = await backend.post("/api/user/login", {
-      userNumber,
-    });
-    res.status === 200 && window.location.assign("/chat");
+    const res = await backend.post(
+      "/auth/login",
+      {
+        username,
+        password,
+      },
+      { withCredentials: true }
+    );
+    // res.status === 200 && window.location.assign("/chat");
   };
   return (
     <>
@@ -30,12 +35,21 @@ const LoginPage = () => {
           }}
         >
           <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>
-            <IonLabel>Phone : </IonLabel>
+            <IonLabel>Username : </IonLabel>
             <IonInput
               type="text"
-              value={userNumber}
+              value={username}
               placeholder="Enter Number"
-              onIonChange={(e) => setUserNumber(e.detail.value!)}
+              onIonChange={(e) => setUsername(e.detail.value!)}
+            ></IonInput>
+          </IonItem>
+          <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>
+            <IonLabel>Password : </IonLabel>
+            <IonInput
+              type="password"
+              value={password}
+              placeholder="Enter Number"
+              onIonChange={(e) => setPassword(e.detail.value!)}
             ></IonInput>
           </IonItem>
           {/* <IonItem style={{ borderRadius: "10px", marginBottom: "5px" }}>

@@ -26,14 +26,14 @@ const NewContactModal = (props: ModalProps) => {
   const [contactsName, setContactsName] = useState("");
   const [present, dismiss] = useIonToast();
   const mutation = useMutation((newContact: any) => {
-    return backend.post(`/api/contact/${userNumber}`, newContact);
+    return backend.post(`/contacts`, newContact);
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     mutation.mutate({ contactsNumber, contactsName });
 
-    const res = await backend.get(`/api/contacts/${userNumber}`);
+    await backend.get(`/contacts/`);
     props.setModalShow(false);
   };
 

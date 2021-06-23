@@ -12,12 +12,16 @@ const RegisterPage = () => {
 
   const registerHandler = async (e: any) => {
     e.preventDefault();
-    const res = await backend.post("/auth/register", {
-      email: email,
-      phone: phone,
-      password: password,
-      username: username,
-    });
+    const res = await backend.post(
+      "/auth/register",
+      {
+        email: email,
+        phone: phone,
+        password: password,
+        username: username,
+      },
+      { withCredentials: true }
+    );
 
     res.status === 200 && window.location.assign("/chat");
   };
