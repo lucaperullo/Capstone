@@ -9,6 +9,12 @@ import {
   IonRow,
   IonCol,
   IonInput,
+  IonTabButton,
+  IonBadge,
+  IonContent,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabs,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -33,24 +39,104 @@ import "./theme/variables.css";
 import "./theme/style.css";
 
 // other imports
-import { Provider } from "react-redux";
-import LoginPage from "./pages/LoginPage";
-import { store } from "./store/store";
-import MainPage from "./pages/MainPage";
-import { toggleTheme } from "./store/features/chatrooms/chatRoomSlice";
-import { MenuExample } from "./components/MenuBar";
-import RegisterPage from "./pages/RegisterPage";
 
-const App: React.FC = () => (
-  <Provider store={store}>
+import LoginPage from "./pages/LoginPage";
+
+import RegisterPage from "./pages/RegisterPage";
+import { useEffect } from "react";
+import { useStateValue } from "./contextApi/stateProvider.js";
+import {
+  personCircle,
+  planetSharp,
+  peopleCircleSharp,
+  chatbubbles,
+} from "ionicons/icons";
+import Chat from "./components/Chat";
+import Contacts from "./components/Contacts";
+import Discover from "./components/Discover";
+import Profile from "./components/Profile";
+import Following from "./components/Following";
+
+const App: React.FC = () => {
+  const [state, dispatch] = useStateValue();
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const response = await fetch(`http://localhost:3999/me`, {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
+          dispatch({
+            type: "SET_USER",
+            payload: data,
+          });
+        } else {
+          console.log("Error while fetching user");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchUser();
+  }, []);
+
+  return (
     <IonApp>
       <IonReactRouter>
-        <Route path="/" exact component={RegisterPage} />
+        <Route path="/register" exact component={RegisterPage} />
         <Route path="/login" exact component={LoginPage} />
-        <Route path="/chat" exact component={MainPage} />
+
+        <IonTabs>
+          <IonRouterOutlet>
+            <Route exact path="/profile">
+              <Profile />
+            </Route>
+            <Route exact path="/discover">
+              <Discover />
+            </Route>
+            <Route path="/following">
+              <IonContent>
+                <Following />
+              </IonContent>
+            </Route>
+            <Route path="/conversations">
+              <IonContent>
+                <Chat />
+                <Contacts />
+              </IonContent>
+            </Route>
+            <Route exact path="/">
+              <Redirect to="/login" />
+            </Route>
+          </IonRouterOutlet>
+          <IonTabBar slot="top">
+            <IonTabButton tab="tab1" href="/profile">
+              <IonIcon icon={personCircle} />
+              <IonBadge color="danger">2</IonBadge>
+              <IonLabel>Profile</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab2" href="/discover">
+              <IonIcon icon={planetSharp} />
+              <IonBadge color="danger">112</IonBadge>
+              <IonLabel>Discover</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab3" href="/following">
+              <IonIcon icon={peopleCircleSharp} />
+              <IonBadge color="danger">5</IonBadge>
+              <IonLabel>Following</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab4" href="/conversations">
+              <IonIcon icon={chatbubbles} />
+              <IonBadge color="danger">999</IonBadge>
+              <IonLabel>Conversations</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
       </IonReactRouter>
     </IonApp>
-  </Provider>
-);
+  );
+};
 
 export default App;

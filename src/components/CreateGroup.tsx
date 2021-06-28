@@ -19,16 +19,16 @@ import {
 } from "@ionic/react";
 import { personAddOutline } from "ionicons/icons";
 import "../theme/style.css";
-import { useContacts } from "../hooks/useContacts";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+import { Group } from "../types";
+import { useStateValue } from "../contextApi/stateProvider";
+
 interface modalProps {
   modalShow: boolean;
   setModalShow: (arg0: boolean) => void;
 }
 const CreateGroup = (props: modalProps) => {
-  const [userNumber] = useLocalStorage<string>("userNumber", "");
   const [isChecked, setIsChecked] = useState(false);
-  const { status, data, error, isFetching } = useContacts(userNumber);
+  const [state, dispatch] = useStateValue();
   const [present, dismiss] = useIonToast();
   return (
     <IonContent>
@@ -53,8 +53,8 @@ const CreateGroup = (props: modalProps) => {
                 onIonChange={(e) => console.log(e.detail.value!)}
                 showCancelButton="always"
               ></IonSearchbar>
-              {data ? (
-                data.map((data, i) => {
+              {state.user?.rooms ? (
+                state.user?.rooms?.map((data: Group, i: number) => {
                   return (
                     // <IonContent
                     //   key={i}
@@ -66,11 +66,11 @@ const CreateGroup = (props: modalProps) => {
                     // >
                     <IonItem>
                       <IonAvatar slot="start">
-                        <img src={data.profileImg} alt="profileImg" />
+                        <img src={data.groupPic} alt="pro-pic" />
                       </IonAvatar>
                       <IonLabel>
-                        <h3>{data.contactsName}</h3>
-                        <p>{data.about}</p>
+                        <h3>{data.name}</h3>
+                        <p>{data.partecipants}</p>
                       </IonLabel>
 
                       <IonCheckbox

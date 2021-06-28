@@ -20,31 +20,62 @@ import { io } from "socket.io-client";
 import "../theme/style.css";
 import SettingsModal from "./Settings";
 import { happySharp, personAddOutline, settingsOutline } from "ionicons/icons";
-import { useContacts } from "../hooks/useContacts";
-import { useAllGroups } from "../hooks/useGroups";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+
 import { sendSharp } from "ionicons/icons";
 import CreateGroup from "./CreateGroup";
 import { url } from "inspector";
 import "../theme/style.css";
 
-const socket = io("http://localhost:7000", {
-  transports: ["websocket"],
-  path: "/chat",
-});
-socket.emit("hello", "");
-// interface color {
+import { useStateValue } from "../contextApi/stateProvider";
+import { Group } from "../types";
 
-// }
+export const socket = io(`ws://localhost:3000`, {
+  withCredentials: true,
+  transports: ["websocket"],
+});
+
+interface MMessages {
+  text: string;
+  sender: string;
+  room: string;
+}
 const Chat = () => {
   const [messageTheme, setMessageTheme] = useState<string>("primary");
-  const [userNumber] = useLocalStorage<string>("userNumber", "");
+
   const [SettingsModalShow, setSettingsModalShow] = useState<boolean>(false);
   const [GroupModalShow, setGroupModalShow] = useState<boolean>(false);
-  const { status, data, error, isFetching } = useContacts(userNumber);
+  // const { status, data, error, isFetching } = useContacts(userNumber);
+
   const [message, setMessage] = useState<string>("");
+  const [messages, setMessages] = useState<MMessages>();
+  const [conversation, setConversation] = useState<[MMessages]>();
+
+  const [user, setUser] = useState({});
   const [Background, setBackground] = useState<string>("");
   const [BackgroundColor, setBackgroundColor] = useState("");
+  // const mess = useMessages("60d38f76df6d0412e18ecec6");
+  // console.log(mess.data);
+
+  const [state, dispatch] = useStateValue();
+  console.log(state);
+
+  const handleSubmitMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      console.log(message);
+      socket.emit("hello", message);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    socket.on("newMessage", (newMessage) => {
+      // console.log(newMessage);
+      // setMessages((prevMessages: MMessages) => [...prevMessages, newMessage]);
+    });
+  }, []);
+
   // const handleSendMessage = () => {
   //   socket.emit("sendMessage", message, () => {
   //     setMessage("");
@@ -57,7 +88,7 @@ const Chat = () => {
   // }, [status]);
 
   return (
-    <IonContent>
+    <IonContent style={{ zIndex: 10 }}>
       <IonHeader>
         {true === true ? (
           <div className="contact-header">
@@ -224,6 +255,7 @@ const Chat = () => {
           icon={happySharp}
         />
         <div className="chat-container">
+          <form onSubmit={(e) => handleSubmitMessage(e)}></form>
           <IonTextarea
             placeholder="Write some text..."
             value={message}
@@ -279,7 +311,7 @@ const Chat = () => {
             modalShow={GroupModalShow}
             setModalShow={setGroupModalShow}
           />
-          {data ? (
+          {state.user?.rooms ? (
             // <IonContent style={{ bottom: 0 }}>
             //   <IonList>
             //     <IonItem>
@@ -476,20 +508,21 @@ const Chat = () => {
             //     </IonItem>
             //   </IonList>
             // </IonContent>
-            data.map((data, i) => {
+            state.user?.rooms?.map((data: Group, i: number) => {
               return (
                 <IonContent
+                  onClick={() => {}}
                   key={i}
                   style={{ position: "absolute", top: "8vh", height: "90vh" }}
                 >
                   <IonList>
                     <IonItem>
                       <IonAvatar slot="start">
-                        <img src={data.profileImg} alt="profileImg" />
+                        <img src={data.groupPic} alt="pro-pic" />
                       </IonAvatar>
                       <IonLabel>
-                        <h3>{data.contactsName}</h3>
-                        <p>{data.about}</p>
+                        <h3>{data.name}</h3>
+                        <p>{data.partecipants}</p>
                       </IonLabel>
                     </IonItem>
                   </IonList>

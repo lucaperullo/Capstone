@@ -1,8 +1,7 @@
 import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react";
+import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
-import { backend } from "../config";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const RegisterPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -12,8 +11,8 @@ const RegisterPage = () => {
 
   const registerHandler = async (e: any) => {
     e.preventDefault();
-    const res = await backend.post(
-      "/auth/register",
+    const res = await axios.post(
+      "http://localhost:3999/register",
       {
         email: email,
         phone: phone,
@@ -23,11 +22,11 @@ const RegisterPage = () => {
       { withCredentials: true }
     );
 
-    res.status === 200 && window.location.assign("/chat");
+    res.status === 200 && window.location.assign("/discover");
   };
   return (
     <>
-      <Container>
+      <Container style={{ position: "absolute", height: "100vh", zIndex: 10 }}>
         <form
           style={{
             display: "flex",
@@ -94,7 +93,7 @@ const RegisterPage = () => {
 };
 
 const Container = styled.div`
-  background-image: url(${"https://i.stack.imgur.com/pMAiU.jpg"});
+  background-color: black;
   display: flex;
   flex-direction: column;
   padding-top: 30vh;

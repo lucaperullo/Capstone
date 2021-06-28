@@ -1,8 +1,7 @@
 import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react";
+import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
-import { backend } from "../config";
-import { useLocalStorage } from "../hooks/useLocalStorage";
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -10,19 +9,19 @@ const LoginPage = () => {
 
   const loginHandler = async (e: any) => {
     e.preventDefault();
-    const res = await backend.post(
-      "/auth/login",
+    const res = await axios.post(
+      "http://localhost:3999/login",
       {
         username,
         password,
       },
       { withCredentials: true }
     );
-    // res.status === 200 && window.location.assign("/chat");
+    res.status === 200 && window.location.assign("/discover");
   };
   return (
     <>
-      <Container>
+      <Container style={{ position: "absolute", height: "100vh", zIndex: 10 }}>
         <form
           style={{
             display: "flex",
@@ -67,13 +66,12 @@ const LoginPage = () => {
     </>
   );
 };
-
+// background-image: url(${"https://www.transparenttextures.com/patterns/food.png"});
 const Container = styled.div`
-  background-image: url(${"https://www.transparenttextures.com/patterns/food.png"});
   display: flex;
   flex-direction: column;
   padding-top: 30vh;
-
+  background-color: black;
   width: 100vw;
   height: 100vh;
   top: 50 vh;

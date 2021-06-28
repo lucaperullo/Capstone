@@ -15,20 +15,44 @@ import {
   IonRouterOutlet,
   IonSkeletonText,
 } from "@ionic/react";
-import { addCircleSharp, settingsOutline } from "ionicons/icons";
+import { addCircleSharp } from "ionicons/icons";
 import NewContactModal from "./NewContactModal";
 
 import "../theme/style.css";
 import SettingsModal from "./Settings";
-import { useContacts } from "../hooks/useContacts";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+
+import { socket } from "./Chat";
+import { Group, UserMe } from "../types/index";
+import { useStateValue } from "../contextApi/stateProvider";
 
 const Contacts: React.FC = () => {
-  const [userNumber] = useLocalStorage<string>("userNumber", "");
-  const { status, data, error, isFetching } = useContacts(userNumber!);
-
+  const [state, dispatch] = useStateValue();
+  const [user, setUser] = useState<UserMe | undefined>();
   const [modalShow, setModalShow] = useState<boolean>(false);
+  const fetchUser =
+    // useCallback(
+    async () => {
+      try {
+        const response = await fetch(`http://localhost:3999/me`, {
+          credentials: "include",
+        });
+        if (response.ok) {
+          const data = await response.json();
 
+          setUser(data);
+          console.log(user);
+          socket.emit("LAST_SEEN", { userID: data._id });
+        } else {
+          console.log("Error while fetching user");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
   return (
     <>
       <IonMenu
@@ -41,10 +65,7 @@ const Contacts: React.FC = () => {
           <IonHeader>
             <IonItem>
               <IonAvatar slot="start">
-                <img
-                  src="https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png"
-                  alt="profileImg"
-                />
+                <img src={user?.profilePic} alt="pro-pic" />
               </IonAvatar>
               <IonIcon
                 color="primary"
@@ -57,17 +78,19 @@ const Contacts: React.FC = () => {
             </IonItem>
             <IonItem>
               <IonSearchbar
+                animated
                 // value={searchText}
                 onIonChange={(e) =>
-                  data?.filter(
-                    (contact) => contact.contactsName === e.detail.value!
+                  state.user?.rooms?.filter(
+                    (contact: { name: string }) =>
+                      contact.name === e.detail.value!
                   )
                 }
               ></IonSearchbar>
             </IonItem>
 
-            {data ? (
-              data.map((data, i) => {
+            {state.user?.rooms ? (
+              state.user?.rooms?.map((data: Group, i: number) => {
                 return (
                   <IonContent
                     key={i}
@@ -77,13 +100,18 @@ const Contacts: React.FC = () => {
                       height: "82vh",
                     }}
                   >
-                    <IonItem>
+                    <IonItem
+                      onClick={(e) => {
+                        console.log();
+                        // useGenerateGroup()
+                      }}
+                    >
                       <IonAvatar slot="start">
-                        <img src={data.profileImg} alt="profileImg" />
+                        <img src={data.groupPic} alt="pro-pic" />
                       </IonAvatar>
                       <IonLabel>
-                        <h3>{data.contactsName}</h3>
-                        <p>{data.about}</p>
+                        <h3>{data.name}</h3>
+                        <p>{data.partecipants}</p>
                       </IonLabel>
                     </IonItem>
                   </IonContent>

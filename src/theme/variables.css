@@ -26,7 +26,7 @@ body {
   top: 5px;
 }
 .chat-container {
-  background-image: url(https://www.transparenttextures.com/patterns/green-gobbler.png);
+  /* background-image: url(https://www.transparenttextures.com/patterns/green-gobbler.png); */
   position: relative;
   width: 100%;
 }
