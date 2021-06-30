@@ -1,6 +1,7 @@
 {
-  "name": "whatzapp",
+  "name": "ourmusic",
   "integrations": {
+    "cordova": {},
     "capacitor": {}
   },
   "type": "react",

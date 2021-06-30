@@ -737,7 +737,7 @@ const Chat = () => {
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 95%;
+  height: 92%;
   width: 100vw;
 `;
 

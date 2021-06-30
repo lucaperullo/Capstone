@@ -41,77 +41,77 @@ const Profile = () => {
       <IonContent>
         {/*-- Default Refresher --*/}
         <IonContent>
-          <IonRefresher onIonRefresh={doRefresh}>
+          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
-
-            {fakeLoad && (
-              <IonCard>
-                <IonCardHeader>
-                  <IonAvatar>
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-
-                  <IonCardSubtitle>
-                    <IonSkeletonText animated style={{ width: "100%" }} />
-                  </IonCardSubtitle>
-                  <IonCardTitle>
-                    <IonSkeletonText animated style={{ width: "100%" }} />
-                  </IonCardTitle>
-                </IonCardHeader>
-
-                <IonCardContent>
-                  <div
-                    style={{ display: "flex", justifyContent: "space-evenly" }}
-                  >
-                    <IonGrid>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <IonThumbnail>
-                          <IonSkeletonText animated />
-                        </IonThumbnail>
-                        <IonSkeletonText animated />
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <IonThumbnail>
-                          <IonSkeletonText animated />
-                        </IonThumbnail>
-                        <IonSkeletonText animated />
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <IonThumbnail>
-                          <IonSkeletonText animated />
-                        </IonThumbnail>
-                        <IonSkeletonText animated />
-                      </div>
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <IonThumbnail>
-                          <IonSkeletonText animated />
-                        </IonThumbnail>
-                        <IonSkeletonText animated />
-                      </div>
-
-                      <div style={{ display: "flex", flexDirection: "column" }}>
-                        <IonThumbnail>
-                          <IonSkeletonText animated />
-                        </IonThumbnail>
-                        <IonSkeletonText animated />
-                      </div>
-                    </IonGrid>
-                  </div>
-                </IonCardContent>
-              </IonCard>
-            )}
           </IonRefresher>
+          {fakeLoad && (
+            <IonCard>
+              <IonCardHeader>
+                <IonAvatar>
+                  <IonSkeletonText animated />
+                </IonAvatar>
+
+                <IonCardSubtitle>
+                  <IonSkeletonText animated style={{ width: "100%" }} />
+                </IonCardSubtitle>
+                <IonCardTitle>
+                  <IonSkeletonText animated style={{ width: "100%" }} />
+                </IonCardTitle>
+              </IonCardHeader>
+
+              <IonCardContent>
+                <div
+                  style={{ display: "flex", justifyContent: "space-evenly" }}
+                >
+                  <IonGrid>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                  </IonGrid>
+                </div>
+              </IonCardContent>
+            </IonCard>
+          )}
+
           {!fakeLoad && (
             <IonCard>
               <IonCardHeader>
                 <IonAvatar>
-                  <img src={state.user.profilePic} alt="" />
+                  <img src={state.user && state.user.profilePic} alt="" />
                 </IonAvatar>
                 <IonCardTitle>
-                  <h1>{state.user.username}</h1>
+                  <h1>{state.user && state.user.username}</h1>
                 </IonCardTitle>
                 <IonCardSubtitle>
-                  <h3>{state.user.bio}</h3>
+                  <h3>{state.user && state.user.bio}</h3>
                 </IonCardSubtitle>
               </IonCardHeader>
 
