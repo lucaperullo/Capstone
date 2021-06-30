@@ -21,7 +21,6 @@ import NewContactModal from "./NewContactModal";
 import "../theme/style.css";
 import SettingsModal from "./Settings";
 
-import { socket } from "./Chat";
 import { Group, UserMe } from "../types/index";
 import { useStateValue } from "../contextApi/stateProvider";
 
@@ -29,30 +28,7 @@ const Contacts: React.FC = () => {
   const [state, dispatch] = useStateValue();
   const [user, setUser] = useState<UserMe | undefined>();
   const [modalShow, setModalShow] = useState<boolean>(false);
-  const fetchUser =
-    // useCallback(
-    async () => {
-      try {
-        const response = await fetch(`http://localhost:3999/me`, {
-          credentials: "include",
-        });
-        if (response.ok) {
-          const data = await response.json();
 
-          setUser(data);
-          console.log(user);
-          socket.emit("LAST_SEEN", { userID: data._id });
-        } else {
-          console.log("Error while fetching user");
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
   return (
     <>
       <IonMenu

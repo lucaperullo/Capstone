@@ -2,11 +2,12 @@ import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react";
 import axios from "axios";
 import { useState } from "react";
 import styled from "styled-components";
+import { socketConnection } from "../socketCalls/connection";
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+ 
   const loginHandler = async (e: any) => {
     e.preventDefault();
     const res = await axios.post(

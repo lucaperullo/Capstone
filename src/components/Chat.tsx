@@ -16,7 +16,7 @@ import {
   IonTextarea,
 } from "@ionic/react";
 import styled from "styled-components";
-import { io } from "socket.io-client";
+
 import "../theme/style.css";
 import SettingsModal from "./Settings";
 import { happySharp, personAddOutline, settingsOutline } from "ionicons/icons";
@@ -29,10 +29,10 @@ import "../theme/style.css";
 import { useStateValue } from "../contextApi/stateProvider";
 import { Group } from "../types";
 
-export const socket = io(`ws://localhost:3000`, {
-  withCredentials: true,
-  transports: ["websocket"],
-});
+// export const socket = io(`ws://localhost:3000`, {
+//   withCredentials: true,
+//   transports: ["websocket"],
+// });
 
 interface MMessages {
   text: string;
@@ -57,24 +57,17 @@ const Chat = () => {
   // console.log(mess.data);
 
   const [state, dispatch] = useStateValue();
-  console.log(state);
+  const { socket } = state;
 
   const handleSubmitMessage = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
       console.log(message);
-      socket.emit("hello", message);
+      socket.emit("message", message);
     } catch (error) {
       console.log(error);
     }
   };
-
-  useEffect(() => {
-    socket.on("newMessage", (newMessage) => {
-      // console.log(newMessage);
-      // setMessages((prevMessages: MMessages) => [...prevMessages, newMessage]);
-    });
-  }, []);
 
   // const handleSendMessage = () => {
   //   socket.emit("sendMessage", message, () => {
@@ -89,9 +82,28 @@ const Chat = () => {
 
   return (
     <IonContent style={{ zIndex: 10 }}>
-      <IonHeader>
-        {true === true ? (
-          <div className="contact-header">
+      <ChatContainer>
+        <IonHeader>
+          {true === true ? (
+            <div className="contact-header">
+              <IonItem>
+                <IonAvatar slot="start">
+                  <IonSkeletonText animated />
+                </IonAvatar>
+                <IonLabel>
+                  <h3>
+                    <IonSkeletonText animated style={{ width: "50%" }} />
+                  </h3>
+                  <p>
+                    <IonSkeletonText animated style={{ width: "80%" }} />
+                  </p>
+                  <p>
+                    <IonSkeletonText animated style={{ width: "60%" }} />
+                  </p>
+                </IonLabel>
+              </IonItem>
+            </div>
+          ) : (
             <IonItem>
               <IonAvatar slot="start">
                 <IonSkeletonText animated />
@@ -108,27 +120,8 @@ const Chat = () => {
                 </p>
               </IonLabel>
             </IonItem>
-          </div>
-        ) : (
-          <IonItem>
-            <IonAvatar slot="start">
-              <IonSkeletonText animated />
-            </IonAvatar>
-            <IonLabel>
-              <h3>
-                <IonSkeletonText animated style={{ width: "50%" }} />
-              </h3>
-              <p>
-                <IonSkeletonText animated style={{ width: "80%" }} />
-              </p>
-              <p>
-                <IonSkeletonText animated style={{ width: "60%" }} />
-              </p>
-            </IonLabel>
-          </IonItem>
-        )}
-      </IonHeader>
-      <ChatContainer>
+          )}
+        </IonHeader>
         <IonContent
           style={{
             zIndex: 1,
@@ -243,34 +236,33 @@ const Chat = () => {
               </IonCardContent>
             </IonCard>
           </div>
+
+          <IonItem className="chat-box" style={{ height: "50px" }}>
+            <IonIcon
+              className="chat-button"
+              color="primary"
+              slot="start"
+              icon={happySharp}
+            />
+            <div className="chat-container">
+              <form onSubmit={(e) => handleSubmitMessage(e)}>
+                <IonTextarea
+                  placeholder="Write some text..."
+                  value={message}
+                  // onKeyPress={handleSendMessage}
+                  onIonChange={(e) => setMessage(e.detail.value!)}
+                />
+              </form>
+            </div>
+            <IonIcon
+              className="chat-button"
+              color="primary"
+              slot="end"
+              icon={sendSharp}
+            />
+          </IonItem>
         </IonContent>
       </ChatContainer>
-
-      <IonItem className="chat-box">
-        <IonIcon
-          className="chat-button"
-          size="large"
-          color="primary"
-          slot="start"
-          icon={happySharp}
-        />
-        <div className="chat-container">
-          <form onSubmit={(e) => handleSubmitMessage(e)}></form>
-          <IonTextarea
-            placeholder="Write some text..."
-            value={message}
-            // onKeyPress={handleSendMessage}
-            onIonChange={(e) => setMessage(e.detail.value!)}
-          />
-        </div>
-        <IonIcon
-          className="chat-button"
-          size="large"
-          color="primary"
-          slot="end"
-          icon={sendSharp}
-        />
-      </IonItem>
 
       <IonMenu
         swipeGesture={true}
@@ -745,7 +737,7 @@ const Chat = () => {
 const ChatContainer = styled.div`
   display: flex;
   flex-direction: column;
-  height: 80vh;
+  height: 95%;
   width: 100vw;
 `;
 

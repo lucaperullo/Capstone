@@ -1,5 +1,6 @@
 export const initialState = {
   user: null,
+  socket: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -10,7 +11,11 @@ export const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-
+    case "SET_SOCKET":
+      return {
+        ...state,
+        socket: action.payload,
+      };
     default:
       return state;
   }

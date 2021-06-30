@@ -18,9 +18,11 @@ import {
 } from "@ionic/react";
 import { arrowDownOutline, chevronDownCircleOutline } from "ionicons/icons";
 import { useState } from "react";
+import { useStateValue } from "../contextApi/stateProvider";
 
 const Profile = () => {
   const [fakeLoad, setFakeLoad] = useState(false);
+  const [state, dispatch] = useStateValue();
   function doRefresh(event: { detail: { complete: () => void } }) {
     console.log("Begin async operation");
 
@@ -28,14 +30,18 @@ const Profile = () => {
       console.log("Async operation has ended");
       event.detail.complete();
       setFakeLoad(!fakeLoad);
-    }, 1000);
+      setTimeout(() => {
+        console.log(state.user);
+        setFakeLoad(false);
+      }, 1000);
+    }, 10);
   }
   return (
     <>
       <IonContent>
         {/*-- Default Refresher --*/}
         <IonContent>
-          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+          <IonRefresher onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
 
             {fakeLoad && (
@@ -95,6 +101,61 @@ const Profile = () => {
               </IonCard>
             )}
           </IonRefresher>
+          {!fakeLoad && (
+            <IonCard>
+              <IonCardHeader>
+                <IonAvatar>
+                  <img src={state.user.profilePic} alt="" />
+                </IonAvatar>
+                <IonCardTitle>
+                  <h1>{state.user.username}</h1>
+                </IonCardTitle>
+                <IonCardSubtitle>
+                  <h3>{state.user.bio}</h3>
+                </IonCardSubtitle>
+              </IonCardHeader>
+
+              <IonCardContent>
+                <div
+                  style={{ display: "flex", justifyContent: "space-evenly" }}
+                >
+                  <IonGrid>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                      <IonThumbnail>
+                        <IonSkeletonText animated />
+                      </IonThumbnail>
+                      <IonSkeletonText animated />
+                    </div>
+                  </IonGrid>
+                </div>
+              </IonCardContent>
+            </IonCard>
+          )}
         </IonContent>
 
         {/*-- Custom Refresher Properties --*/}

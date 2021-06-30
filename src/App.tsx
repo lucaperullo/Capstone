@@ -56,28 +56,38 @@ import Contacts from "./components/Contacts";
 import Discover from "./components/Discover";
 import Profile from "./components/Profile";
 import Following from "./components/Following";
+import { socketConnection } from "./socketCalls/connection";
+import { connectToRooms } from "./socketCalls/roomsConnection";
 
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
 
   useEffect(() => {
+    let socket: { disconnect: () => any };
     const fetchUser = async () => {
       try {
         const response = await fetch(`http://localhost:3999/me`, {
           credentials: "include",
         });
         if (response.ok) {
+          socket = socketConnection();
+          dispatch({ type: "SET_SOCKET", payload: socket });
+
           const data = await response.json();
           dispatch({
             type: "SET_USER",
             payload: data,
           });
+          connectToRooms(socket, data.rooms);
         } else {
           console.log("Error while fetching user");
         }
       } catch (error) {
         console.log(error);
       }
+      return () => {
+        socket && socket.disconnect();
+      };
     };
     fetchUser();
   }, []);
@@ -90,12 +100,10 @@ const App: React.FC = () => {
 
         <IonTabs>
           <IonRouterOutlet>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
             <Route exact path="/discover">
               <Discover />
             </Route>
+
             <Route path="/following">
               <IonContent>
                 <Following />
@@ -107,21 +115,20 @@ const App: React.FC = () => {
                 <Contacts />
               </IonContent>
             </Route>
+            <Route exact path="/profile">
+              <Profile />
+            </Route>
             <Route exact path="/">
               <Redirect to="/login" />
             </Route>
           </IonRouterOutlet>
           <IonTabBar slot="top">
-            <IonTabButton tab="tab1" href="/profile">
-              <IonIcon icon={personCircle} />
-              <IonBadge color="danger">2</IonBadge>
-              <IonLabel>Profile</IonLabel>
-            </IonTabButton>
             <IonTabButton tab="tab2" href="/discover">
               <IonIcon icon={planetSharp} />
               <IonBadge color="danger">112</IonBadge>
               <IonLabel>Discover</IonLabel>
             </IonTabButton>
+
             <IonTabButton tab="tab3" href="/following">
               <IonIcon icon={peopleCircleSharp} />
               <IonBadge color="danger">5</IonBadge>
@@ -131,6 +138,11 @@ const App: React.FC = () => {
               <IonIcon icon={chatbubbles} />
               <IonBadge color="danger">999</IonBadge>
               <IonLabel>Conversations</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="tab1" href="/profile">
+              <IonIcon icon={personCircle} />
+              <IonBadge color="danger">2</IonBadge>
+              <IonLabel>Profile</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
