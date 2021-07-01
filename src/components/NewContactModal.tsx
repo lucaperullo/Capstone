@@ -25,11 +25,11 @@ const NewContactModal = (props: ModalProps) => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await axios.post(
-      "http://localhost:3999/contacts",
+      "https://capstonebe.herokuapp.com/contacts",
       { name: username },
       { withCredentials: true }
     );
-    await axios.get(`http://localhost:3999/contacts`, {
+    await axios.get(`https://capstonebe.herokuapp.com/contacts`, {
       withCredentials: true,
     });
     props.setModalShow(false);

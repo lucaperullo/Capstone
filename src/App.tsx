@@ -66,7 +66,7 @@ const App: React.FC = () => {
     let socket: { disconnect: () => any };
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:3999/me`, {
+        const response = await fetch(`https://capstonebe.herokuapp.com/me`, {
           credentials: "include",
         });
         if (response.ok) {
@@ -74,6 +74,7 @@ const App: React.FC = () => {
           dispatch({ type: "SET_SOCKET", payload: socket });
 
           const data = await response.json();
+
           dispatch({
             type: "SET_USER",
             payload: data,
@@ -109,7 +110,7 @@ const App: React.FC = () => {
                 <Following />
               </IonContent>
             </Route>
-            <Route path="/conversations">
+            <Route path="/conversations/:id">
               <IonContent>
                 <Chat />
                 <Contacts />
@@ -134,7 +135,10 @@ const App: React.FC = () => {
               <IonBadge color="danger">5</IonBadge>
               <IonLabel>Following</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="tab4" href="/conversations">
+            <IonTabButton
+              tab="tab4"
+              href={`/conversations/${state?.user?.rooms[0]?._id}`}
+            >
               <IonIcon icon={chatbubbles} />
               <IonBadge color="danger">999</IonBadge>
               <IonLabel>Conversations</IonLabel>

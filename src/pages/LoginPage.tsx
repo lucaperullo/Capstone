@@ -7,11 +7,11 @@ import { socketConnection } from "../socketCalls/connection";
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
- 
+
   const loginHandler = async (e: any) => {
     e.preventDefault();
     const res = await axios.post(
-      "http://localhost:3999/login",
+      "https://capstonebe.herokuapp.com/login",
       {
         username,
         password,
