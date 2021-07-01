@@ -105,13 +105,13 @@ const Profile = () => {
             <IonCard>
               <IonCardHeader>
                 <IonAvatar>
-                  <img src={state.user && state.user.profilePic} alt="" />
+                  <img src={state?.user?.profilePic} alt="" />
                 </IonAvatar>
                 <IonCardTitle>
-                  <h1>{state.user && state.user.username}</h1>
+                  <h1>{state?.user?.username}</h1>
                 </IonCardTitle>
                 <IonCardSubtitle>
-                  <h3>{state.user && state.user.bio}</h3>
+                  <h3>{state?.user?.bio}</h3>
                 </IonCardSubtitle>
               </IonCardHeader>
 

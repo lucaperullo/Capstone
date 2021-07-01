@@ -22,11 +22,20 @@ export interface Message {
 }
 
 export interface Group {
-  groupPic: string;
-  name: string;
-  partecipants: [{ user: string; socketId: string }];
-  chatHistory: [
-    { sender: string; text: string; createdAt: string; attachment: string }
+  _id: string;
+  participants: [
+    {
+      userId: {
+        _id: string;
+        username: string;
+        bio: string;
+        profilePic: string;
+        status: {
+          music: string;
+          presence: string;
+        };
+      };
+      socketId: string;
+    }
   ];
-  images: string;
 }

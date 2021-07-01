@@ -20,15 +20,15 @@ import NewContactModal from "./NewContactModal";
 
 import "../theme/style.css";
 import SettingsModal from "./Settings";
-
+import { useHistory } from "react-router-dom";
 import { Group, UserMe } from "../types/index";
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Contacts: React.FC = () => {
   const [state, dispatch] = useStateValue();
-  const [user, setUser] = useState<UserMe | undefined>();
   const [modalShow, setModalShow] = useState<boolean>(false);
-
+  const { user } = state;
+  let history = useHistory();
   return (
     <>
       <IonMenu
@@ -54,7 +54,7 @@ const Contacts: React.FC = () => {
             </IonItem>
             <IonItem>
               <IonSearchbar
-                animated
+                animated={true}
                 // value={searchText}
                 onIonChange={(e) =>
                   state.user?.rooms?.filter(
@@ -67,6 +67,10 @@ const Contacts: React.FC = () => {
 
             {state.user?.rooms ? (
               state.user?.rooms?.map((data: Group, i: number) => {
+                const { userId } = data.participants.filter(
+                  (p) => p.userId._id !== state.user._id
+                )[0];
+                const { profilePic, bio, username, status } = userId;
                 return (
                   <IonContent
                     key={i}
@@ -78,16 +82,17 @@ const Contacts: React.FC = () => {
                   >
                     <IonItem
                       onClick={(e) => {
-                        console.log();
+                        history.push(`/conversations/${data._id}`);
                         // useGenerateGroup()
+                        dispatch({ type: "SET_ACTUAL_CHAT", payload: userId });
                       }}
                     >
                       <IonAvatar slot="start">
-                        <img src={data.groupPic} alt="pro-pic" />
+                        <img src={profilePic} alt="pro-pic" />
                       </IonAvatar>
                       <IonLabel>
-                        <h3>{data.name}</h3>
-                        <p>{data.partecipants}</p>
+                        <h3>{username}</h3>
+                        <p>{bio}</p>
                       </IonLabel>
                     </IonItem>
                   </IonContent>

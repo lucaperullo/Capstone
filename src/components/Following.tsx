@@ -16,7 +16,7 @@ const Following = () => {
         {/*-- Default Refresher --*/}
         <IonContent>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-            <IonRefresherContent  pullingIcon={arrowDownOutline}></IonRefresherContent>
+            <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
         </IonContent>
 

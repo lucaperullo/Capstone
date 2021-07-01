@@ -55,6 +55,10 @@ const CreateGroup = (props: modalProps) => {
               ></IonSearchbar>
               {state.user?.rooms ? (
                 state.user?.rooms?.map((data: Group, i: number) => {
+                  const { userId } = data.participants.filter(
+                    (p) => p.userId._id !== state.user._id
+                  )[0];
+                  const { profilePic, bio, username, status } = userId;
                   return (
                     // <IonContent
                     //   key={i}
@@ -66,11 +70,11 @@ const CreateGroup = (props: modalProps) => {
                     // >
                     <IonItem>
                       <IonAvatar slot="start">
-                        <img src={data.groupPic} alt="pro-pic" />
+                        <img src={profilePic} alt="pro-pic" />
                       </IonAvatar>
                       <IonLabel>
-                        <h3>{data.name}</h3>
-                        <p>{data.partecipants}</p>
+                        <h3>{username}</h3>
+                        <p>{bio}</p>
                       </IonLabel>
 
                       <IonCheckbox

@@ -1,6 +1,7 @@
 export const initialState = {
   user: null,
   socket: null,
+  actualChat: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -15,6 +16,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         socket: action.payload,
+      };
+    case "SET_ACTUAL_CHAT":
+      return {
+        ...state,
+        actualChat: action.payload,
       };
     default:
       return state;
