@@ -1,7 +1,15 @@
-import { IonContent, IonRefresher, IonRefresherContent } from "@ionic/react";
+import {
+  IonCard,
+  IonContent,
+  IonRefresher,
+  IonRefresherContent,
+  IonSearchbar,
+} from "@ionic/react";
 import { arrowDownOutline, chevronDownCircleOutline } from "ionicons/icons";
+import { useState } from "react";
 
 const Following = () => {
+  const [searchText, setSearchText] = useState<string>("");
   function doRefresh(event: { detail: { complete: () => void } }) {
     console.log("Begin async operation");
 
@@ -18,6 +26,13 @@ const Following = () => {
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
+          <IonCard>
+            <IonSearchbar
+              value={searchText}
+              onIonChange={(e) => setSearchText(e.detail.value!)}
+              animated
+            ></IonSearchbar>
+          </IonCard>
         </IonContent>
 
         {/*-- Custom Refresher Properties --*/}

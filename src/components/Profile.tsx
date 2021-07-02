@@ -21,7 +21,7 @@ import { useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Profile = () => {
-  const [fakeLoad, setFakeLoad] = useState(false);
+  const [Loading, setLoading] = useState(false);
   const [state, dispatch] = useStateValue();
   function doRefresh(event: { detail: { complete: () => void } }) {
     console.log("Begin async operation");
@@ -29,10 +29,10 @@ const Profile = () => {
     setTimeout(() => {
       console.log("Async operation has ended");
       event.detail.complete();
-      setFakeLoad(!fakeLoad);
+      setLoading(!Loading);
       setTimeout(() => {
         console.log(state.user);
-        setFakeLoad(false);
+        setLoading(false);
       }, 1000);
     }, 10);
   }
@@ -44,7 +44,7 @@ const Profile = () => {
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
-          {fakeLoad && (
+          {Loading && (
             <IonCard>
               <IonCardHeader>
                 <IonAvatar>
@@ -101,7 +101,7 @@ const Profile = () => {
             </IonCard>
           )}
 
-          {!fakeLoad && (
+          {!Loading && (
             <IonCard>
               <IonCardHeader>
                 <IonAvatar>

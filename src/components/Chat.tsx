@@ -95,7 +95,6 @@ const Chat = () => {
     setConversation(messages.data.messages);
     scrollToBottom();
   };
-  console.log(state.actualChat);
 
   useEffect(() => {
     fetchMessages();
