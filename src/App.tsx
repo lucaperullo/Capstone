@@ -15,6 +15,8 @@ import {
   IonRouterOutlet,
   IonTabBar,
   IonTabs,
+  IonSlide,
+  IonSlides,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -66,7 +68,7 @@ const App: React.FC = () => {
     let socket: { disconnect: () => any };
     const fetchUser = async () => {
       try {
-        const response = await fetch(`https://capstonebe.herokuapp.com/me`, {
+        const response = await fetch(`${process.env.REACT_APP_BASE_URL}/me`, {
           credentials: "include",
         });
         if (response.ok) {
@@ -92,6 +94,10 @@ const App: React.FC = () => {
     };
     fetchUser();
   }, []);
+  const slideOpts = {
+    initialSlide: 0,
+    speed: 400,
+  };
 
   return (
     <IonApp>
@@ -102,14 +108,16 @@ const App: React.FC = () => {
         <IonTabs>
           <IonRouterOutlet>
             <Route exact path="/discover">
-              <Discover />
+              <IonSlides pager={true} options={slideOpts}>
+                <IonSlide style={{ height: "100vh" }}>
+                  <Discover />
+                </IonSlide>
+                <IonSlide style={{ height: "100vh" }}>
+                  <Following />
+                </IonSlide>
+              </IonSlides>
             </Route>
 
-            <Route path="/following">
-              <IonContent>
-                <Following />
-              </IonContent>
-            </Route>
             <Route path="/conversations/:id">
               <IonContent>
                 <Chat />
@@ -125,16 +133,11 @@ const App: React.FC = () => {
           </IonRouterOutlet>
           <IonTabBar slot="top">
             <IonTabButton tab="tab2" href="/discover">
-              <IonIcon icon={planetSharp} />
+              <IonIcon icon={peopleCircleSharp} />
               <IonBadge color="danger">112</IonBadge>
               <IonLabel>Discover</IonLabel>
             </IonTabButton>
 
-            <IonTabButton tab="tab3" href="/following">
-              <IonIcon icon={peopleCircleSharp} />
-              <IonBadge color="danger">5</IonBadge>
-              <IonLabel>Following</IonLabel>
-            </IonTabButton>
             <IonTabButton
               tab="tab4"
               href={`/conversations/${state?.user?.rooms[0]?._id}`}

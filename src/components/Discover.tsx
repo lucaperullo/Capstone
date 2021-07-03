@@ -31,6 +31,7 @@ import {
   personAdd,
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Discover = () => {
@@ -41,12 +42,10 @@ const Discover = () => {
 
   const toggleFollow = async (userid: string) => {
     try {
-      const data = await axios.post(
-        `https://capstonebe.herokuapp.com/users/follow/${userid}`,
-        {
-          withCredentials: true,
-        }
-      );
+      const data = await fetch(`http://localhost:3999/users/follow/${userid}`, {
+        method: "PUT",
+        credentials: "include",
+      });
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -55,7 +54,7 @@ const Discover = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios.get("https://capstonebe.herokuapp.com/users", {
+      const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`, {
         withCredentials: true,
       });
       setUsers(data.data);
@@ -864,7 +863,7 @@ const Discover = () => {
                   console.log(user);
                   return (
                     <IonCol sizeSm="12" sizeMd="6" sizeLg="4">
-                      <IonCard>
+                      <StyledCard>
                         <IonCardHeader>
                           <div
                             style={{
@@ -935,7 +934,7 @@ const Discover = () => {
                             </IonGrid>
                           </div>
                         </IonCardContent>
-                      </IonCard>
+                      </StyledCard>
                     </IonCol>
                   );
                 })}
@@ -971,4 +970,9 @@ const Discover = () => {
     </>
   );
 };
+
+const StyledCard = styled(IonCard)`
+  border-radius: 15px;
+`;
+
 export default Discover;

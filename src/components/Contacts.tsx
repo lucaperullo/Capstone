@@ -16,7 +16,6 @@ import {
   IonSkeletonText,
 } from "@ionic/react";
 import { addCircleSharp } from "ionicons/icons";
-import NewContactModal from "./NewContactModal";
 
 import "../theme/style.css";
 import SettingsModal from "./Settings";
@@ -26,7 +25,7 @@ import { useStateValue } from "../contextApi/stateProvider";
 
 const Contacts: React.FC = () => {
   const [state, dispatch] = useStateValue();
-  const [modalShow, setModalShow] = useState<boolean>(false);
+
   const { user } = state;
   let history = useHistory();
   return (
@@ -43,14 +42,6 @@ const Contacts: React.FC = () => {
               <IonAvatar slot="start">
                 <img src={user?.profilePic} alt="pro-pic" />
               </IonAvatar>
-              <IonIcon
-                color="primary"
-                slot="end"
-                style={{ display: "flex" }}
-                onClick={() => setModalShow(true)}
-                icon={addCircleSharp}
-                size="large"
-              />
             </IonItem>
             <IonItem>
               <IonSearchbar
@@ -298,11 +289,6 @@ const Contacts: React.FC = () => {
                 </IonList>
               </IonContent>
             )}
-
-            <NewContactModal
-              modalShow={modalShow}
-              setModalShow={setModalShow}
-            />
           </IonHeader>
         </div>
         <IonContent id="content"></IonContent>

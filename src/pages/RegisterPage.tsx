@@ -12,7 +12,7 @@ const RegisterPage = () => {
   const registerHandler = async (e: any) => {
     e.preventDefault();
     const res = await axios.post(
-      "https://capstonebe.herokuapp.com/register",
+      `${process.env.REACT_APP_BASE_URL}/register`,
       {
         email: email,
         phone: phone,

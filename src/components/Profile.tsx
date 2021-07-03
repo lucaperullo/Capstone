@@ -1,5 +1,6 @@
 import {
   IonAvatar,
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -7,6 +8,7 @@ import {
   IonCardTitle,
   IonContent,
   IonGrid,
+  IonIcon,
   IonItem,
   IonLabel,
   IonList,
@@ -16,12 +18,24 @@ import {
   IonSkeletonText,
   IonThumbnail,
 } from "@ionic/react";
-import { arrowDownOutline, chevronDownCircleOutline } from "ionicons/icons";
+import {
+  arrowDownOutline,
+  caretBackOutline,
+  caretForwardOutline,
+  chevronDownCircleOutline,
+  pauseOutline,
+  playOutline,
+  playSkipBackOutline,
+  playSkipForwardOutline,
+  repeatOutline,
+  shuffleOutline,
+} from "ionicons/icons";
 import { useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Profile = () => {
   const [Loading, setLoading] = useState(false);
+  const [playing, setPlaying] = useState(false);
   const [state, dispatch] = useStateValue();
   function doRefresh(event: { detail: { complete: () => void } }) {
     console.log("Begin async operation");
@@ -116,6 +130,50 @@ const Profile = () => {
               </IonCardHeader>
 
               <IonCardContent>
+                <IonLabel>Playlists:</IonLabel>
+                <div
+                  style={{ display: "flex", justifyContent: "flex-end" }}
+                ></div>
+                <div style={{ display: "flex", justifyContent: "flex-end" }}>
+                  <div
+                    style={{
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "flex-end",
+                    }}
+                  >
+                    <IonButton color="light">
+                      <IonIcon size="large" icon={shuffleOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton color="light">
+                      <IonIcon size="large" icon={repeatOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton color="light">
+                      <IonIcon
+                        size="large"
+                        icon={playSkipBackOutline}
+                      ></IonIcon>
+                    </IonButton>
+
+                    <IonButton
+                      color="light"
+                      onClick={() => setPlaying(!playing)}
+                    >
+                      <IonIcon
+                        size="large"
+                        icon={playing ? playOutline : pauseOutline}
+                      ></IonIcon>
+                    </IonButton>
+
+                    <IonButton color="light">
+                      <IonIcon
+                        size="large"
+                        icon={playSkipForwardOutline}
+                      ></IonIcon>
+                    </IonButton>
+                  </div>
+                </div>
                 <div
                   style={{ display: "flex", justifyContent: "space-evenly" }}
                 >

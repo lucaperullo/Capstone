@@ -11,7 +11,7 @@ const LoginPage = () => {
   const loginHandler = async (e: any) => {
     e.preventDefault();
     const res = await axios.post(
-      "https://capstonebe.herokuapp.com/login",
+      `${process.env.REACT_APP_BASE_URL}/login`,
       {
         username,
         password,
