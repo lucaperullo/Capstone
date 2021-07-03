@@ -41,7 +41,7 @@ const Discover = () => {
 
   const toggleFollow = async (userid: string) => {
     try {
-      const data = await axios.put(
+      const data = await axios.post(
         `https://capstonebe.herokuapp.com/users/follow/${userid}`,
         {
           withCredentials: true,
