@@ -57,6 +57,7 @@ const Discover = () => {
       const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`, {
         withCredentials: true,
       });
+
       setUsers(data.data);
     } catch (error) {
       console.log(error);
@@ -67,7 +68,7 @@ const Discover = () => {
     console.log("Begin async operation");
 
     setTimeout(() => {
-      console.log("Async operation has ended");
+      fetchUsers();
       event.detail.complete();
       setLoading(!Loading);
       setTimeout(() => {
@@ -858,86 +859,87 @@ const Discover = () => {
                 </>
               )}
               {!Loading &&
-                users?.length > 1 &&
-                users.map((user: any) => {
-                  console.log(user);
-                  return (
-                    <IonCol sizeSm="12" sizeMd="6" sizeLg="4">
-                      <StyledCard>
-                        <IonCardHeader>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-between",
-                            }}
-                          >
-                            <IonAvatar>
-                              <img src={user.profilePic} alt="" />
-                            </IonAvatar>
-                            <IonIcon
-                              onClick={() => toggleFollow(user._id)}
-                              style={{ cursor: "pointer" }}
-                              size="large"
-                              icon={personAdd}
-                            ></IonIcon>
-                          </div>
-                          <IonCardTitle>
-                            <h1>{user.username}</h1>
-                          </IonCardTitle>
-                          <IonCardSubtitle>
-                            <h3>{user.bio}</h3>
-                          </IonCardSubtitle>
-                        </IonCardHeader>
+                users?.length > 0 &&
+                users
+                  .filter((user: any) => user._id !== state?.user?._id)
+                  .map((user: any) => {
+                    return (
+                      <IonCol sizeSm="12" sizeMd="6" sizeLg="4">
+                        <StyledCard>
+                          <IonCardHeader>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-between",
+                              }}
+                            >
+                              <IonAvatar>
+                                <img src={user.profilePic} alt="" />
+                              </IonAvatar>
+                              <IonIcon
+                                onClick={() => toggleFollow(user._id)}
+                                style={{ cursor: "pointer" }}
+                                size="large"
+                                icon={personAdd}
+                              ></IonIcon>
+                            </div>
+                            <IonCardTitle>
+                              <h1>{user.username}</h1>
+                            </IonCardTitle>
+                            <IonCardSubtitle>
+                              <h3>{user.bio}</h3>
+                            </IonCardSubtitle>
+                          </IonCardHeader>
 
-                        <IonCardContent>
-                          <div
-                            style={{
-                              display: "flex",
-                              justifyContent: "space-evenly",
-                            }}
-                          >
-                            <IonGrid>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                }}
-                              >
-                                <IonThumbnail>
+                          <IonCardContent>
+                            <div
+                              style={{
+                                display: "flex",
+                                justifyContent: "space-evenly",
+                              }}
+                            >
+                              <IonGrid>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <IonThumbnail>
+                                    <IonSkeletonText animated />
+                                  </IonThumbnail>
                                   <IonSkeletonText animated />
-                                </IonThumbnail>
-                                <IonSkeletonText animated />
-                              </div>
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                }}
-                              >
-                                <IonThumbnail>
+                                </div>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <IonThumbnail>
+                                    <IonSkeletonText animated />
+                                  </IonThumbnail>
                                   <IonSkeletonText animated />
-                                </IonThumbnail>
-                                <IonSkeletonText animated />
-                              </div>
+                                </div>
 
-                              <div
-                                style={{
-                                  display: "flex",
-                                  flexDirection: "column",
-                                }}
-                              >
-                                <IonThumbnail>
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    flexDirection: "column",
+                                  }}
+                                >
+                                  <IonThumbnail>
+                                    <IonSkeletonText animated />
+                                  </IonThumbnail>
                                   <IonSkeletonText animated />
-                                </IonThumbnail>
-                                <IonSkeletonText animated />
-                              </div>
-                            </IonGrid>
-                          </div>
-                        </IonCardContent>
-                      </StyledCard>
-                    </IonCol>
-                  );
-                })}
+                                </div>
+                              </IonGrid>
+                            </div>
+                          </IonCardContent>
+                        </StyledCard>
+                      </IonCol>
+                    );
+                  })}
             </IonRow>
           </IonGrid>
         </IonContent>
