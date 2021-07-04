@@ -17,6 +17,7 @@ import {
   IonTabs,
   IonSlide,
   IonSlides,
+  IonAvatar,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -45,7 +46,7 @@ import "./theme/style.css";
 import LoginPage from "./pages/LoginPage";
 
 import RegisterPage from "./pages/RegisterPage";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useStateValue } from "./contextApi/stateProvider.js";
 import {
   personCircle,
@@ -60,12 +61,17 @@ import Profile from "./components/Profile";
 import Following from "./components/Following";
 import { socketConnection } from "./socketCalls/connection";
 import { connectToRooms } from "./socketCalls/roomsConnection";
+import { error } from "console";
+import { Group } from "./types";
+import Conversations from "./components/Conversations";
+import SpotifyLogin from "./components/SpotifyLogin";
 
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
 
   useEffect(() => {
     let socket: { disconnect: () => any };
+    // const fetchUser = async () => {
     const fetchUser = async () => {
       try {
         const response = await fetch(`${process.env.REACT_APP_BASE_URL}/me`, {
@@ -81,6 +87,7 @@ const App: React.FC = () => {
             type: "SET_USER",
             payload: data,
           });
+
           connectToRooms(socket, data.rooms);
         } else {
           console.log("Error while fetching user");
@@ -92,8 +99,11 @@ const App: React.FC = () => {
         socket && socket.disconnect();
       };
     };
+
+    // };
     fetchUser();
   }, []);
+
   const slideOpts = {
     initialSlide: 0,
     speed: 400,
@@ -117,7 +127,12 @@ const App: React.FC = () => {
                 </IonSlide>
               </IonSlides>
             </Route>
-
+            <Route path="/contacts">
+              <Conversations />
+            </Route>
+            <Route path="/spotify/authorization">
+              <SpotifyLogin />
+            </Route>
             <Route path="/conversations/:id">
               <IonContent>
                 <Chat />
@@ -138,10 +153,7 @@ const App: React.FC = () => {
               <IonLabel>Discover</IonLabel>
             </IonTabButton>
 
-            <IonTabButton
-              tab="tab4"
-              href={`/conversations/${state?.user?.rooms[0]?._id}`}
-            >
+            <IonTabButton tab="tab4" href={`/contacts`}>
               <IonIcon icon={chatbubbles} />
               <IonBadge color="danger">999</IonBadge>
               <IonLabel>Conversations</IonLabel>

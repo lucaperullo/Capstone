@@ -1,13 +1,15 @@
 import { IonItem, IonInput, IonLabel, IonButton } from "@ionic/react";
 import axios from "axios";
 import { useState } from "react";
+import { useHistory } from "react-router-dom";
 import styled from "styled-components";
+
 import { socketConnection } from "../socketCalls/connection";
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-
+  let history = useHistory();
   const loginHandler = async (e: any) => {
     e.preventDefault();
     const res = await axios.post(
@@ -18,7 +20,7 @@ const LoginPage = () => {
       },
       { withCredentials: true }
     );
-    res.status === 200 && window.location.assign("/discover");
+    res.status === 200 && history.push("/spotify/authorization");
   };
   return (
     <>

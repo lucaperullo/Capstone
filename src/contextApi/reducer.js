@@ -1,12 +1,6 @@
 export const initialState = {
   user: null,
   socket: null,
-  theme: true,
-  chatTheme: {
-    ChatBubble: "primary",
-    ChatBackground: null,
-    ChatBackgroundColor: "",
-  },
   player: null,
 };
 
@@ -28,16 +22,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         chatTheme: action.payload,
       };
-    case "SET_PLAYER":
-      return {
-        ...state,
-        player: action.payload,
-      };
-    case "SET_THEME":
-      return {
-        ...state,
-        theme: action.payload,
-      };
+
     default:
       return state;
   }

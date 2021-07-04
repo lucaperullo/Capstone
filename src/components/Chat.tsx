@@ -5,6 +5,7 @@ import {
   IonCard,
   IonCardContent,
   IonContent,
+  IonFooter,
   IonHeader,
   IonIcon,
   IonItem,
@@ -15,21 +16,19 @@ import {
   IonSkeletonText,
   IonText,
   IonTextarea,
+  IonTitle,
+  IonToolbar,
 } from "@ionic/react";
+
 import styled from "styled-components";
 import Moment from "react-moment";
 
 import "../theme/style.css";
 
-import {
-  happySharp,
-  personAddOutline,
-  settingsOutline,
-  text,
-} from "ionicons/icons";
+import { mic, personAddOutline, settingsOutline, text } from "ionicons/icons";
 
 import { sendSharp } from "ionicons/icons";
-import CreateGroup from "./CreateGroup";
+// import CreateGroup from "./CreateGroup";
 import { url } from "inspector";
 import "../theme/style.css";
 
@@ -98,7 +97,20 @@ const Chat = () => {
     setConversation(messages.data.messages);
     scrollToBottom();
   };
-
+  const themeCheck = () => {
+    if (state?.user?.appTheming?.theme) {
+      console.log(state?.user?.appTheming?.theme);
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
+  };
+  const actualTheme = state?.user?.appTheming?.theme;
+  useEffect(() => {
+    themeCheck();
+  }, [actualTheme]);
   useEffect(() => {
     fetchMessages();
     scrollToBottom();
@@ -132,72 +144,86 @@ const Chat = () => {
           scrollEvents={true}
           style={{
             zIndex: 1,
-            height: "100%",
-            backgroundImage: `url(${Background})`,
-            backgroundColor: `transparent`,
+            // height: "100%",
+            // backgroundImage: `url(${state?.user?.appTheming?.backgroundImage})`,
+            // backgroundColor: `transparent`,
           }}
         >
-          {" "}
           <div
             style={{
-              height: "100%",
-              backgroundImage: `url(${Background})`,
-              backgroundColor: `${BackgroundColor}`,
+              height: "auto",
+              backgroundImage: `url(${
+                state?.user?.appTheming?.backgroundImage?.length > 0
+                  ? state?.user?.appTheming?.backgroundImage
+                  : Background
+              })`,
+              backgroundColor: `${
+                state?.user?.appTheming?.backgroundColor || BackgroundColor
+              }`,
             }}
           >
-            {conversation?.map(({ text, senderId, createdAt, _id }) => {
-              const current = state?.user?._id === senderId._id ? true : false;
-              return (
-                <div className={current ? "right" : "left"}>
-                  <IonCard
-                    color={current ? messageTheme : ""}
-                    style={{
-                      height: 100,
-                      borderRadius: current
-                        ? "15px 0px 15px 15px"
-                        : "15px 15px 15px 0px",
-                      boxShadow: `0px 0px 11px 1px ${BackgroundColor}`,
-                    }}
-                  >
-                    <IonCardContent>
-                      {text}
-                      <div className="ion-text-end">
-                        <span>
-                          <Moment date={createdAt} format="HH:mm" />
-                        </span>
-                      </div>
-                    </IonCardContent>
-                  </IonCard>
-                </div>
-              );
-            })}
-          </div>
-          <IonItem className="chat-box" style={{ height: "50px" }}>
-            <IonIcon
-              className="chat-button"
-              color="primary"
-              slot="start"
-              icon={happySharp}
-            />
-            <div className="chat-container">
-              <IonTextarea
-                placeholder="Write some text..."
-                value={message}
-                // onKeyPress={handleSendMessage}
-                onIonChange={(e) => setMessage(e.detail.value!)}
-              />
-            </div>
-
-            {message.length > 0 && (
+            {conversation?.map(
+              ({ text, senderId, createdAt, _id }, idx: number) => {
+                const current =
+                  state?.user?._id === senderId._id ? true : false;
+                return (
+                  <div key={idx} className={current ? "right" : "left"}>
+                    <IonCard
+                      color={current ? state?.user?.appTheming?.bubbleChat : ""}
+                      style={{
+                        height: 100,
+                        borderRadius: current
+                          ? "15px 0px 15px 15px"
+                          : "15px 15px 15px 0px",
+                        boxShadow: `0px 0px 20px 1px ${
+                          state?.user?.appTheming.backgroundColor ||
+                          BackgroundColor
+                        }`,
+                      }}
+                    >
+                      <IonCardContent>
+                        {text}
+                        <div className="ion-text-end">
+                          <span>
+                            <Moment date={createdAt} format="HH:mm" />
+                          </span>
+                        </div>
+                      </IonCardContent>
+                    </IonCard>
+                  </div>
+                );
+              }
+            )}
+            <IonItem>
               <IonIcon
-                onClick={handleSubmitMessage}
                 className="chat-button"
                 color="primary"
-                slot="end"
-                icon={sendSharp}
+                slot="start"
+                icon={mic}
               />
-            )}
-          </IonItem>
+
+              <div className="chat-container">
+                <IonTextarea
+                  placeholder="Write some text..."
+                  value={message}
+                  // onKeyPress={handleSendMessage}
+                  onIonChange={(e) => setMessage(e.detail.value!)}
+                />
+              </div>
+
+              {message.length > 0 && (
+                <IonItem>
+                  <IonIcon
+                    onClick={handleSubmitMessage}
+                    className="chat-button"
+                    color="primary"
+                    slot="end"
+                    icon={sendSharp}
+                  />
+                </IonItem>
+              )}
+            </IonItem>
+          </div>
         </IonContent>
       </ChatContainer>
 
@@ -233,18 +259,18 @@ const Chat = () => {
             setModalShow={setSettingsModalShow}
           />
 
-          <CreateGroup
+          {/* <CreateGroup
             modalShow={GroupModalShow}
             setModalShow={setGroupModalShow}
-          />
+          /> */}
         </IonHeader>
         <IonContent id="content2"></IonContent>
       </IonMenu>
       <IonRouterOutlet
         id="main2"
-        style={{
-          backgroundColor: `${BackgroundColor}`,
-        }}
+        // style={{
+        //   backgroundColor: `${BackgroundColor}`,
+        // }}
       ></IonRouterOutlet>
     </IonContent>
   );

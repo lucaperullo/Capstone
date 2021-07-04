@@ -18,6 +18,7 @@ import {
   IonAvatar,
   IonSkeletonText,
   IonThumbnail,
+  IonRippleEffect,
 } from "@ionic/react";
 import axios from "axios";
 import {
@@ -42,10 +43,13 @@ const Discover = () => {
 
   const toggleFollow = async (userid: string) => {
     try {
-      const data = await fetch(`http://localhost:3999/users/follow/${userid}`, {
-        method: "PUT",
-        credentials: "include",
-      });
+      const data = await fetch(
+        `${process.env.REACT_APP_BASE_URL}/users/follow/${userid}`,
+        {
+          method: "PUT",
+          credentials: "include",
+        }
+      );
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -74,20 +78,25 @@ const Discover = () => {
       setTimeout(() => {
         console.log(state.user);
         setLoading(false);
-      }, 1000);
-    }, 10);
+      }, 100);
+    }, 2000);
   }
 
   useEffect(() => {
     fetchUsers();
-  }, []);
+  }, [Loading]);
   return (
     <>
       <IonContent>
         {/*-- Default Refresher --*/}
         <IonContent>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-            <IonRefresherContent></IonRefresherContent>
+            <IonRefresherContent
+              pullingIcon={chevronDownCircleOutline}
+              pullingText="Pull to refresh"
+              refreshingSpinner="circles"
+              refreshingText="Refreshing..."
+            ></IonRefresherContent>
           </IonRefresher>
           <IonCard>
             <IonSearchbar
@@ -98,774 +107,15 @@ const Discover = () => {
           </IonCard>
           <IonGrid>
             <IonRow>
-              {Loading && (
-                <>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                  <IonCol size="3">
-                    <IonCard>
-                      <IonCardHeader>
-                        <IonAvatar>
-                          <IonSkeletonText animated />
-                        </IonAvatar>
-
-                        <IonCardSubtitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardSubtitle>
-                        <IonCardTitle>
-                          <IonSkeletonText animated style={{ width: "100%" }} />
-                        </IonCardTitle>
-                      </IonCardHeader>
-
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-                    </IonCard>
-                  </IonCol>
-                </>
-              )}
+              {Loading && <></>}
               {!Loading &&
                 users?.length > 0 &&
                 users
                   .filter((user: any) => user._id !== state?.user?._id)
-                  .map((user: any) => {
+                  .map((user: any, idx: number) => {
                     return (
-                      <IonCol sizeSm="12" sizeMd="6" sizeLg="4">
-                        <StyledCard>
+                      <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
+                        <StyledCard className="ion-activatable ripple-parent">
                           <IonCardHeader>
                             <div
                               style={{
@@ -884,7 +134,7 @@ const Discover = () => {
                               ></IonIcon>
                             </div>
                             <IonCardTitle>
-                              <h1>{user.username}</h1>
+                              <h2>{user.username}</h2>
                             </IonCardTitle>
                             <IonCardSubtitle>
                               <h3>{user.bio}</h3>
@@ -936,6 +186,7 @@ const Discover = () => {
                               </IonGrid>
                             </div>
                           </IonCardContent>
+                          <IonRippleEffect></IonRippleEffect>
                         </StyledCard>
                       </IonCol>
                     );
@@ -945,29 +196,17 @@ const Discover = () => {
         </IonContent>
 
         {/*-- Custom Refresher Properties --*/}
-        <IonContent>
+        {/* <IonContent>
           <IonRefresher
             slot="fixed"
             onIonRefresh={doRefresh}
-            pullFactor={0.5}
+            pullFactor={3.5}
             pullMin={100}
-            pullMax={200}
+            pullMax={500}
           >
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
-        </IonContent>
-
-        {/*-- Custom Refresher Content --*/}
-        <IonContent>
-          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-            <IonRefresherContent
-              pullingIcon={chevronDownCircleOutline}
-              pullingText="Pull to refresh"
-              refreshingSpinner="circles"
-              refreshingText="Refreshing..."
-            ></IonRefresherContent>
-          </IonRefresher>
-        </IonContent>
+        </IonContent> */}
       </IonContent>
     </>
   );
