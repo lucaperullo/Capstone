@@ -54,7 +54,7 @@ const LoginPage = () => {
             <a
               onClick={() => setShowLoading(true)}
               style={{ textDecoration: "none" }}
-              href={`https://accounts.spotify.com/authorize?client_id=caefca1208c4456685d3300573064639&response_type=code&redirect_uri=capstone-tau.vercel.app/login&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`}
+              href={`https://accounts.spotify.com/authorize?client_id=caefca1208c4456685d3300573064639&response_type=code&redirect_uri=https://capstone-tau.vercel.app/login&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`}
             >
               <IonButton color="dark">
                 C
