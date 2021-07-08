@@ -37,7 +37,7 @@ export default function Login({ code }: { code: any }) {
     e.preventDefault();
     setShowLoading(true);
     const res = await axios.post(
-      `${process.env.REACT_APP_BASE_URL}/login`,
+      `https://capstonebe.herokuapp.com/login`,
       {
         username,
         password,

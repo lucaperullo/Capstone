@@ -31,7 +31,7 @@ export default function Conversations() {
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
-      const response = await fetch(`${process.env.REACT_APP_BASE_URL}/me`, {
+      const response = await fetch(`https://capstonebe.herokuapp.com/me`, {
         credentials: "include",
       });
       if (response.ok) {

@@ -75,7 +75,7 @@ const Profile = () => {
           presence: status,
         },
       };
-      const data = await fetch(process.env.REACT_APP_BASE_URL + "/me", {
+      const data = await fetch("https://capstonebe.herokuapp.com" + "/me", {
         method: "PUT",
         credentials: "include",
         headers: {

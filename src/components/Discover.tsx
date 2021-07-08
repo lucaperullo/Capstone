@@ -50,7 +50,7 @@ const Discover = () => {
   const toggleFollow = async (userid: string) => {
     try {
       const data = await fetch(
-        `${process.env.REACT_APP_BASE_URL}/users/follow/${userid}`,
+        `https://capstonebe.herokuapp.com/users/follow/${userid}`,
         {
           method: "PUT",
           credentials: "include",
@@ -64,7 +64,7 @@ const Discover = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios.get(`${process.env.REACT_APP_BASE_URL}/users`, {
+      const data = await axios.get(`https://capstonebe.herokuapp.com/users`, {
         withCredentials: true,
       });
 
