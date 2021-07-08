@@ -291,6 +291,7 @@ const CreateGroup = (props: modalProps) => {
                   present({
                     position: "top",
                     mode: "ios",
+                    translucent: true,
                     color: "tertiary",
                     header: "Group",
                     buttons: [{ text: "hide", handler: () => dismiss() }],

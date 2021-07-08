@@ -209,7 +209,9 @@ const Profile = () => {
                       <IonSelect
                         value={state?.user?.status?.presence}
                         placeholder={status}
-                        onIonChange={(e) => setStatus(e.detail.value)}
+                        onIonChange={(e) =>
+                          setStatus(e.detail.value.toString())
+                        }
                       >
                         <IonSelectOption value="online">online</IonSelectOption>
                         <IonSelectOption value="offline">

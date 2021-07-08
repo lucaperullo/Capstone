@@ -23,7 +23,7 @@ const RegisterPage = () => {
       { withCredentials: true }
     );
 
-    res.status === 200 && history.push("/spotify/authorization");
+    res.status === 200 && history.push("/spotify/auth");
   };
   return (
     <>

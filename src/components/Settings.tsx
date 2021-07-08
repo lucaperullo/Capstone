@@ -24,7 +24,8 @@ import {
   IonCardContent,
 } from "@ionic/react";
 import { chatbubblesSharp, moon, sunny, trashSharp } from "ionicons/icons";
-
+import Lottie from "react-lottie";
+import animationData from "../lotties/dark-light.json";
 import "../theme/style.css";
 import { useStateValue } from "../contextApi/stateProvider";
 
@@ -85,17 +86,26 @@ const Settings = (props: SettingsProps) => {
     setDark(!dark);
 
     const lightDarkModeHandler = () => {
-      if (dark) {
-        document.body.classList.add("dark");
-        document.body.classList.remove("light");
-      } else {
-        document.body.classList.add("light");
-        document.body.classList.remove("dark");
-      }
+      setTimeout(() => {
+        if (dark) {
+          document.body.classList.add("dark");
+          document.body.classList.remove("light");
+        } else {
+          document.body.classList.add("light");
+          document.body.classList.remove("dark");
+        }
+      }, 3000);
     };
     lightDarkModeHandler();
   };
-
+  const defaultOptions = {
+    play: dark,
+    autoplay: false,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   return (
     <IonContent style={{ height: "100vh" }}>
       <div style={{ display: "flex", flexDirection: "column" }}>
@@ -127,12 +137,15 @@ const Settings = (props: SettingsProps) => {
                       color={dark ? "warning" : "grey"}
                       icon={dark ? sunny : moon}
                     />
-                    <IonToggle
+                    <div onClick={toggleDarkModeHandler}>
+                      <Lottie options={defaultOptions} height={30} width={50} />
+                    </div>
+                    {/* <IonToggle
                       checked={state?.user?.appTheming?.theme}
                       slot="end"
                       name="darkMode"
                       onIonChange={toggleDarkModeHandler}
-                    />
+                    /> */}
                   </div>
                 </IonCardContent>
               </IonCard>

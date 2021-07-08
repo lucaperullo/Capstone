@@ -60,7 +60,7 @@ export default function Conversations() {
   // };
 
   return (
-    <IonContent>
+    <IonContent style={{ display: "flex" }}>
       <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
         <IonRefresherContent
           pullingIcon={chevronDownCircleOutline}

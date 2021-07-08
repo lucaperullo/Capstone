@@ -1,14 +1,10 @@
 import { Redirect, Route } from "react-router-dom";
-
+import styled from "styled-components";
 import {
   IonApp,
   IonItem,
   IonIcon,
   IonLabel,
-  IonToggle,
-  IonRow,
-  IonCol,
-  IonInput,
   IonTabButton,
   IonBadge,
   IonContent,
@@ -17,7 +13,8 @@ import {
   IonTabs,
   IonSlide,
   IonSlides,
-  IonAvatar,
+  IonSearchbar,
+  IonMenuButton,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -48,12 +45,7 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import { useEffect, useState } from "react";
 import { useStateValue } from "./contextApi/stateProvider.js";
-import {
-  personCircle,
-  planetSharp,
-  peopleCircleSharp,
-  chatbubbles,
-} from "ionicons/icons";
+import { personCircle, peopleCircleSharp, chatbubbles } from "ionicons/icons";
 import Chat from "./components/Chat";
 import Contacts from "./components/Contacts";
 import Discover from "./components/Discover";
@@ -61,14 +53,14 @@ import Profile from "./components/Profile";
 import Following from "./components/Following";
 import { socketConnection } from "./socketCalls/connection";
 import { connectToRooms } from "./socketCalls/roomsConnection";
-import { error } from "console";
-import { Group } from "./types";
+
 import Conversations from "./components/Conversations";
 import SpotifyLogin from "./components/SpotifyLogin";
+import Player from "./components/Player";
 
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
-
+  const [searchText, setSearchText] = useState<string>();
   useEffect(() => {
     let socket: { disconnect: () => any };
     // const fetchUser = async () => {
@@ -100,7 +92,6 @@ const App: React.FC = () => {
       };
     };
 
-    // };
     fetchUser();
   }, []);
 
@@ -108,7 +99,20 @@ const App: React.FC = () => {
     initialSlide: 0,
     speed: 400,
   };
-
+  const themeCheck = () => {
+    if (state?.user?.appTheming?.theme) {
+      console.log(state?.user?.appTheming?.theme);
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
+  };
+  const actualTheme = state?.user?.appTheming?.theme;
+  useEffect(() => {
+    themeCheck();
+  }, [actualTheme]);
   return (
     <IonApp>
       <IonReactRouter>
@@ -130,13 +134,13 @@ const App: React.FC = () => {
             <Route path="/contacts">
               <Conversations />
             </Route>
-            <Route path="/spotify/authorization">
+            <Route path="/spotify/auth">
               <SpotifyLogin />
             </Route>
             <Route path="/conversations/:id">
               <IonContent>
                 <Chat />
-                <Contacts />
+                {/* <Contacts /> */}
               </IonContent>
             </Route>
             <Route exact path="/profile">
@@ -146,28 +150,36 @@ const App: React.FC = () => {
               <Redirect to="/login" />
             </Route>
           </IonRouterOutlet>
+
           <IonTabBar slot="top">
             <IonTabButton tab="tab2" href="/discover">
-              <IonIcon icon={peopleCircleSharp} />
+              <IonIcon size="large" icon={peopleCircleSharp} />
               <IonBadge color="danger">112</IonBadge>
-              <IonLabel>Discover</IonLabel>
             </IonTabButton>
 
             <IonTabButton tab="tab4" href={`/contacts`}>
-              <IonIcon icon={chatbubbles} />
+              <IonIcon size="large" icon={chatbubbles} />
               <IonBadge color="danger">999</IonBadge>
-              <IonLabel>Conversations</IonLabel>
             </IonTabButton>
             <IonTabButton tab="tab1" href="/profile">
-              <IonIcon icon={personCircle} />
+              <IonIcon size="large" icon={personCircle} />
               <IonBadge color="danger">2</IonBadge>
-              <IonLabel>Profile</IonLabel>
             </IonTabButton>
           </IonTabBar>
         </IonTabs>
       </IonReactRouter>
+
+      <div style={{ position: "fixed", top: "0", width: "30%" }}></div>
+      <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
+        <Player />
+      </div>
     </IonApp>
   );
 };
+const DisapperingSearchBar = styled.div`
+position: "fixed",
+top: 0,
+left:0
+`;
 
 export default App;
