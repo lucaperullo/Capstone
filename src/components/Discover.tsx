@@ -19,8 +19,11 @@ import {
   IonSkeletonText,
   IonThumbnail,
   IonRippleEffect,
+  IonBadge,
+  IonTabButton,
 } from "@ionic/react";
 import axios from "axios";
+import { useHistory } from "react-router-dom";
 import {
   pin,
   wifi,
@@ -30,17 +33,20 @@ import {
   chevronDownCircleOutline,
   arrowDownOutline,
   personAdd,
+  personCircle,
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Discover = () => {
+  let history = useHistory();
   const [searchText, setSearchText] = useState<string>("");
   const [state, dispatch] = useStateValue();
   const [users, setUsers] = useState<any>();
   const [Loading, setLoading] = useState(false);
-
+  console.log(state);
   const toggleFollow = async (userid: string) => {
     try {
       const data = await fetch(
@@ -84,7 +90,15 @@ const Discover = () => {
 
   useEffect(() => {
     fetchUsers();
-  }, [Loading]);
+  }, []);
+  // const loadStuff = async () => {
+  //   console.log(state);
+  //   setTimeout(async () => {
+  //     fetchUsers();
+  //     getTokens();
+  //   }, 100);
+  // };
+
   return (
     <>
       <IonContent>
@@ -113,6 +127,11 @@ const Discover = () => {
                 users
                   .filter((user: any) => user._id !== state?.user?._id)
                   .map((user: any, idx: number) => {
+                    const userPresence = () => {
+                      if (user.status.presence === "online") return "success";
+                      if (user.status.presence === "offline") return "dark";
+                      else return "";
+                    };
                     return (
                       <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
                         <StyledCard className="ion-activatable ripple-parent">
@@ -120,27 +139,42 @@ const Discover = () => {
                             <div
                               style={{
                                 display: "flex",
+                                alignItems: "center",
                                 justifyContent: "space-between",
                               }}
                             >
-                              <IonAvatar>
-                                <img src={user.profilePic} alt="" />
-                              </IonAvatar>
-                              <IonIcon
-                                onClick={() => toggleFollow(user._id)}
-                                style={{ cursor: "pointer" }}
-                                size="large"
-                                icon={personAdd}
-                              ></IonIcon>
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                }}
+                              >
+                                <img
+                                  style={{
+                                    height: "40px",
+                                    width: "40px",
+                                    borderRadius: "50%",
+                                    marginRight: "10px",
+                                  }}
+                                  src={user.profilePic}
+                                  alt=""
+                                />
+                                <IonCardTitle>
+                                  <h4>{user.username}</h4>
+                                </IonCardTitle>
+                              </div>
                             </div>
-                            <IonCardTitle>
-                              <h2>{user.username}</h2>
-                            </IonCardTitle>
-                            <IonCardSubtitle>
-                              <h3>{user.bio}</h3>
-                            </IonCardSubtitle>
+                            {/* <IonBadge
+                                color={userPresence()}
+                                style={{
+                                  position: "relative",
+                                  top: "-20px",
+                                  left: "20px",
+                                }}
+                              ></IonBadge> */}
                           </IonCardHeader>
-
+                          <div className="d-none"></div>
                           <IonCardContent>
                             <div
                               style={{
@@ -186,6 +220,7 @@ const Discover = () => {
                               </IonGrid>
                             </div>
                           </IonCardContent>
+
                           <IonRippleEffect></IonRippleEffect>
                         </StyledCard>
                       </IonCol>
