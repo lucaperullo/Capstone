@@ -139,7 +139,7 @@ const Chat = () => {
     //   const tracks = localStorage.getItem("playing") + "," + track;
     //   return localStorage.setItem("playing", tracks);
     // }
-    localStorage.setItem("playing", track);
+    dispatch({ type: "SET_ACTUAL_SONG", payload: track });
     // setSearchResults("");
   };
 
@@ -163,8 +163,11 @@ const Chat = () => {
   // }, []);
   useEffect(() => {
     if (!searchText) return setSearchResults([]);
-    if (state.spotifyAccess !== null) {
-      spotifyApi.setAccessToken(state.spotifyAccess);
+    console.log("search is triggeres");
+    const code = localStorage.getItem("access_token");
+    console.log({ code });
+    if (localStorage.getItem("access_token") !== null) {
+      spotifyApi.setAccessToken(localStorage.getItem("access_token")!);
     }
 
     spotifyApi

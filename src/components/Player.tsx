@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import SpotifyPlayer from "react-spotify-web-playback";
+import { useStateValue } from "../contextApi/stateProvider";
 export default function Player() {
-  const trackUri = localStorage.getItem("playing");
+  const [state, dispatch] = useStateValue();
+  const trackUri = state?.song;
 
   const [play, setPlay] = useState(false);
   function getRandomColor() {
@@ -16,7 +18,7 @@ export default function Player() {
   useEffect(() => {
     setPlay(false);
     setTimeout(() => {
-      setPlay(!false);
+      setPlay(true);
     }, 500);
   }, [trackUri]);
   return (

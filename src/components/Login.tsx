@@ -27,10 +27,7 @@ export default function Login({ code }: { code: any }) {
   });
 
   useEffect(() => {
-    dispatch({
-      type: "SET_SPOTIFY_CODE",
-      payload: code,
-    });
+    localStorage.setItem("code", code);
   }, []);
 
   const loginHandler = async (e: any) => {

@@ -55,7 +55,7 @@ import { socketConnection } from "./socketCalls/connection";
 import { connectToRooms } from "./socketCalls/roomsConnection";
 
 import Conversations from "./components/Conversations";
-import SpotifyLogin from "./components/SpotifyLogin";
+
 import Player from "./components/Player";
 
 const App: React.FC = () => {
@@ -134,9 +134,7 @@ const App: React.FC = () => {
             <Route path="/contacts">
               <Conversations />
             </Route>
-            <Route path="/spotify/auth">
-              <SpotifyLogin />
-            </Route>
+
             <Route path="/conversations/:id">
               <IonContent>
                 <Chat />
