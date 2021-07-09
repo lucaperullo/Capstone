@@ -9,7 +9,7 @@ export default function useAuth(code) {
   const expiresIn = localStorage.getItem("expires_in");
   useEffect(() => {
     axios
-      .post("https://capstonebe.herokuapp.com/users/login", {
+      .post("http://localhost:3999/users/login", {
         code,
       })
       .then((res) => {
@@ -26,7 +26,7 @@ export default function useAuth(code) {
     if (!refreshToken || !expiresIn) return;
     const interval = setInterval(() => {
       axios
-        .post("https://capstonebe.herokuapp.com/users/refresh", {
+        .post("http://localhost:3999/users/refresh", {
           refreshToken,
         })
         .then((res) => {

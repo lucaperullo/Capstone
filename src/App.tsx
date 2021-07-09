@@ -66,7 +66,7 @@ const App: React.FC = () => {
     // const fetchUser = async () => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`https://capstonebe.herokuapp.com/me`, {
+        const response = await fetch(`http://localhost:3999/me`, {
           credentials: "include",
         });
         if (response.ok) {

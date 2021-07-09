@@ -49,13 +49,10 @@ const Discover = () => {
   console.log(state);
   const toggleFollow = async (userid: string) => {
     try {
-      const data = await fetch(
-        `https://capstonebe.herokuapp.com/users/follow/${userid}`,
-        {
-          method: "PUT",
-          credentials: "include",
-        }
-      );
+      const data = await fetch(`http://localhost:3999/users/follow/${userid}`, {
+        method: "PUT",
+        credentials: "include",
+      });
       console.log(data);
     } catch (error) {
       console.log(error);
@@ -64,7 +61,7 @@ const Discover = () => {
 
   const fetchUsers = async () => {
     try {
-      const data = await axios.get(`https://capstonebe.herokuapp.com/users`, {
+      const data = await axios.get(`http://localhost:3999/users`, {
         withCredentials: true,
       });
 

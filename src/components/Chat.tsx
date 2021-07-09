@@ -113,7 +113,7 @@ const Chat = () => {
   };
   const fetchMessages = async () => {
     const messages = await axios.get(
-      `${process.env.REACT_APP_BASE_URL}/messages/${roomId}`,
+      `http://localhost:3999/messages/${roomId}`,
       {
         withCredentials: true,
       }
