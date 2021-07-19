@@ -155,7 +155,7 @@ ion-content ::-webkit-scrollbar {
 /* @media (min-width:) */
 .circle-container {
   position: absolute;
-  transform: translateY(-10vh);
+  transform: translateY(-21vh);
   -webkit-animation-iteration-count: infinite;
   animation-iteration-count: infinite;
   -webkit-animation-timing-function: linear;
@@ -166,9 +166,13 @@ ion-content ::-webkit-scrollbar {
   height: 100%;
   border-radius: 50%;
   mix-blend-mode: screen;
-  background-image: radial-gradient(#ffffff, #9daa9c 10%, rgba(0, 0, 0, 0) 56%);
-  -webkit-animation: fadein-frames 200ms infinite, scale-frames 2s infinite;
-  animation: fadein-frames 200ms infinite, scale-frames 2s infinite;
+  background-image: radial-gradient(
+    #ffffff,
+    #fdfdfdd8 10%,
+    rgba(0, 0, 0, 0) 56%
+  );
+  -webkit-animation: fadein-frames 200ms infinite, scale-frames 3s infinite;
+  animation: fadein-frames 200ms infinite, scale-frames 3s infinite;
 }
 @-webkit-keyframes fade-frames {
   0% {

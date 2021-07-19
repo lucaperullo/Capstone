@@ -22,12 +22,23 @@ const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showLoading, setShowLoading] = useState(false);
+
+  // const spotiLoginHandler = async () => {
+  //   setShowLoading(true);
+  //   try {
+  //     const data = await fetch(`http://localhost:3999/login/spotify`);
+  //     console.log(data);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
+
   const code = new URLSearchParams(window.location.search).get("code");
 
   return (
     <>
-      {code ? (
-        <Login code={code} />
+      {code !== null ? (
+        <Login />
       ) : (
         <Container>
           <div style={{ marginBottom: "50px", zIndex: 10 }}>
@@ -53,9 +64,8 @@ const LoginPage = () => {
               />
             </IonCardHeader>
             <a
-              onClick={() => setShowLoading(true)}
+              href="http://localhost:3999/login/spotify"
               style={{ textDecoration: "none" }}
-              href={`https://accounts.spotify.com/authorize?client_id=caefca1208c4456685d3300573064639&response_type=code&redirect_uri=http://localhost:3000/login&scope=streaming%20user-read-email%20user-read-private%20user-library-read%20user-library-modify%20user-read-playback-state%20user-modify-playback-state`}
             >
               <IonButton color="dark">
                 C

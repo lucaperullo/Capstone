@@ -143,8 +143,9 @@ const Chat = () => {
     // setSearchResults("");
   };
 
-  const handlePlay = (track: any) => {
+  const handlePlay = (track: any, id: any) => {
     chooseTrack(track);
+    getControls(id);
   };
 
   useEffect(() => {
@@ -161,6 +162,21 @@ const Chat = () => {
   // useEffect(() => {
 
   // }, []);
+
+  //GET AUDIO CONTROLS FOR SONG
+  const getControls = (id: any) => {
+    spotifyApi.setAccessToken(localStorage.getItem("access_token")!);
+    spotifyApi
+      .getAudioFeaturesForTrack(id)
+      .then((res: any) => {
+        console.log(res.body);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(state);
+      });
+  };
+
   useEffect(() => {
     if (!searchText) return setSearchResults([]);
     console.log("search is triggeres");
@@ -273,17 +289,12 @@ const Chat = () => {
                   icon={mic}
                 />
 
-                <div
-                  style={{ borderRadius: "15px" }}
-                  className="chat-container"
-                >
-                  <IonTextarea
-                    placeholder="Write some text..."
-                    value={message}
-                    // onKeyPress={handleSendMessage}
-                    onIonChange={(e) => setMessage(e.detail.value!)}
-                  />
-                </div>
+                <IonTextarea
+                  placeholder="Write some text..."
+                  value={message}
+                  // onKeyPress={handleSendMessage}
+                  onIonChange={(e) => setMessage(e.detail.value!)}
+                />
 
                 {message.length > 0 && (
                   <IonIcon
@@ -325,9 +336,9 @@ const Chat = () => {
                   searchResults.map((track: any) => {
                     return (
                       <IonCard
-                        onClick={() => handlePlay(track.uri)}
+                        onClick={() => handlePlay(track.uri, track.id)}
                         key={track.uri}
-                        style={{ height: "auto" }}
+                        style={{ height: "auto", cursor: "pointer" }}
                       >
                         <IonCardHeader>
                           <img
@@ -441,7 +452,7 @@ const SenderContainer = styled.div`
     padding-bottom: 40px;
     left: 0;
   }
-  width: 64vw;
+  width: 500px;
   padding-bottom: 40px;
   box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
   position: fixed;

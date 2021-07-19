@@ -21,6 +21,8 @@ import {
   IonRippleEffect,
   IonBadge,
   IonTabButton,
+  IonHeader,
+  IonToolbar,
 } from "@ionic/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -110,11 +112,17 @@ const Discover = () => {
             ></IonRefresherContent>
           </IonRefresher>
           <IonCard>
-            <IonSearchbar
-              value={searchText}
-              onIonChange={(e) => setSearchText(e.detail.value!)}
-              animated
-            ></IonSearchbar>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+              }}
+            >
+              <IonHeader>
+                <h1>#DISCOVER</h1>
+              </IonHeader>
+            </div>
           </IonCard>
           <IonGrid>
             <IonRow>

@@ -1,6 +1,7 @@
 import {
   IonCard,
   IonContent,
+  IonHeader,
   IonRefresher,
   IonRefresherContent,
   IonSearchbar,
@@ -34,11 +35,17 @@ const Following = () => {
             </IonRefresher>
 
             <IonCard>
-              <IonSearchbar
-                value={searchText}
-                onIonChange={(e) => setSearchText(e.detail.value!)}
-                animated
-              ></IonSearchbar>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                <IonHeader>
+                  <h1>#FEED</h1>
+                </IonHeader>
+              </div>
             </IonCard>
           </IonContent>
         </IonContent>

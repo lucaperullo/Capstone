@@ -15,6 +15,13 @@ import {
   IonSlides,
   IonSearchbar,
   IonMenuButton,
+  IonHeader,
+  IonSplitPane,
+  IonMenu,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonButton,
 } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
@@ -42,7 +49,7 @@ import "./theme/style.css";
 
 import LoginPage from "./pages/LoginPage";
 
-import RegisterPage from "./pages/RegisterPage";
+// import RegisterPage from "./pages/RegisterPage";
 import { useEffect, useState } from "react";
 import { useStateValue } from "./contextApi/stateProvider.js";
 import { personCircle, peopleCircleSharp, chatbubbles } from "ionicons/icons";
@@ -57,6 +64,11 @@ import { connectToRooms } from "./socketCalls/roomsConnection";
 import Conversations from "./components/Conversations";
 
 import Player from "./components/Player";
+
+//TODO: get users related artist albums and tracks for best suggestion
+//TODO: optimize the relations between users (follow/unfollow !== chat)
+//TODO: share timing of the queque of the songs with socket
+//TODO: optimize styling and UX/UI to make it beginner friendly and not hard to use
 
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
@@ -92,7 +104,7 @@ const App: React.FC = () => {
       };
     };
 
-    fetchUser();
+    // fetchUser();
   }, []);
 
   const slideOpts = {
@@ -101,7 +113,6 @@ const App: React.FC = () => {
   };
   const themeCheck = () => {
     if (state?.user?.appTheming?.theme) {
-      console.log(state?.user?.appTheming?.theme);
       document.body.classList.remove("light");
       document.body.classList.add("dark");
     } else {
@@ -113,71 +124,92 @@ const App: React.FC = () => {
   useEffect(() => {
     themeCheck();
   }, [actualTheme]);
+
   return (
     <IonApp>
       <IonReactRouter>
-        <Route path="/register" exact component={RegisterPage} />
+        {/* <Route path="/register" exact component={RegisterPage} /> */}
         <Route path="/login" exact component={LoginPage} />
+        <Menu>
+          <IonTabs>
+            <IonRouterOutlet>
+              <Route exact path="/discover">
+                <IonSlides pager={true} options={slideOpts}>
+                  <IonSlide style={{ height: "100vh" }}>
+                    <Discover />
+                  </IonSlide>
+                  <IonSlide style={{ height: "100vh" }}>
+                    <Following />
+                  </IonSlide>
+                </IonSlides>
+              </Route>
+              <Route path="/contacts">
+                <Conversations />
+              </Route>
 
-        <IonTabs>
-          <IonRouterOutlet>
-            <Route exact path="/discover">
-              <IonSlides pager={true} options={slideOpts}>
-                <IonSlide style={{ height: "100vh" }}>
-                  <Discover />
-                </IonSlide>
-                <IonSlide style={{ height: "100vh" }}>
-                  <Following />
-                </IonSlide>
-              </IonSlides>
-            </Route>
-            <Route path="/contacts">
-              <Conversations />
-            </Route>
+              <Route path="/conversations/:id">
+                <IonContent>
+                  <Chat />
+                  {/* <Contacts /> */}
+                </IonContent>
+              </Route>
+              <Route exact path="/profile">
+                <Profile />
+              </Route>
+              <Route exact path="/">
+                {!localStorage.getItem("accessToken") ? (
+                  <Redirect to="/login" />
+                ) : (
+                  <Redirect to="/profile" />
+                )}
+              </Route>
+            </IonRouterOutlet>
 
-            <Route path="/conversations/:id">
-              <IonContent>
-                <Chat />
-                {/* <Contacts /> */}
-              </IonContent>
-            </Route>
-            <Route exact path="/profile">
-              <Profile />
-            </Route>
-            <Route exact path="/">
-              <Redirect to="/login" />
-            </Route>
-          </IonRouterOutlet>
+            <IonTabBar slot="top">
+              <IonTabButton>
+                <img
+                  style={{ borderRadius: "50%" }}
+                  height="40"
+                  src="https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=495&height=492"
+                  alt=""
+                />
+              </IonTabButton>
+              <IonTabButton tab="tab2" href="/discover">
+                <IonIcon size="large" icon={peopleCircleSharp} />
+                <IonBadge color="danger">112</IonBadge>
+              </IonTabButton>
 
-          <IonTabBar slot="top">
-            <IonTabButton tab="tab2" href="/discover">
-              <IonIcon size="large" icon={peopleCircleSharp} />
-              <IonBadge color="danger">112</IonBadge>
-            </IonTabButton>
-
-            <IonTabButton tab="tab4" href={`/contacts`}>
-              <IonIcon size="large" icon={chatbubbles} />
-              <IonBadge color="danger">999</IonBadge>
-            </IonTabButton>
-            <IonTabButton tab="tab1" href="/profile">
-              <IonIcon size="large" icon={personCircle} />
-              <IonBadge color="danger">2</IonBadge>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
+              <IonTabButton tab="tab4" href={`/contacts`}>
+                <IonIcon size="large" icon={chatbubbles} />
+                <IonBadge color="danger">999</IonBadge>
+              </IonTabButton>
+              <IonTabButton tab="tab1" href="/profile">
+                <IonIcon size="large" icon={personCircle} />
+                <IonBadge color="danger">2</IonBadge>
+              </IonTabButton>
+              <IonHeader>
+                <IonSearchbar
+                  placeholder=""
+                  value={searchText}
+                  onIonChange={(e) => setSearchText(e.detail.value!)}
+                  animated
+                ></IonSearchbar>
+              </IonHeader>
+            </IonTabBar>
+          </IonTabs>
+        </Menu>
       </IonReactRouter>
 
-      <div style={{ position: "fixed", top: "0", width: "30%" }}></div>
       <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
         <Player />
       </div>
     </IonApp>
   );
 };
-const DisapperingSearchBar = styled.div`
-position: "fixed",
-top: 0,
-left:0
+const Menu = styled.div`
+  @media (max-width: 768px) {
+    display: block;
+  }
+  display: block;
 `;
-
 export default App;
