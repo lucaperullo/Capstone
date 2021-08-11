@@ -1,227 +1,366 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+
 import {
   IonAvatar,
   IonCard,
   IonCardContent,
+  IonCardHeader,
+  IonCardSubtitle,
+  IonCardTitle,
   IonContent,
   IonHeader,
   IonIcon,
   IonItem,
   IonLabel,
-  IonList,
   IonMenu,
+  IonMenuButton,
+  IonRefresher,
+  IonRefresherContent,
   IonRouterOutlet,
-  IonSkeletonText,
+  IonSearchbar,
   IonText,
   IonTextarea,
 } from "@ionic/react";
+
 import styled from "styled-components";
-import io from "socket.io-client";
+import Moment from "react-moment";
+
 import "../theme/style.css";
-import SettingsModal from "./Settings";
-import { happySharp, personAddOutline, settingsOutline } from "ionicons/icons";
-import { useContacts } from "../hooks/useContacts";
-import { useAllGroups } from "../hooks/useGroups";
-import { useLocalStorage } from "../hooks/useLocalStorage";
+
+import { chevronDownCircleOutline, mic } from "ionicons/icons";
+
 import { sendSharp } from "ionicons/icons";
-import CreateGroup from "./CreateGroup";
+// import CreateGroup from "./CreateGroup";
 import { url } from "inspector";
 import "../theme/style.css";
-// socket
-const endpoint = "http://localhost:5000";
-const socket = io(endpoint, { transports: ["websocket"] });
-// interface color {
 
-// }
+import { useStateValue } from "../contextApi/stateProvider";
+
+import axios from "axios";
+import Settings from "./Settings";
+import SpotifyWebApi from "spotify-web-api-node";
+
+import Player from "./Player";
+
+// export const socket = io(`ws://localhost:3000`, {
+//   withCredentials: true,
+//   transports: ["websocket"],
+// });
+
+interface MMessages {
+  text: string;
+  senderId: any;
+  roomId: string;
+  _id: string;
+  createdAt: string;
+  updatedAt: string;
+}
 const Chat = () => {
-  const [userNumber] = useLocalStorage<string>("userNumber", "");
+  const [messageTheme, setMessageTheme] = useState<string>("primary");
+  const [searchText, setSearchText] = useState<string>("");
   const [SettingsModalShow, setSettingsModalShow] = useState<boolean>(false);
   const [GroupModalShow, setGroupModalShow] = useState<boolean>(false);
-  const { status, data, error, isFetching } = useContacts(userNumber);
+  // const { status, data, error, isFetching } = useContacts(userNumber);
+  const [searchResults, setSearchResults] = useState<any>(null);
+  const [playingTrack, setPlayingTrack] = useState<any>();
   const [message, setMessage] = useState<string>("");
+
+  const [conversation, setConversation] = useState<[MMessages]>();
+
+  const [user, setUser] = useState({});
   const [Background, setBackground] = useState<string>("");
   const [BackgroundColor, setBackgroundColor] = useState("");
-  const handleSendMessage = () => {
-    socket.emit("sendMessage", message, () => {
-      setMessage("");
+  // const mess = useMessages("60d38f76df6d0412e18ecec6");
+  // console.log(mess.data);
+
+  const [state, dispatch] = useStateValue();
+  const { socket } = state;
+  const roomId = window.location.pathname.split("/")[2];
+
+  const spotifyApi = new SpotifyWebApi({
+    clientId: "caefca1208c4456685d3300573064639",
+  });
+  // const code = state.spotifyCode.toString();
+  // const accessToken = useAuth(code);
+
+  // console.log(code);
+  function doRefresh(event: { detail: { complete: () => void } }) {
+    console.log("Begin async operation");
+
+    setTimeout(() => {
+      event.detail.complete();
+
+      setTimeout(() => {
+        console.log(searchResults);
+      }, 100);
+    }, 2000);
+  }
+  const handleSubmitMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+
+    socket.emit("SEND_MESSAGE", {
+      text: message,
+      roomId,
+      senderId: state?.user?._id,
     });
+    setMessage("");
+    fetchMessages();
+    scrollToBottom();
+  };
+  const contentRef = useRef<HTMLIonContentElement | null>(null);
+  const scrollToBottom = () => {
+    contentRef.current && contentRef.current.scrollToBottom();
+  };
+  const fetchMessages = async () => {
+    const messages = await axios.get(
+      `http://localhost:3999/messages/${roomId}`,
+      {
+        withCredentials: true,
+      }
+    );
+    console.log(messages);
+    setConversation(messages.data.messages);
+    scrollToBottom();
+  };
+  const themeCheck = () => {
+    if (state?.user?.appTheming?.theme) {
+      console.log(state?.user?.appTheming?.theme);
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
+  };
+  const actualTheme = state?.user?.appTheming?.theme;
+
+  const chooseTrack = (track: any) => {
+    // if (localStorage.getItem("playing")) {
+    //   const tracks = localStorage.getItem("playing") + "," + track;
+    //   return localStorage.setItem("playing", tracks);
+    // }
+    dispatch({ type: "SET_ACTUAL_SONG", payload: track });
+    // setSearchResults("");
   };
 
+  const handlePlay = (track: any, id: any) => {
+    chooseTrack(track);
+    getControls(id);
+  };
+
+  useEffect(() => {
+    themeCheck();
+  }, [actualTheme]);
+  useEffect(() => {
+    fetchMessages();
+    scrollToBottom();
+    socket?.on("RECIVE_MESSAGE", (message: MMessages) => {
+      fetchMessages();
+      scrollToBottom();
+    });
+  }, []);
   // useEffect(() => {
-  //   console.log(status);
-  //   status === "success" && console.log(data);
-  // }, [status]);
 
+  // }, []);
+
+  //GET AUDIO CONTROLS FOR SONG
+  const getControls = (id: any) => {
+    spotifyApi.setAccessToken(state?.user?.spotifyTokens?.access_token);
+    spotifyApi
+      .getAudioFeaturesForTrack(id)
+      .then((res: any) => {
+        console.log(res.body);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(state);
+      });
+  };
+
+  useEffect(() => {
+    if (!searchText) return setSearchResults([]);
+    console.log("search is triggeres");
+    const code = state?.user?.spotifyTokens?.access_token;
+    console.log({ code });
+    if (state?.user?.spotifyTokens?.access_token !== null) {
+      spotifyApi.setAccessToken(state?.user?.spotifyTokens?.access_token);
+    }
+
+    spotifyApi
+      .searchTracks(searchText)
+      .then((res: any) => {
+        setSearchResults(res.body.tracks?.items);
+      })
+      .catch((err) => {
+        console.log(err);
+        console.log(state);
+      });
+  }, [searchText]);
   return (
-    <IonContent>
-      <IonHeader>
-        {true === true ? (
-          <div className="contact-header">
-            <IonItem>
-              <IonAvatar slot="start">
-                <IonSkeletonText animated />
-              </IonAvatar>
-              <IonLabel>
-                <h3>
-                  <IonSkeletonText animated style={{ width: "50%" }} />
-                </h3>
-                <p>
-                  <IonSkeletonText animated style={{ width: "80%" }} />
-                </p>
-                <p>
-                  <IonSkeletonText animated style={{ width: "60%" }} />
-                </p>
-              </IonLabel>
-            </IonItem>
-          </div>
-        ) : (
-          <IonItem>
-            <IonAvatar slot="start">
-              <IonSkeletonText animated />
-            </IonAvatar>
-            <IonLabel>
-              <h3>
-                <IonSkeletonText animated style={{ width: "50%" }} />
-              </h3>
-              <p>
-                <IonSkeletonText animated style={{ width: "80%" }} />
-              </p>
-              <p>
-                <IonSkeletonText animated style={{ width: "60%" }} />
-              </p>
-            </IonLabel>
-          </IonItem>
-        )}
-      </IonHeader>
+    <IonContent
+      scrollEvents={true}
+      scrollY={false}
+      slot="fixed"
+      style={{
+        zIndex: 10,
+        display: "flex",
+        flexDirection: "row",
+      }}
+    >
       <ChatContainer>
-        <IonContent style={{ zIndex: 1, height: "100%" }}>
-          <div className="left">
-            <IonCard>
-              <IonCardContent>
-                Hi its Chiara here!
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard>
-              <IonCardContent>
-                Hey Chiara how are you? :D
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="left">
-            <IonCard>
-              <IonCardContent>
-                Im doing great, i would like to know if we could meetup tonight!
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard>
-              <IonCardContent>
-                Sure thing, tell me where and at what time
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard>
-              <IonCardContent>
-                Hey Chiara how are you? :D
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="left">
-            <IonCard>
-              <IonCardContent>
-                Im doing great, i would like to know if we could meetup tonight!
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard>
-              <IonCardContent>
-                Sure thing, tell me where and at what time
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard>
-              <IonCardContent>
-                Hey Chiara how are you? :D
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="left">
-            <IonCard>
-              <IonCardContent>
-                Im doing great, i would like to know if we could meetup tonight!
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-          <div className="right">
-            <IonCard>
-              <IonCardContent>
-                Sure thing, tell me where and at what time
-                <div className="ion-text-end">
-                  <span>2:54</span>
-                </div>
-              </IonCardContent>
-            </IonCard>
-          </div>
-        </IonContent>
-      </ChatContainer>
+        <TextContainer>
+          <IonHeader>
+            {state?.actualChat && (
+              <div className="contact-header">
+                <IonItem>
+                  <IonAvatar slot="start">
+                    <img src={state.actualChat.profilePic} alt="" />
+                  </IonAvatar>
+                  <IonLabel>
+                    <h2>{state.actualChat.username}</h2>
+                    <p>{state.actualChat.bio}</p>
+                    <p>{state.actualChat.status.presence}</p>
+                  </IonLabel>
+                </IonItem>
+              </div>
+            )}
+          </IonHeader>
+          <IonContent
+            ref={contentRef}
+            scrollEvents={true}
+            style={{
+              zIndex: 1,
+              // height: "100%",
+              // backgroundImage: `url(${state?.user?.appTheming?.backgroundImage})`,
+              // backgroundColor: `transparent`,
+            }}
+          >
+            <div
+              style={{
+                height: "100%",
+                backgroundImage: `url(${
+                  state?.user?.appTheming?.backgroundImage?.length > 0
+                    ? state?.user?.appTheming?.backgroundImage
+                    : Background
+                })`,
+                backgroundColor: `${
+                  state?.user?.appTheming?.backgroundColor || BackgroundColor
+                }`,
+              }}
+            >
+              {conversation?.map(
+                ({ text, senderId, createdAt, _id }, idx: number) => {
+                  const current =
+                    state?.user?._id === senderId._id ? true : false;
+                  return (
+                    <div key={idx} className={current ? "right" : "left"}>
+                      <IonCard
+                        color={
+                          current ? state?.user?.appTheming?.bubbleChat : ""
+                        }
+                        style={{
+                          borderRadius: current
+                            ? "15px 0px 15px 15px"
+                            : "15px 15px 15px 0px",
+                          boxShadow: `0px 0px 20px 1px ${
+                            state?.user?.appTheming.backgroundColor ||
+                            BackgroundColor
+                          }`,
+                        }}
+                      >
+                        <IonCardHeader>
+                          <IonCardTitle>{text}</IonCardTitle>
+                          <IonCardSubtitle>
+                            <Moment date={createdAt} format="HH:mm" />
+                          </IonCardSubtitle>
+                        </IonCardHeader>
+                      </IonCard>
+                    </div>
+                  );
+                }
+              )}
+            </div>
+            <SenderContainer>
+              <IonItem>
+                <IonIcon
+                  className="chat-button"
+                  color="primary"
+                  slot="start"
+                  icon={mic}
+                />
 
-      <IonItem className="chat-box">
-        <IonIcon
-          className="chat-button"
-          size="large"
-          color="primary"
-          slot="start"
-          icon={happySharp}
-        />
-        <div className="chat-container">
-          <IonTextarea
-            placeholder="Write some text..."
-            value={message}
-            onKeyPress={handleSendMessage}
-            onIonChange={(e) => setMessage(e.detail.value!)}
-          />
-        </div>
-        <IonIcon
-          className="chat-button"
-          size="large"
-          color="primary"
-          slot="end"
-          icon={sendSharp}
-        />
-      </IonItem>
+                <IonTextarea
+                  placeholder="Write some text..."
+                  value={message}
+                  // onKeyPress={handleSendMessage}
+                  onIonChange={(e) => setMessage(e.detail.value!)}
+                />
+
+                {message.length > 0 && (
+                  <IonIcon
+                    onClick={handleSubmitMessage}
+                    className="chat-button"
+                    color="primary"
+                    slot="end"
+                    icon={sendSharp}
+                  />
+                )}
+              </IonItem>
+            </SenderContainer>
+          </IonContent>
+        </TextContainer>
+
+        <MusiContainer>
+          {/*-- Default Refresher --*/}
+          <IonContent>
+            <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+              <IonRefresherContent
+                pullingIcon={chevronDownCircleOutline}
+                pullingText="Pull to refresh"
+                refreshingSpinner="circles"
+                refreshingText="Refreshing..."
+              ></IonRefresherContent>
+            </IonRefresher>
+
+            <IonSearchbar
+              slot="fixed"
+              value={searchText}
+              onIonChange={(e) => setSearchText(e.detail.value!)}
+              animated
+            ></IonSearchbar>
+
+            <IonCard style={{ paddingTop: "50px" }}>
+              <IonCardContent>
+                {searchResults &&
+                  searchResults.length > 0 &&
+                  searchResults.map((track: any) => {
+                    return (
+                      <IonCard
+                        onClick={() => handlePlay(track.uri, track.id)}
+                        key={track.uri}
+                        style={{ height: "auto", cursor: "pointer" }}
+                      >
+                        <IonCardHeader>
+                          <img
+                            src={track.album.images[0].url}
+                            alt={track.name}
+                          />
+                          <IonCardTitle>{track.name}</IonCardTitle>
+                          <IonCardSubtitle>
+                            {track.artists[0].name}
+                          </IonCardSubtitle>
+                        </IonCardHeader>
+                      </IonCard>
+                    );
+                  })}
+                {searchResults && searchResults.length < 1 && (
+                  <EmptySearch>Results will be displayed here..</EmptySearch>
+                )}
+              </IonCardContent>
+            </IonCard>
+          </IonContent>
+        </MusiContainer>
+      </ChatContainer>
 
       <IonMenu
         swipeGesture={true}
@@ -230,9 +369,7 @@ const Chat = () => {
         contentId="content2"
       >
         <IonHeader>
-          <IonItem>
-            <IonText color="primary">Start a new chat..</IonText>
-            <IonIcon
+          {/* <IonIcon
               color="grey"
               className="settings"
               slot="start"
@@ -245,10 +382,10 @@ const Chat = () => {
               slot="end"
               icon={settingsOutline}
               onClick={() => setSettingsModalShow(true)}
-            ></IonIcon>
-          </IonItem>
-
-          <SettingsModal
+            ></IonIcon> */}
+          <Settings
+            messageTheme={messageTheme}
+            setMessageTheme={setMessageTheme}
             setChatBackgroundColor={setBackgroundColor}
             chatBackgroundColor={BackgroundColor}
             setChatBackground={setBackground}
@@ -256,464 +393,70 @@ const Chat = () => {
             modalShow={SettingsModalShow}
             setModalShow={setSettingsModalShow}
           />
-          <CreateGroup
+
+          {/* <CreateGroup
             modalShow={GroupModalShow}
             setModalShow={setGroupModalShow}
-          />
-          {data ? (
-            // <IonContent style={{ bottom: 0 }}>
-            //   <IonList>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //     <IonItem>
-            //       <IonAvatar slot="start">
-            //         <IonSkeletonText animated />
-            //       </IonAvatar>
-            //       <IonLabel>
-            //         <h3>
-            //           <IonSkeletonText animated style={{ width: "50%" }} />
-            //         </h3>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "80%" }} />
-            //         </p>
-            //         <p>
-            //           <IonSkeletonText animated style={{ width: "60%" }} />
-            //         </p>
-            //       </IonLabel>
-            //     </IonItem>
-            //   </IonList>
-            // </IonContent>
-            data.map((data, i) => {
-              return (
-                <IonContent
-                  key={i}
-                  style={{ position: "absolute", top: "8vh", height: "90vh" }}
-                >
-                  <IonList>
-                    <IonItem>
-                      <IonAvatar slot="start">
-                        <img src={data.profileImg} alt="profileImg" />
-                      </IonAvatar>
-                      <IonLabel>
-                        <h3>{data.contactsName}</h3>
-                        <p>{data.about}</p>
-                      </IonLabel>
-                    </IonItem>
-                  </IonList>
-                </IonContent>
-              );
-            })
-          ) : (
-            <IonContent
-              style={{ position: "absolute", top: "8vh", height: "90vh" }}
-            >
-              <IonList>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <IonSkeletonText animated />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h3>
-                      <IonSkeletonText animated style={{ width: "50%" }} />
-                    </h3>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "80%" }} />
-                    </p>
-                    <p>
-                      <IonSkeletonText animated style={{ width: "60%" }} />
-                    </p>
-                  </IonLabel>
-                </IonItem>
-              </IonList>
-            </IonContent>
-          )}
+          /> */}
         </IonHeader>
         <IonContent id="content2"></IonContent>
       </IonMenu>
       <IonRouterOutlet
+        style={{ zIndex: 1 }}
         id="main2"
-        style={{
-          backgroundImage: `url(${Background})`,
-          backgroundColor: `${BackgroundColor}`,
-        }}
+        // style={{
+        //   backgroundColor: `${BackgroundColor}`,
+        // }}
       ></IonRouterOutlet>
     </IonContent>
   );
 };
 
-const IonContainer = styled(IonContent)`
-  display: flex;
-  flex-direction: column-reverse;
+const MusiContainer = styled(IonCard)`
+  @media (max-width: 768px) {
+    display: none;
+  }
+  heigth: 90vh;
+  width: 30vw;
 `;
-const IonItems = styled(IonItem)`
-  position: fixed;
-  bottom: 1rem;
-  width: 62%;
+const TextContainer = styled(IonCard)`
+  @media (max-width: 768px) {
+    width: 100%;
+  }
+  height: 85vh;
+  width: 70vw;
+  padding-bottom: 65px;
 `;
-const ChatContainer = styled.div`
-  padding-left: 2rem;
-  padding-right: 2rem;
-  display: flex;
-  flex-direction: column;
-  height: 80vh;
-  width: 100vw;
+const EmptySearch = styled(IonText)`
+  height: 85vh;
 `;
 
-const BlockDiv = styled.div`
-  width: 100%;
-  margin-top: 7.5px;
-  margin-bottom: 7.5px;
-  position: relative;
-  display: block;
+const ChatContainer = styled.div`
+  @media (max-width: 768px) {
+    width: 100vw;
+  }
+  padding: 15px;
+  padding-bottom: 50px;
+  box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
+  position: absolute;
+  z-index: 10;
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  width: 100vw;
 `;
+const SenderContainer = styled.div`
+  @media (max-width: 768px) {
+    width: 100vw;
+    padding: 0;
+    padding-bottom: 40px;
+    left: 0;
+  }
+  width: 500px;
+  padding-bottom: 40px;
+  box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
+  position: fixed;
+  bottom: 0;
+`;
+
 export default Chat;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   IonModal,
   IonButton,
@@ -12,14 +12,26 @@ import {
   IonCol,
   IonGrid,
   IonRow,
-  IonImg,
   IonContent,
+  IonChip,
+  IonRadio,
+  IonRadioGroup,
+  IonSegment,
+  IonSegmentButton,
+  IonList,
+  IonCard,
+  IonCardHeader,
+  IonCardContent,
 } from "@ionic/react";
-import { colorPaletteSharp, moon, sunny, trashSharp } from "ionicons/icons";
-
+import { chatbubblesSharp, moon, sunny, trashSharp } from "ionicons/icons";
+import Lottie from "react-lottie";
+import animationData from "../lotties/dark-light.json";
 import "../theme/style.css";
+import { useStateValue } from "../contextApi/stateProvider";
 
 interface SettingsProps {
+  messageTheme: string;
+  setMessageTheme: (theme: string) => void;
   chatBackgroundColor: string;
   setChatBackgroundColor: (arg0: string) => void;
   chatBackground: string;
@@ -28,171 +40,310 @@ interface SettingsProps {
   setModalShow: (arg0: boolean) => void;
 }
 
-const Light = document.body.classList.value === "light";
-document.body.classList.add("dark");
-
-const SettingsModal = (props: SettingsProps) => {
+const Settings = (props: SettingsProps) => {
   const [dark, setDark] = useState(false);
+  const [state, dispatch] = useStateValue();
+  const themeCheck = () => {
+    if (state?.user?.appTheming?.theme) {
+      console.log(state?.user?.appTheming?.theme);
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
+  };
+  const updateUser = async () => {
+    try {
+      const payload = {
+        appTheming: {
+          theme: dark,
+          backgroundColor: props.chatBackgroundColor,
+          backgroundImage: props.chatBackground,
+          bubbleChat: props.messageTheme,
+        },
+      };
+      const data = await fetch("http://localhost:3999" + "/me", {
+        method: "PUT",
+        credentials: "include",
+        headers: {
+          "Content-type": "application/json; charset=UTF-8",
+        },
+        body: JSON.stringify(payload),
+      });
+      const user = await data.json();
+      dispatch({
+        type: "SET_USER",
+        payload: await user,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const toggleDarkModeHandler = () => {
+    themeCheck();
     setDark(!dark);
+
     const lightDarkModeHandler = () => {
-      Light
-        ? document.body.classList.toggle("dark")
-        : document.body.classList.toggle("light");
+      setTimeout(() => {
+        if (dark) {
+          document.body.classList.add("dark");
+          document.body.classList.remove("light");
+        } else {
+          document.body.classList.add("light");
+          document.body.classList.remove("dark");
+        }
+      }, 3000);
     };
     lightDarkModeHandler();
   };
+  const defaultOptions = {
+    play: dark,
+    autoplay: false,
+    animationData: animationData,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
   return (
-    <IonModal
-      isOpen={props.modalShow}
-      cssClass="settings-modal"
-      backdropDismiss={false}
-    >
-      <IonContent style={{ backgroundColor: `${props.chatBackgroundColor}` }}>
-        <IonHeader
-          style={{ position: "fixed", top: 0, backgroundColor: "black" }}
-        >
-          <IonText color="primary">
-            <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Settings</h1>
-          </IonText>
-        </IonHeader>
-        <div className="modalContainer">
-          <IonItem>
-            <IonText>
-              <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Theme</h1>
+    <IonContent style={{ height: "100vh" }}>
+      <div style={{ display: "flex", flexDirection: "column" }}>
+        <IonItem>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <IonText slot="start" color="primary">
+              <h1>‏‏‎ ‎‏‏‎ Chat customization</h1>
             </IonText>
-            <IonIcon slot="end" icon={dark ? sunny : moon} />
-
-            <IonToggle
-              checked={dark}
-              slot="end"
-              name="darkMode"
-              onIonChange={toggleDarkModeHandler}
-            />
-          </IonItem>
-          <IonItem style={{ height: "150px" }}>
-            <IonText>
-              <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Wallpaper Color</h1>
-            </IonText>
-            <IonItem style={{ zIndex: 2, height: "150px" }}>
-              <input
-                type="color"
-                value={props.chatBackgroundColor}
-                onChange={(e) => props.setChatBackgroundColor(e.target.value)}
-              />
-            </IonItem>
-          </IonItem>
-          <IonItem style={{ height: "80vh" }}>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <IonText>
-                <h1>‏‏‎ ‎‏‏‎ ‎‏‏‎ Wallpaper</h1>
-              </IonText>
-
-              <IonGrid>
-                <IonRow>
-                  <IonCol>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <IonCard style={{ width: "270px" }} color="primary">
+                <IonCardHeader>
+                  <IonText>
+                    <IonLabel>‏‏‎ ‎‏‏‎ Light/Dark</IonLabel>
+                  </IonText>
+                </IonCardHeader>
+                <IonCardContent>
+                  <div
+                    style={{ display: "flex", justifyContent: "space-between" }}
+                  >
                     <IonIcon
-                      icon={trashSharp}
                       size="large"
-                      onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
-                      }
-                      src=""
+                      color={dark ? "warning" : "grey"}
+                      icon={dark ? sunny : moon}
                     />
-                  </IonCol>
+                    <div onClick={toggleDarkModeHandler}>
+                      <Lottie options={defaultOptions} height={30} width={50} />
+                    </div>
+                    {/* <IonToggle
+                      checked={state?.user?.appTheming?.theme}
+                      slot="end"
+                      name="darkMode"
+                      onIonChange={toggleDarkModeHandler}
+                    /> */}
+                  </div>
+                </IonCardContent>
+              </IonCard>
+            </div>
+          </div>
+        </IonItem>
 
-                  <IonCol>
-                    <IonImg
+        <IonItem>
+          <IonSegment
+            onIonChange={(e) => props.setMessageTheme(e.detail.value!)}
+            value={props.messageTheme || state?.user?.appTheming?.bubble}
+          >
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <IonCard>
+                <IonItem style={{ display: "flex" }}>
+                  <IonSegmentButton value="primary">
+                    <IonIcon icon={chatbubblesSharp} color="primary" />
+                  </IonSegmentButton>
+                  <IonSegmentButton value="secondary">
+                    <IonIcon icon={chatbubblesSharp} color="secondary" />
+                  </IonSegmentButton>
+
+                  <IonSegmentButton value="dark">
+                    <IonIcon icon={chatbubblesSharp} color="dark" />
+                  </IonSegmentButton>
+                </IonItem>
+                <IonItem
+                  color={dark ? "dark" : "light"}
+                  style={{ display: "flex" }}
+                >
+                  <IonSegmentButton value="tertiary">
+                    <IonIcon icon={chatbubblesSharp} color="tertiary" />
+                  </IonSegmentButton>
+                  <IonSegmentButton value="medium">
+                    <IonIcon icon={chatbubblesSharp} color="medium" />
+                  </IonSegmentButton>
+
+                  <IonSegmentButton value="grey">
+                    <IonIcon icon={chatbubblesSharp} color="grey" />
+                  </IonSegmentButton>
+                </IonItem>
+                <IonItem>
+                  <IonSegmentButton value="warning">
+                    <IonIcon icon={chatbubblesSharp} color="warning" />
+                  </IonSegmentButton>
+                  <IonSegmentButton value="light">
+                    <IonIcon icon={chatbubblesSharp} color="light" />
+                  </IonSegmentButton>
+                  <IonSegmentButton value="danger">
+                    <IonIcon icon={chatbubblesSharp} color="danger" />
+                  </IonSegmentButton>
+                </IonItem>
+              </IonCard>
+            </div>
+          </IonSegment>
+        </IonItem>
+
+        <IonItem>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "center",
+            }}
+          ></div>
+          <IonText slot="start">
+            <IonLabel>‏‏‎ ‎‏‏‎ ‎‏‏‎ Wallpaper Color :</IonLabel>
+          </IonText>
+          <input
+            type="color"
+            value={props.chatBackgroundColor}
+            onChange={(e) => props.setChatBackgroundColor(e.target.value)}
+          />
+        </IonItem>
+        <IonItem>
+          <div style={{ display: "flex", flexDirection: "column" }}>
+            <IonText slot="start">
+              <IonLabel>‏‏‎ ‎‏‏‎ ‎‏‏‎ Wallpapers :</IonLabel>
+            </IonText>
+
+            <IonGrid>
+              <IonRow>
+                <IonCol sizeSm="">
+                  <IonCard
+                    onClick={() => props.setChatBackground("")}
+                    style={{
+                      height: "60px",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <IonIcon icon={trashSharp} size="large" />
+                  </IonCard>
+                </IonCol>
+
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/tree-bark.png"
                     />
-                  </IonCol>
-                  <IonCol>
-                    <IonImg
+                  </IonCard>
+                </IonCol>
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/type.png"
                     />
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonImg
+                  </IonCard>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/skulls.png"
                     />
-                  </IonCol>
-                  <IonCol>
-                    <IonImg
+                  </IonCard>
+                </IonCol>
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/dark-wood.png"
                     />
-                  </IonCol>{" "}
-                  <IonCol>
-                    <IonImg
+                  </IonCard>
+                </IonCol>
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/xv.png"
                     />
-                  </IonCol>
-                </IonRow>
-                <IonRow>
-                  <IonCol>
-                    <IonImg
+                  </IonCard>
+                </IonCol>
+              </IonRow>
+              <IonRow>
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/flowers.png"
                     />
-                  </IonCol>
+                  </IonCard>
+                </IonCol>
 
-                  <IonCol>
-                    <IonImg
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/food.png"
                     />
-                  </IonCol>
-                  <IonCol>
-                    <IonImg
+                  </IonCard>
+                </IonCol>
+                <IonCol sizeSm="">
+                  <IonCard style={{ height: "60px" }}>
+                    <img
+                      style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/foggy-birds.png"
                     />
-                  </IonCol>
-                </IonRow>
-              </IonGrid>
-            </div>
-          </IonItem>
+                  </IonCard>
+                </IonCol>
+              </IonRow>
+            </IonGrid>
 
-          <div className="modalButtons">
-            <IonButton
-              color="danger"
-              onClick={() => {
-                localStorage.clear();
-                window.location.assign("/");
-              }}
-            >
-              Log out
-            </IonButton>
-            <IonButton onClick={() => props.setModalShow(false)}>
-              Close
-            </IonButton>
+            <IonButton onClick={() => updateUser()}>save</IonButton>
           </div>
-        </div>
-      </IonContent>
-    </IonModal>
+        </IonItem>
+      </div>
+    </IonContent>
   );
 };
 
-export default SettingsModal;
+export default Settings;
