@@ -28,7 +28,7 @@ import {
   IonThumbnail,
   IonCol,
 } from "@ionic/react";
-import ReactAudioPlayer from 'react-audio-player';
+import ReactAudioPlayer from "react-audio-player";
 import {
   arrowDownOutline,
   caretBackOutline,
@@ -68,13 +68,13 @@ const Profile = () => {
             tracks: tracks.items,
           },
         });
-        dispatch({
-          type: "SET_ACTUAL_SONG",
-          payload: {
-            track: tracks.items[0].track,
-            song_index: 0,
-          },
-        });
+        // dispatch({
+        //   type: "SET_ACTUAL_SONG",
+        //   payload: {
+        //     track: tracks.items[0].track,
+        //     song_index: 0,
+        //   },
+        // });
       }
     } catch (error) {
       console.log(error);
@@ -297,49 +297,46 @@ const Profile = () => {
 
                 <IonCardContent>
                   <IonLabel>Playlists:</IonLabel>
+
                   <div
-                    style={{ display: "flex", justifyContent: "flex-end" }}
-                  ></div>
-                  <div style={{ display: "flex", justifyContent: "flex-end" }}>
-                    <div
-                      style={{
-                        display: "flex",
-                        width: "100%",
-                        alignItems: "center",
-                        justifyContent: "flex-end",
-                      }}
+                    style={{
+                      display: "flex",
+
+                      alignItems: "center",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <IonButton color="light">
+                      <IonIcon size="large" icon={shuffleOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton color="light">
+                      <IonIcon size="large" icon={repeatOutline}></IonIcon>
+                    </IonButton>
+                    <IonButton color="light">
+                      <IonIcon
+                        size="large"
+                        icon={playSkipBackOutline}
+                      ></IonIcon>
+                    </IonButton>
+
+                    <IonButton
+                      color="light"
+                      onClick={() => setPlaying(!playing)}
                     >
-                      <IonButton color="light">
-                        <IonIcon size="large" icon={shuffleOutline}></IonIcon>
-                      </IonButton>
-                      <IonButton color="light">
-                        <IonIcon size="large" icon={repeatOutline}></IonIcon>
-                      </IonButton>
-                      <IonButton color="light">
-                        <IonIcon
-                          size="large"
-                          icon={playSkipBackOutline}
-                        ></IonIcon>
-                      </IonButton>
+                      <IonIcon
+                        size="large"
+                        icon={playing ? playOutline : pauseOutline}
+                      ></IonIcon>
+                    </IonButton>
 
-                      <IonButton
-                        color="light"
-                        onClick={() => setPlaying(!playing)}
-                      >
-                        <IonIcon
-                          size="large"
-                          icon={playing ? playOutline : pauseOutline}
-                        ></IonIcon>
-                      </IonButton>
-
-                      <IonButton color="light">
-                        <IonIcon
-                          size="large"
-                          icon={playSkipForwardOutline}
-                        ></IonIcon>
-                      </IonButton>
-                    </div>
+                    <IonButton color="light">
+                      <IonIcon
+                        size="large"
+                        icon={playSkipForwardOutline}
+                      ></IonIcon>
+                    </IonButton>
                   </div>
+
                   <div
                     style={{ display: "flex", justifyContent: "space-evenly" }}
                   >
@@ -347,24 +344,35 @@ const Profile = () => {
                       <IonRow>
                         {state?.user?.playlists?.userPlaylists?.items.map(
                           (playlist: any) => (
-                            <IonCol sizeLg="4" sizeMd="6" sizeXs="12">
-                              <IonItem
-                                onClick={() => playTrack(playlist.tracks.href)}
-                              >
-                                <IonThumbnail>
-                                  <img
-                                    height="100"
-                                    src={
-                                      playlist.images[0]?.url
-                                        ? playlist.images[0]?.url
-                                        : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcT0gfUfQFnyI5p8HCnWSbLHQhmy_cO80TxudY7E4ZtfoqI93Ky2Dx6FDvjoICrsBAj8&usqp=CAU"
-                                    }
-                                    alt=""
-                                  />
-                                </IonThumbnail>
+                            <IonCol
+                              onClick={() =>
+                                playTrack(
+                                  playlist.tracks.href
+                                    ? playlist.tracks.href
+                                    : playlist.href
+                                )
+                              }
+                              sizeLg="4"
+                              sizeMd="6"
+                              sizeXs="6"
+                            >
+                              <img
+                                style={{
+                                  width: "100px",
+                                  height: "100px",
+                                  borderRadius: "12px",
+                                  boxShadow: "0px 0px 15px 0px rgba(0,0,0,0.7)",
+                                  cursor: "pointer",
+                                }}
+                                src={
+                                  playlist.images[0]?.url
+                                    ? playlist.images[0]?.url
+                                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcT0gfUfQFnyI5p8HCnWSbLHQhmy_cO80TxudY7E4ZtfoqI93Ky2Dx6FDvjoICrsBAj8&usqp=CAU"
+                                }
+                                alt=""
+                              />
 
-                                <IonLabel>{playlist.name}</IonLabel>
-                              </IonItem>
+                              <h4>{playlist.name}</h4>
                             </IonCol>
                           )
                         )}
@@ -377,10 +385,10 @@ const Profile = () => {
             </>
           )}
           <ReactAudioPlayer
-  src={state?.user?.currentTrack?.stream_url}
-  autoPlay
-  controls
-/>
+            src={state?.user?.currentTrack?.stream_url}
+            autoPlay
+            controls
+          />
         </IonContent>
       </IonContent>
     </>

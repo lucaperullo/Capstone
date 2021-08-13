@@ -7,6 +7,7 @@ import {
   IonRefresher,
   IonRefresherContent,
   IonSearchbar,
+  IonToolbar,
 } from "@ionic/react";
 import { chevronDownCircleOutline } from "ionicons/icons";
 import React, { useEffect, useState } from "react";
@@ -70,14 +71,14 @@ export default function Conversations() {
         ></IonRefresherContent>
       </IonRefresher>
 
-      <IonCard>
+      <IonToolbar>
         <IonSearchbar
           value={searchText}
           onIonChange={(e) => setSearchText(e.detail.value!)}
-          animated
         ></IonSearchbar>
-      </IonCard>
-      {state.user?.rooms ? (
+      </IonToolbar>
+
+      {state.user?.rooms > 0 ? (
         state.user?.rooms?.map((data: Group, i: number) => {
           const { userId } = data.participants.filter(
             (p) => p.userId._id !== state.user._id
@@ -105,7 +106,10 @@ export default function Conversations() {
       ) : (
         <IonContent
           style={{ position: "absolute", top: "16vh", height: "100%" }}
-        ></IonContent>
+        >
+          You dont have any conversations yet <br />
+          <a href="/discover">Discover new people with similar music tastes!</a>
+        </IonContent>
       )}
     </IonContent>
   );

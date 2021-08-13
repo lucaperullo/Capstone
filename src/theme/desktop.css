@@ -1,0 +1,104 @@
+.navbar {
+  background: rgb(87, 87, 87);
+  background: linear-gradient(
+    54deg,
+    rgba(87, 87, 87, 1) 0%,
+    rgba(116, 107, 107, 1) 8%,
+    rgba(122, 113, 119, 1) 15%,
+    rgba(150, 134, 134, 1) 24%,
+    rgba(155, 142, 133, 1) 33%,
+    rgba(170, 163, 145, 1) 44%,
+    rgba(165, 163, 151, 1) 57%,
+    rgba(155, 163, 163, 1) 75%,
+    rgba(180, 185, 185, 1) 89%,
+    rgba(224, 224, 224, 1) 100%
+  );
+  top: 0;
+  width: 100vw;
+  height: 60px;
+  background-color: #fafafa00;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  box-shadow: 0px -2px 20px 11px rgb(206, 137, 137);
+  animation: shade 10s alternate-reverse infinite;
+}
+@keyframes shade {
+  10% {
+    box-shadow: 0px -2px 20px 11px rgb(206, 160, 202);
+  }
+  20% {
+    box-shadow: 0px -2px 20px 11px rgb(170, 171, 209);
+  }
+  30% {
+    box-shadow: 0px -2px 20px 11px rgb(203, 187, 221);
+  }
+  40% {
+    box-shadow: 0px -2px 20px 11px rgb(224, 182, 210);
+  }
+  50% {
+    box-shadow: 0px -2px 20px 11px rgb(201, 159, 159);
+  }
+  60% {
+    box-shadow: 0px -2px 20px 11px rgb(207, 196, 165);
+  }
+  70% {
+    box-shadow: 0px -2px 20px 11px rgb(213, 226, 195);
+  }
+  80% {
+    box-shadow: 0px -2px 20px 11px rgb(202, 235, 235);
+  }
+  90% {
+    box-shadow: 0px -2px 20px 11px rgb(226, 189, 189);
+  }
+  100% {
+    box-shadow: 0px -2px 20px 11px rgb(243, 101, 101);
+  }
+}
+.title-logo {
+  text-transform: uppercase;
+  min-width: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.desktop-logo {
+  height: 60px;
+}
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+}
+.desktop-navs {
+  font-size: 31px;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+.desktop-nav-button {
+  transition: 0.25s ease;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+}
+.settings-ico {
+  transform: rotate(90deg);
+  transition: 0.25s ease;
+}
+.settings-ico:hover {
+  transform: rotate(180deg);
+}
+
+.sidebar ul {
+  list-style-type: none;
+}

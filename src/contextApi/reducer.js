@@ -1,6 +1,10 @@
 export const initialState = {
   user: null,
   socket: null,
+  newReleases: null,
+  categories: null,
+  category: null,
+  tracks: null,
   player: {
     playing: false,
     volume: 0.5,
@@ -17,7 +21,21 @@ export const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-
+    case "SET_NEW_RELEASES":
+      return {
+        ...state,
+        newReleases: action.payload,
+      };
+    case "SET_CATEGORIES":
+      return {
+        ...state,
+        categories: action.payload,
+      };
+    case "SET_SELECTED_CATEGORY":
+      return {
+        ...state,
+        category: action.payload,
+      };
     case "SET_CURRENT_PLAYLIST":
       return {
         ...state,
