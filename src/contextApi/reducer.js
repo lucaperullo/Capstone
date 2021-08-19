@@ -3,14 +3,15 @@ export const initialState = {
   socket: null,
   newReleases: null,
   categories: null,
+  recent: null,
+  forYou: null,
   category: null,
+  categoryName: null,
   tracks: null,
-  player: {
-    playing: false,
-    volume: 0.5,
-    currentTime: 0,
-  },
-  song: null,
+  logged: false,
+  playing: false,
+  idx: 0,
+  src: null,
 };
 
 export const reducer = (state = initialState, action) => {
@@ -20,6 +21,21 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         user: action.payload,
+      };
+    case "SET_LOGGED_STATE":
+      return {
+        ...state,
+        logged: action.payload,
+      };
+    case "SET_RECENT":
+      return {
+        ...state,
+        recent: action.payload,
+      };
+    case "SET_FOR_YOU":
+      return {
+        ...state,
+        forYou: action.payload,
       };
     case "SET_NEW_RELEASES":
       return {
@@ -32,6 +48,11 @@ export const reducer = (state = initialState, action) => {
         categories: action.payload,
       };
     case "SET_SELECTED_CATEGORY":
+      return {
+        ...state,
+        categoryName: action.payload,
+      };
+    case "SET_CATEGORY":
       return {
         ...state,
         category: action.payload,
@@ -54,12 +75,18 @@ export const reducer = (state = initialState, action) => {
     case "SET_ACTUAL_SONG":
       return {
         ...state,
-        song: {
-          track: action.payload.song,
-          song_index: action.payload.idx,
-        },
+        src: action.payload,
       };
-
+    case "SET_ACTUAL_IDX":
+      return {
+        ...state,
+        idx: action.payload,
+      };
+    case "SET_PLAYING":
+      return {
+        ...state,
+        playing: action.payload,
+      };
     default:
       return state;
   }

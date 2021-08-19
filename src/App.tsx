@@ -1,28 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
-import styled from "styled-components";
-import {
-  IonApp,
-  IonItem,
-  IonIcon,
-  IonLabel,
-  IonTabButton,
-  IonBadge,
-  IonContent,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabs,
-  IonSlide,
-  IonSlides,
-  IonSearchbar,
-  IonMenuButton,
-  IonHeader,
-  IonSplitPane,
-  IonMenu,
-  IonPage,
-  IonTitle,
-  IonToolbar,
-  IonButton,
-} from "@ionic/react";
+
+import { IonApp } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
@@ -44,6 +22,7 @@ import "@ionic/react/css/typography.css";
 /* Theme variables */
 import "./theme/variables.css";
 import "./theme/style.css";
+import "swiper/swiper.scss";
 
 // other imports
 
@@ -52,30 +31,27 @@ import LoginPage from "./pages/LoginPage";
 // import RegisterPage from "./pages/RegisterPage";
 import { useEffect, useState } from "react";
 import { useStateValue } from "./contextApi/stateProvider.js";
-import { personCircle, peopleCircleSharp, chatbubbles } from "ionicons/icons";
-import Chat from "./components/Chat";
-import Contacts from "./components/Contacts";
-import Discover from "./components/Discover";
+
 import Profile from "./components/Profile";
-import Following from "./components/Following";
+
 import { socketConnection } from "./socketCalls/connection";
 import { connectToRooms } from "./socketCalls/roomsConnection";
-import spotifyApi from "./api";
-import Conversations from "./components/Conversations";
 
 import Player from "./components/Player";
 import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
-
+import SongList from "./components/SongList";
+import SwiperCore, { EffectCoverflow, Pagination } from "swiper/core";
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
 //TODO: share timing of the queque of the songs with socket
 //TODO: optimize styling and UX/UI to make it beginner friendly and not hard to use
-
+SwiperCore.use([EffectCoverflow, Pagination]);
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
   const [searchText, setSearchText] = useState<string>();
+
   let socket: { disconnect: () => any };
   // const fetchUser = async () => {
   const fetchUser = async () => {
@@ -126,59 +102,36 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
+        <Route exact path="/">
+          <Redirect to="/login" />
+        </Route>
+
+        <Route path="/" component={Player} />
         <Route path="/login" exact component={LoginPage} />
+        <Route exact path="/discover/:category">
+          <Category />
+        </Route>
+        <Route path="/discover/:category/:playlist">
+          <SongList />
+        </Route>
+
         <div className="desktopView">
           <Route path="/" component={Navbar} />
           <Route exact path="/discover">
             <Home />
           </Route>
+          <Route exact path="/profile">
+            <Profile />
+          </Route>
         </div>
         <div className="mobileView">
-          <Menu>
-            <IonTabs>
-              <IonRouterOutlet>
-                <Route exact path="/discover">
-                  <Home />
-                </Route>
-                <Route path="/discover/:category">
-                  <Category />
-                </Route>
-
-                <Route path="/conversations/:id">
-                  <IonContent>
-                    <Chat />
-                    {/* <Contacts /> */}
-                  </IonContent>
-                </Route>
-                <Route exact path="/profile">
-                  <Profile />
-                </Route>
-                <Route exact path="/">
-                  {!localStorage.getItem("accessToken") ? (
-                    <Redirect to="/login" />
-                  ) : (
-                    <Redirect to="/profile" />
-                  )}
-                </Route>
-              </IonRouterOutlet>
-
-              <IonTabBar slot="bottom">
-                <IonTabButton tab="tab2" href="/discover">
-                  <IonIcon size="large" icon={peopleCircleSharp} />
-                  <IonBadge color="danger">112</IonBadge>
-                </IonTabButton>
-
-                <IonTabButton tab="tab4" href={`/contacts`}>
-                  <IonIcon size="large" icon={chatbubbles} />
-                  <IonBadge color="danger">999</IonBadge>
-                </IonTabButton>
-                <IonTabButton tab="tab1" href="/profile">
-                  <IonIcon size="large" icon={personCircle} />
-                  <IonBadge color="danger">2</IonBadge>
-                </IonTabButton>
-              </IonTabBar>
-            </IonTabs>
-          </Menu>
+          <Route path="/" component={Navbar} />
+          <Route exact path="/discover">
+            <Home />
+          </Route>
+          <Route exact path="/profile">
+            <Profile />
+          </Route>
         </div>
       </IonReactRouter>
 
@@ -188,10 +141,5 @@ const App: React.FC = () => {
     </IonApp>
   );
 };
-const Menu = styled.div`
-  @media (max-width: 768px) {
-    display: block;
-  }
-  display: block;
-`;
+
 export default App;

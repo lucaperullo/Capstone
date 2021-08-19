@@ -43,16 +43,17 @@ import styled from "styled-components";
 
 import { useStateValue } from "../contextApi/stateProvider";
 import DiscoverMusic from "./DiscoverMusic";
-import MusicFolder from "./MusicFolder";
+import MusicFolder from "./Navigator";
 import TopUsersFolder from "./TopUsersFolder";
 import SimilarTastesFolder from "./SimilarTastesFolder";
+import Navigator from "./Navigator";
 
 const Discover = () => {
   let history = useHistory();
   const [searchText, setSearchText] = useState<string>("");
   const [state, dispatch] = useStateValue();
   const [users, setUsers] = useState<any>();
-  const [Loading, setLoading] = useState(false);
+
   const toggleFollow = async (userid: string) => {
     try {
       const data = await fetch(`http://localhost:3999/users/follow/${userid}`, {
@@ -108,28 +109,7 @@ const Discover = () => {
       console.log(error);
     }
   };
-  const fetchCategories = async () => {
-    try {
-      const code = state?.user?.spotifyTokens?.access_token;
-      console.log(code);
-      const response = await fetch(`http://localhost:3999/spotify/categories`, {
-        method: "POST",
-        body: code,
-        credentials: "include",
-      });
-      if (response.ok) {
-        const data = await response.json();
-        dispatch({
-          type: "SET_CATEGORIES",
-          payload: data,
-        });
-      } else {
-        console.log("Error while fetching categories");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   const getCategory = async (category: any) => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
@@ -150,7 +130,7 @@ const Discover = () => {
           type: "SET_SELECTED_CATEGORY",
           payload: data,
         });
-        // window.location.assign(`/discover/${category}`);
+        // history.push(`/discover/${category}`);
       } else {
         console.log("Error while fetching categories");
       }
@@ -171,19 +151,6 @@ const Discover = () => {
     }
   };
 
-  function doRefresh(event: { detail: { complete: () => void } }) {
-    console.log("Begin async operation");
-
-    setTimeout(() => {
-      fetchUsers();
-      event.detail.complete();
-      setLoading(!Loading);
-      setTimeout(() => {
-        console.log(state.user);
-        setLoading(false);
-      }, 100);
-    }, 2000);
-  }
   const getMoreCategories = async () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
@@ -231,11 +198,10 @@ const Discover = () => {
   };
 
   useEffect(() => {
-    fetchNewReleases();
-    fetchCategories();
+    getMoreReleases();
+    getMoreCategories();
     fetchUser();
     fetchUsers();
-    console.log(state);
   }, []);
   // const loadStuff = async () => {
   //   console.log(state);
@@ -247,130 +213,15 @@ const Discover = () => {
 
   return (
     <>
-      <IonContent>
-        {/*-- Default Refresher --*/}
-        <IonContent>
-          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-            <IonRefresherContent
-              pullingIcon={chevronDownCircleOutline}
-              pullingText="Pull to refresh"
-              refreshingSpinner="circles"
-              refreshingText="Refreshing..."
-            ></IonRefresherContent>
-          </IonRefresher>
-          <MusicFolder />
-          <TopUsersFolder />
-          <SimilarTastesFolder />
-          {Loading && <></>}
-          {!Loading &&
-            users?.length > 0 &&
-            users
-              .filter((user: any) => user._id !== state?.user?._id)
-              .map((user: any, idx: number) => {
-                const userPresence = () => {
-                  if (user.status.presence === "online") return "success";
-                  if (user.status.presence === "offline") return "dark";
-                  else return "";
-                };
-                return (
-                  <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
-                    <StyledCard className="ion-activatable ripple-parent">
-                      <IonCardHeader>
-                        <div
-                          style={{
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "space-between",
-                          }}
-                        >
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "row",
-                              alignItems: "center",
-                            }}
-                          >
-                            <img
-                              style={{
-                                height: "40px",
-                                width: "40px",
-                                borderRadius: "50%",
-                                marginRight: "10px",
-                              }}
-                              onClick={() => toggleFollow(user._id)}
-                              src={user.profilePic}
-                              alt=""
-                            />
-                            <IonCardTitle>
-                              <h4>{user.username}</h4>
-                            </IonCardTitle>
-                          </div>
-                        </div>
-                        {/* <IonBadge
-                                color={userPresence()}
-                                style={{
-                                  position: "relative",
-                                  top: "-20px",
-                                  left: "20px",
-                                }}
-                              ></IonBadge> */}
-                      </IonCardHeader>
-                      <div className="d-none"></div>
-                      <IonCardContent>
-                        <div
-                          style={{
-                            display: "flex",
-                            justifyContent: "space-evenly",
-                          }}
-                        >
-                          <IonGrid>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
+      {/*-- Default Refresher --*/}
+      <IonContainer>
+        <div style={{ paddingTop: "80px" }}>
+          <Navigator />
+        </div>
+      </IonContainer>
 
-                            <div
-                              style={{
-                                display: "flex",
-                                flexDirection: "column",
-                              }}
-                            >
-                              <IonThumbnail>
-                                <IonSkeletonText animated />
-                              </IonThumbnail>
-                              <IonSkeletonText animated />
-                            </div>
-                          </IonGrid>
-                        </div>
-                      </IonCardContent>
-
-                      <IonRippleEffect></IonRippleEffect>
-                    </StyledCard>
-                  </IonCol>
-                );
-              })}
-        </IonContent>
-
-        {/*-- Custom Refresher Properties --*/}
-        {/* <IonContent>
+      {/*-- Custom Refresher Properties --*/}
+      {/* <IonContent>
           <IonRefresher
             slot="fixed"
             onIonRefresh={doRefresh}
@@ -381,7 +232,6 @@ const Discover = () => {
             <IonRefresherContent></IonRefresherContent>
           </IonRefresher>
         </IonContent> */}
-      </IonContent>
     </>
   );
 };
@@ -389,5 +239,9 @@ const Discover = () => {
 const StyledCard = styled(IonCard)`
   border-radius: 15px;
 `;
-
+const IonContainer = styled(IonContent)`
+  overflow: hidden;
+  height: 100vh;
+  padding-bottom: 1000px;
+`;
 export default Discover;

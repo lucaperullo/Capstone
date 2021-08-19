@@ -13,6 +13,7 @@ import {
   IonList,
   IonListHeader,
   IonModal,
+  IonPopover,
   IonRow,
   IonSegment,
   IonSegmentButton,
@@ -36,6 +37,7 @@ import { useStateValue } from "../contextApi/stateProvider";
 import Avatar from "./Avatar";
 import { RiSendPlaneFill } from "react-icons/ri";
 import { FcSettings } from "react-icons/fc";
+import { useHistory } from "react-router";
 interface SettingsProps {
   messageTheme: string;
   setMessageTheme: (theme: string) => void;
@@ -47,9 +49,10 @@ interface SettingsProps {
   setModalShow: (arg0: boolean) => void;
 }
 export default function DesktopNav(props: SettingsProps) {
+  let history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const PopoverList: React.FC<{ onHide: () => void }> = ({ onHide }) => (
-    <IonList>
+    <IonList mode="ios">
       <IonListHeader>SETTINGS</IonListHeader>
       <IonItem
         onClick={() => {
@@ -152,23 +155,55 @@ export default function DesktopNav(props: SettingsProps) {
       preserveAspectRatio: "xMidYMid slice",
     },
   };
-
+  const [popoverState, setShowPopover] = useState({
+    showPopover: false,
+    event: undefined,
+  });
   return (
     <div className="desktop-nav">
       <Avatar />
       <div className="desktop-nav-button">
         <img
-          onClick={() => window.location.assign("/discover")}
+          onClick={() => history.push("/discover")}
           className="desktop-navs earth"
-          src="https://media.discordapp.net/attachments/702215602106007573/875755804941254696/icons8-google-earth-96_1.png"
+          src="https://media.discordapp.net/attachments/702215602106007573/876058727470489640/icons8-libreria-musicale-96.png"
         />
       </div>
       <div className="desktop-nav-button">
         <img
-          onClick={() => window.location.assign("/chat")}
-          src="https://media.discordapp.net/attachments/702215602106007573/875755451751477288/icons8-email-send-96.png"
+          onClick={(e: any) => {
+            e.persist();
+            setShowPopover({ showPopover: true, event: e });
+          }}
+          src={
+            dark
+              ? "https://media.discordapp.net/attachments/702215602106007573/876059499843178566/icons8-invia-e-mail-96_1.png"
+              : "https://media.discordapp.net/attachments/702215602106007573/875755451751477288/icons8-email-send-96.png"
+          }
           className="desktop-navs sender"
         />
+        <IonPopover
+          mode="ios"
+          cssClass="my-custom-class"
+          event={popoverState.event}
+          isOpen={popoverState.showPopover}
+          onDidDismiss={() =>
+            setShowPopover({ showPopover: false, event: undefined })
+          }
+        >
+          <IonList mode="ios">
+            <IonListHeader>CONVERSATIONS</IonListHeader>
+            <IonItem>
+              <a href="/discover">
+                Discover new people with similar music tastes!
+              </a>
+            </IonItem>
+            {/* <IonItem button>Theming</IonItem>
+            <IonItem button>comingsoon</IonItem>
+            <IonItem button>comingsoon</IonItem>
+            <IonItem button>comingsoon</IonItem> */}
+          </IonList>
+        </IonPopover>
       </div>
       <div className="desktop-nav-button settings-ico">
         <FcSettings

@@ -44,6 +44,7 @@ import {
 } from "ionicons/icons";
 import { useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
+import ProfileNavigator from "./ProfileNavigator";
 
 const Profile = () => {
   const [searchText, setSearchText] = useState("");
@@ -129,7 +130,7 @@ const Profile = () => {
   };
   return (
     <>
-      <IonContent>
+      <IonContent style={{ minHeight: "100vh" }}>
         {/*-- Default Refresher --*/}
         <IonContent>
           <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
@@ -204,7 +205,7 @@ const Profile = () => {
 
           {!Loading && (
             <>
-              <IonCard>
+              <IonContent style={{ minHeight: "100vh" }}>
                 <IonSearchbar
                   value={searchText}
                   onIonChange={(e) => setSearchText(e.detail.value!)}
@@ -296,99 +297,11 @@ const Profile = () => {
                 </IonCardHeader>
 
                 <IonCardContent>
-                  <IonLabel>Playlists:</IonLabel>
-
-                  <div
-                    style={{
-                      display: "flex",
-
-                      alignItems: "center",
-                      justifyContent: "center",
-                    }}
-                  >
-                    <IonButton color="light">
-                      <IonIcon size="large" icon={shuffleOutline}></IonIcon>
-                    </IonButton>
-                    <IonButton color="light">
-                      <IonIcon size="large" icon={repeatOutline}></IonIcon>
-                    </IonButton>
-                    <IonButton color="light">
-                      <IonIcon
-                        size="large"
-                        icon={playSkipBackOutline}
-                      ></IonIcon>
-                    </IonButton>
-
-                    <IonButton
-                      color="light"
-                      onClick={() => setPlaying(!playing)}
-                    >
-                      <IonIcon
-                        size="large"
-                        icon={playing ? playOutline : pauseOutline}
-                      ></IonIcon>
-                    </IonButton>
-
-                    <IonButton color="light">
-                      <IonIcon
-                        size="large"
-                        icon={playSkipForwardOutline}
-                      ></IonIcon>
-                    </IonButton>
-                  </div>
-
-                  <div
-                    style={{ display: "flex", justifyContent: "space-evenly" }}
-                  >
-                    <IonGrid>
-                      <IonRow>
-                        {state?.user?.playlists?.userPlaylists?.items.map(
-                          (playlist: any) => (
-                            <IonCol
-                              onClick={() =>
-                                playTrack(
-                                  playlist.tracks.href
-                                    ? playlist.tracks.href
-                                    : playlist.href
-                                )
-                              }
-                              sizeLg="4"
-                              sizeMd="6"
-                              sizeXs="6"
-                            >
-                              <img
-                                style={{
-                                  width: "100px",
-                                  height: "100px",
-                                  borderRadius: "12px",
-                                  boxShadow: "0px 0px 15px 0px rgba(0,0,0,0.7)",
-                                  cursor: "pointer",
-                                }}
-                                src={
-                                  playlist.images[0]?.url
-                                    ? playlist.images[0]?.url
-                                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcT0gfUfQFnyI5p8HCnWSbLHQhmy_cO80TxudY7E4ZtfoqI93Ky2Dx6FDvjoICrsBAj8&usqp=CAU"
-                                }
-                                alt=""
-                              />
-
-                              <h4>{playlist.name}</h4>
-                            </IonCol>
-                          )
-                        )}
-                      </IonRow>
-                    </IonGrid>
-                  </div>
+                  <ProfileNavigator />
                 </IonCardContent>
-                <IonRippleEffect></IonRippleEffect>
-              </IonCard>
+              </IonContent>
             </>
           )}
-          <ReactAudioPlayer
-            src={state?.user?.currentTrack?.stream_url}
-            autoPlay
-            controls
-          />
         </IonContent>
       </IonContent>
     </>
