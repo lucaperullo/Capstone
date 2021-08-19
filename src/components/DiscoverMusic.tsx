@@ -7,6 +7,8 @@ import {
   IonCardContent,
   IonLabel,
   IonItem,
+  IonSlides,
+  IonSlide,
 } from "@ionic/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -26,7 +28,41 @@ export default function DiscoverMusic() {
   let history = useHistory();
   const [state, dispatch] = useStateValue();
   const [Loading, setLoading] = useState(false);
+  const slideOpts = {
+    freeMode: true,
+    // Responsive breakpoints
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+      },
+      // when window width is >= 320px
+      640: {
+        slidesPerView: 3,
+      },
+      // when window width is >= 480px
+      720: {
+        slidesPerView: 4,
+      },
+      // when window width is >= 640px
+      1024: {
+        slidesPerView: 5,
+      },
+      1080: {
+        slidesPerView: 6,
+      },
+      1280: {
+        slidesPerView: 7,
+      },
+      1920: {
+        slidesPerView: 8,
+      },
+    },
 
+    autoplay: { delay: 2000, disableOnInteraction: false },
+
+    lazy: true,
+    loop: true,
+  };
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
@@ -222,57 +258,44 @@ export default function DiscoverMusic() {
   }
   return (
     <>
-      <IonContent style={{ height: "25vh" }}>
-        <Swiper
-          effect={"coverflow"}
-          grabCursor={true}
-          breakpoints={{
-            "0": {
-              effect: "slide",
-              centeredSlides: true,
-              slidesPerView: 1,
-              spaceBetween: 10,
-            },
-            "640": {
-              slidesPerView: 3,
-              spaceBetween: 20,
-            },
-            "768": {
-              slidesPerView: 4,
-              spaceBetween: 40,
-            },
-            "1024": {
-              slidesPerView: 8,
-              spaceBetween: 50,
-            },
-          }}
-          loop={true}
-          slidesPerView={"auto"}
-          coverflowEffect={{
-            rotate: 45,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          className="mySwiper"
+      <IonContent style={{ height: "39vh" }}>
+        <IonSlides
+          style={{ paddingTop: "30px" }}
+          key={state?.categories?.categories?.items
+            ?.map((slide: any) => slide.id)
+            .join("_")}
+          options={slideOpts}
         >
           {state?.categories?.categories?.items !== undefined ? (
             state?.categories?.categories?.items?.map((item: any) => {
               return (
-                <SwiperSlide>
-                  <img
-                    onClick={() => getCategory(item.id)}
-                    style={{
-                      borderRadius: "12px",
-
-                      cursor: "pointer",
-                    }}
-                    src={item.icons[0]?.url ? item.icons[0].url : ""}
-                    alt=""
-                  />
-                  <h4>{item.name}</h4>
-                </SwiperSlide>
+                <IonSlide
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <div>
+                    <img
+                      onClick={() => getCategory(item.id)}
+                      style={{
+                        height: "100%",
+                        width: "100%",
+                        borderRadius: "12px",
+                        cursor: "pointer",
+                      }}
+                      src={item.icons[0]?.url ? item.icons[0].url : ""}
+                      alt=""
+                    />
+                    <h4 style={{ marginTop: "-60px", color: "white" }}>
+                      {item.name}
+                    </h4>
+                  </div>
+                </IonSlide>
               );
             })
           ) : (
@@ -288,25 +311,40 @@ export default function DiscoverMusic() {
               <IonSpinner name="crescent" />
             </div>
           )}
-        </Swiper>
+        </IonSlides>
       </IonContent>
-      <IonContent style={{ height: "25vh" }}>
-        <IonGrid>
+      <div className="section-name">
+        <h2>Choosed for you</h2>
+      </div>
+      <IonContent style={{ height: "30vh" }}>
+        <IonGrid
+          style={{
+            marginTop: "-70px",
+            padding: "50px",
+            paddingTop: "90px",
+            paddingBottom: "0",
+          }}
+        >
           <IonRow>
             {state?.forYou?.map((song: any) => (
-              <IonCol sizeMd="6" sizeSm="12">
+              <IonCol sizeLg="3" sizeMd="4" sizeXs="12">
                 <IonItem
                 // onClick={() => getTracks(playlist.id, idx, playlist.name)}
                 >
                   <IonCardContent
                     className="suggested-card"
-                    style={{ height: "125px", display: "flex" }}
+                    style={{
+                      height: "125px",
+                      display: "flex",
+                      width: "100%",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      textAlign: "center",
+                    }}
                   >
                     <img
                       style={{
-                        position: "relative",
-                        top: "-20%",
-                        height: "155px",
+                        height: "125px",
                       }}
                       src={song.album.images[0].url}
                       alt={song.name}
@@ -316,11 +354,17 @@ export default function DiscoverMusic() {
                       style={{
                         width: "100%",
                         display: "flex",
-                        alignItems: "center",
-                        justifyContent: "center",
                       }}
                     >
-                      <IonLabel>{song.name}</IonLabel>
+                      <IonLabel
+                        style={{
+                          width: "100%",
+
+                          textAlign: "center",
+                        }}
+                      >
+                        {song.name}
+                      </IonLabel>
                     </div>
                   </IonCardContent>
                 </IonItem>
