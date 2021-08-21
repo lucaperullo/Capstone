@@ -1,7 +1,9 @@
 export const initialState = {
   user: null,
+  users: null,
   socket: null,
   newReleases: null,
+  searchResults: null,
   categories: null,
   recent: null,
   forYou: null,
@@ -22,6 +24,11 @@ export const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
+    case "SET_USERS":
+      return {
+        ...state,
+        users: action.payload,
+      };
     case "SET_LOGGED_STATE":
       return {
         ...state,
@@ -31,6 +38,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         recent: action.payload,
+      };
+    case "SET_SEARCH_RESULTS":
+      return {
+        ...state,
+        searchResults: action.payload,
       };
     case "SET_FOR_YOU":
       return {

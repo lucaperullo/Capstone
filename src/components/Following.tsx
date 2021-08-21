@@ -1,16 +1,31 @@
 import {
+  IonBadge,
   IonCard,
+  IonCardContent,
+  IonCardHeader,
+  IonCardTitle,
+  IonCol,
   IonContent,
+  IonGrid,
   IonHeader,
+  IonItem,
   IonRefresher,
   IonRefresherContent,
+  IonRippleEffect,
+  IonRow,
   IonSearchbar,
+  IonSkeletonText,
+  IonText,
+  IonThumbnail,
 } from "@ionic/react";
+import axios from "axios";
 import { arrowDownOutline, chevronDownCircleOutline } from "ionicons/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useStateValue } from "../contextApi/stateProvider";
 
 const Following = () => {
   const [searchText, setSearchText] = useState<string>("");
+  const [state, dispatch] = useStateValue();
   function doRefresh(event: { detail: { complete: () => void } }) {
     console.log("Begin async operation");
 
@@ -19,38 +34,175 @@ const Following = () => {
       event.detail.complete();
     }, 2000);
   }
+  const toggleFollow = async (userid: string, username: string) => {
+    try {
+      const data = await fetch(
+        `http://localhost:3999/users/follow/${userid}/${username}`,
+        {
+          method: "PUT",
+          credentials: "include",
+        }
+      );
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const fetchUsers = async () => {
+    try {
+      const res = await fetch(`http://localhost:3999/users`, {
+        credentials: "include",
+      });
+      const dat = await res.json();
+      const data = dat.filter(
+        (user: any) => user.username !== state?.user?.username
+      );
+      dispatch({
+        type: "SET_USERS",
+        payload: await data,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
   return (
-    <>
-      <IonContent>
-        {/*-- Default Refresher --*/}
-        <IonContent>
-          <IonContent>
-            <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-              <IonRefresherContent
-                pullingIcon={chevronDownCircleOutline}
-                pullingText="Pull to refresh"
-                refreshingSpinner="circles"
-                refreshingText="Refreshing..."
-              ></IonRefresherContent>
-            </IonRefresher>
+    <IonContent style={{ height: "100vh" }}>
+      <div style={{ height: "15vh" }}></div>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
+        <IonHeader>
+          <h1 style={{ textAlign: "center" }}>
+            Hi {state?.user?.username}, let's see what the world is listening
+            to!
+          </h1>
+        </IonHeader>
+      </div>
 
-            <IonCard>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                }}
-              >
-                <IonHeader>
-                  <h1>#FEED</h1>
-                </IonHeader>
-              </div>
-            </IonCard>
-          </IonContent>
-        </IonContent>
-      </IonContent>
-    </>
+      <IonGrid>
+        <IonRow>
+          {state?.users?.map((user: any, idx: number) => {
+            const userPresence = () => {
+              if (user.status.presence === "online") return "green";
+              if (user.status.presence === "offline") return "grey";
+              else return "";
+            };
+            return (
+              <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
+                <IonCard>
+                  <IonCardHeader>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                        }}
+                      >
+                        <img
+                          draggable="false"
+                          style={{
+                            height: "40px",
+                            width: "40px",
+                            borderRadius: "50%",
+                            marginRight: "10px",
+                          }}
+                          onClick={() => toggleFollow(user._id, user.spotifyId)}
+                          src={user.profilePic}
+                          alt=""
+                        />
+                        <IonCardTitle>
+                          <h4>{user.username}</h4>
+                        </IonCardTitle>
+                        <div
+                          style={{
+                            backgroundColor: userPresence(),
+                            height: "6px",
+                            width: "6px",
+                            marginTop: "-4px",
+                            marginLeft: "3px",
+                            borderRadius: "50%",
+                          }}
+                        ></div>
+                      </div>
+                    </div>
+                  </IonCardHeader>
+
+                  <IonCardContent>
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-evenly",
+                      }}
+                    >
+                      <IonGrid>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          {user.playlists.userPlaylists.items.map(
+                            (playlist: any) => {
+                              <>
+                                <IonThumbnail>
+                                  <img
+                                    draggable="false"
+                                    src={playlist.images[0].url}
+                                    alt=""
+                                  />
+                                </IonThumbnail>
+                                <IonText>{playlist.name}</IonText>
+                              </>;
+                            }
+                          )}
+                        </div>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <IonThumbnail>
+                            <IonSkeletonText animated />
+                          </IonThumbnail>
+                          <IonSkeletonText animated />
+                        </div>
+
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "column",
+                          }}
+                        >
+                          <IonThumbnail>
+                            <IonSkeletonText animated />
+                          </IonThumbnail>
+                          <IonSkeletonText animated />
+                        </div>
+                      </IonGrid>
+                    </div>
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
+            );
+          })}
+        </IonRow>
+      </IonGrid>
+    </IonContent>
   );
 };
 export default Following;

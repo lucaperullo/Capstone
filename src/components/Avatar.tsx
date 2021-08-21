@@ -7,6 +7,7 @@ export default function Avatar() {
   return (
     <div>
       <img
+        draggable="false"
         onClick={() => history.push("/profile")}
         className="avatar"
         src={state?.user?.profilePic}

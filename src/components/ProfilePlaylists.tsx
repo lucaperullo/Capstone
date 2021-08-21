@@ -62,27 +62,29 @@ export default function ProfilePlaylists() {
               className="profile-playlists-card"
               style={{ cursor: "pointer" }}
             >
-              <IonCardHeader>
-                <img
-                  style={{
-                    width: "100%",
-                    height: "100%",
-                    borderRadius: "12px",
-                    boxShadow: "0px 0px 15px 0px rgba(0,0,0,0.7)",
-                    cursor: "pointer",
-                  }}
-                  src={
-                    playlist.images[0]?.url
-                      ? playlist.images[0]?.url
-                      : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcT0gfUfQFnyI5p8HCnWSbLHQhmy_cO80TxudY7E4ZtfoqI93Ky2Dx6FDvjoICrsBAj8&usqp=CAU"
-                  }
-                  alt=""
-                />
-              </IonCardHeader>
-              <IonCardContent>
-                {" "}
+              <img
+                draggable="false"
+                style={{
+                  width: "100%",
+                  height: "100%",
+                }}
+                src={
+                  playlist.images[0]?.url
+                    ? playlist.images[0]?.url
+                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcT0gfUfQFnyI5p8HCnWSbLHQhmy_cO80TxudY7E4ZtfoqI93Ky2Dx6FDvjoICrsBAj8&usqp=CAU"
+                }
+                alt=""
+              />
+              <IonCardHeader
+                style={{
+                  textOverflow: "ellipsis",
+                  height: "50px",
+                  overflow: "hidden",
+                }}
+              >
                 <h4>{playlist.name}</h4>
-              </IonCardContent>
+              </IonCardHeader>
+              <IonCardContent></IonCardContent>
             </IonCard>
           </IonCol>
         ))}

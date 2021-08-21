@@ -70,12 +70,11 @@ export default function Navbar() {
       >
         <div className="title-logo">
           <img
+            draggable="false"
             className="logo desktop-logo"
             src="https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=495&height=492"
             alt=""
           />
-
-          <Searchbar />
         </div>
         <div
           style={{

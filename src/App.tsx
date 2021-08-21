@@ -81,6 +81,7 @@ const App: React.FC = () => {
       socket && socket.disconnect();
     };
   };
+
   useEffect(() => {
     fetchUser();
   }, []);

@@ -164,6 +164,7 @@ export default function DesktopNav(props: SettingsProps) {
       <Avatar />
       <div className="desktop-nav-button">
         <img
+          draggable="false"
           onClick={() => history.push("/discover")}
           className="desktop-navs earth"
           src="https://media.discordapp.net/attachments/702215602106007573/876058727470489640/icons8-libreria-musicale-96.png"
@@ -171,6 +172,7 @@ export default function DesktopNav(props: SettingsProps) {
       </div>
       <div className="desktop-nav-button">
         <img
+          draggable="false"
           onClick={(e: any) => {
             e.persist();
             setShowPopover({ showPopover: true, event: e });
@@ -351,6 +353,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -362,6 +365,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -375,6 +379,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -386,6 +391,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -397,6 +403,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -410,6 +417,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -422,6 +430,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)
@@ -433,6 +442,7 @@ export default function DesktopNav(props: SettingsProps) {
                     <IonCol sizeSm="">
                       <IonCard style={{ height: "60px" }}>
                         <img
+                          draggable="false"
                           style={{ height: "60px" }}
                           onClick={(e) =>
                             props.setChatBackground(e.currentTarget.src!)

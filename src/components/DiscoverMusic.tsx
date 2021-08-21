@@ -9,6 +9,11 @@ import {
   IonItem,
   IonSlides,
   IonSlide,
+  IonIcon,
+  IonCard,
+  IonCardHeader,
+  IonCardTitle,
+  IonCardSubtitle,
 } from "@ionic/react";
 import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
@@ -22,39 +27,55 @@ import { Swiper, SwiperSlide } from "swiper/react";
 // install Swiper modules
 import { useStateValue } from "../contextApi/stateProvider";
 import { useHistory } from "react-router";
-import { chevronDownCircleOutline } from "ionicons/icons";
+import {
+  addOutline,
+  chevronDownCircleOutline,
+  heartOutline,
+} from "ionicons/icons";
+import ForYou from "./ForYou";
+import Searchbar from "./Searchbar";
+import SearchResults from "./SearchResults";
+import RecentlyPlayed from "./RecentlyPlayed";
 
 export default function DiscoverMusic() {
   let history = useHistory();
   const [state, dispatch] = useStateValue();
   const [Loading, setLoading] = useState(false);
+
   const slideOpts = {
     freeMode: true,
     // Responsive breakpoints
     breakpoints: {
       320: {
         slidesPerView: 2,
+        spaceBetween: 10,
       },
       // when window width is >= 320px
       640: {
         slidesPerView: 3,
+        spaceBetween: 10,
       },
       // when window width is >= 480px
       720: {
         slidesPerView: 4,
+        spaceBetween: 10,
       },
       // when window width is >= 640px
       1024: {
         slidesPerView: 5,
+        spaceBetween: 10,
       },
       1080: {
         slidesPerView: 6,
+        spaceBetween: 10,
       },
       1280: {
         slidesPerView: 7,
+        spaceBetween: 10,
       },
       1920: {
         slidesPerView: 8,
+        spaceBetween: 10,
       },
     },
 
@@ -87,51 +108,6 @@ export default function DiscoverMusic() {
     };
   };
 
-  const getMoreCategories = async () => {
-    try {
-      const code = state?.user?.spotifyTokens?.access_token;
-      const response = await fetch(
-        `http://localhost:3999/spotify/view-more-categories`,
-        {
-          method: "POST",
-          body: code,
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        dispatch({
-          type: "SET_CATEGORIES",
-          payload: data,
-        });
-      } else {
-        console.log("Error while fetching categories");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getMoreReleases = async () => {
-    try {
-      const code = state?.user?.spotifyTokens?.access_token;
-      const response = await fetch(
-        `http://localhost:3999/spotify/view-more-releases`,
-        { method: "POST", body: code, credentials: "include" }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        dispatch({
-          type: "SET_NEW_RELEASES",
-          payload: data,
-        });
-      } else {
-        console.log("Error while fetching releases");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const getCategory = async (category: any) => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
@@ -243,137 +219,143 @@ export default function DiscoverMusic() {
     getForYou();
     getRecent();
   }, []);
-  function doRefresh(event: { detail: { complete: () => void } }) {
-    console.log("Begin async operation");
 
-    setTimeout(() => {
-      fetchUsers();
-      event.detail.complete();
-      setLoading(!Loading);
-      setTimeout(() => {
-        console.log(state.user);
-        setLoading(false);
-      }, 100);
-    }, 2000);
-  }
   return (
-    <>
-      <IonContent style={{ height: "39vh" }}>
-        <IonSlides
-          style={{ paddingTop: "30px" }}
-          key={state?.categories?.categories?.items
-            ?.map((slide: any) => slide.id)
-            .join("_")}
-          options={slideOpts}
-        >
-          {state?.categories?.categories?.items !== undefined ? (
-            state?.categories?.categories?.items?.map((item: any) => {
-              return (
-                <IonSlide
-                  style={{
-                    height: "100%",
-                    width: "100%",
-                    display: "flex",
-                    flexDirection: "column",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <div>
-                    <img
-                      onClick={() => getCategory(item.id)}
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "12px",
-                        cursor: "pointer",
-                      }}
-                      src={item.icons[0]?.url ? item.icons[0].url : ""}
-                      alt=""
-                    />
-                    <h4 style={{ marginTop: "-60px", color: "white" }}>
-                      {item.name}
-                    </h4>
-                  </div>
-                </IonSlide>
-              );
-            })
-          ) : (
-            <div
-              style={{
-                height: "40vh",
-                width: "100vw",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <IonSpinner name="crescent" />
-            </div>
-          )}
-        </IonSlides>
-      </IonContent>
-      <div className="section-name">
-        <h2>Choosed for you</h2>
+    <div
+      style={{
+        height: "100vh",
+        overflow: "visible",
+        paddingTop: "120px",
+      }}
+    >
+      <div className="searchbar-">
+        <Searchbar />
       </div>
-      <IonContent style={{ height: "30vh" }}>
-        <IonGrid
-          style={{
-            marginTop: "-70px",
-            padding: "50px",
-            paddingTop: "90px",
-            paddingBottom: "0",
-          }}
-        >
-          <IonRow>
-            {state?.forYou?.map((song: any) => (
-              <IonCol sizeLg="3" sizeMd="4" sizeXs="12">
-                <IonItem
-                // onClick={() => getTracks(playlist.id, idx, playlist.name)}
-                >
-                  <IonCardContent
-                    className="suggested-card"
+      {state?.searchResults < 1 ? (
+        <>
+          <div className="section-name">
+            <h2>Categories</h2>
+          </div>
+          <IonSlides
+            style={{ paddingTop: "40px" }}
+            key={state?.categories?.categories?.items
+              ?.map((slide: any) => slide.id)
+              .join("_")}
+            options={slideOpts}
+          >
+            {state?.categories?.categories?.items !== undefined ? (
+              state?.categories?.categories?.items?.map((item: any) => {
+                return (
+                  <IonSlide
                     style={{
-                      height: "125px",
-                      display: "flex",
+                      height: "100%",
                       width: "100%",
-                      alignItems: "center",
+                      display: "flex",
+                      flexDirection: "column",
                       justifyContent: "center",
-                      textAlign: "center",
+                      alignItems: "center",
                     }}
                   >
-                    <img
-                      style={{
-                        height: "125px",
-                      }}
-                      src={song.album.images[0].url}
-                      alt={song.name}
-                    />
-
-                    <div
-                      style={{
-                        width: "100%",
-                        display: "flex",
-                      }}
-                    >
-                      <IonLabel
+                    <div>
+                      <img
+                        draggable="false"
+                        className="category"
+                        onClick={() => getCategory(item.id)}
                         style={{
+                          height: "100%",
                           width: "100%",
-
-                          textAlign: "center",
+                          borderRadius: "12px",
+                          cursor: "pointer",
                         }}
-                      >
-                        {song.name}
-                      </IonLabel>
+                        src={item.icons[0]?.url ? item.icons[0].url : ""}
+                        alt=""
+                      />
+                      <h4 style={{ marginTop: "-60px", color: "white" }}>
+                        {item.name}
+                      </h4>
                     </div>
-                  </IonCardContent>
-                </IonItem>
-              </IonCol>
-            ))}
-          </IonRow>
-        </IonGrid>
-      </IonContent>
-    </>
+                  </IonSlide>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  height: "40vh",
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <IonSpinner name="crescent" />
+              </div>
+            )}
+          </IonSlides>
+
+          <ForYou />
+          <RecentlyPlayed />
+        </>
+      ) : (
+        <div className="search-results">
+          <div className="section-name">
+            <h2>New Releases</h2>
+          </div>
+          <IonSlides
+            style={{ paddingTop: "30px" }}
+            key={state?.newReleases?.albums?.items
+              ?.map((slide: any) => slide.id)
+              .join("_")}
+            options={slideOpts}
+          >
+            {state?.newReleases?.albums?.items !== undefined ? (
+              state?.newReleases?.albums?.items?.map((item: any) => {
+                return (
+                  <IonSlide
+                    style={{
+                      height: "100%",
+                      width: "100%",
+                      display: "flex",
+                      flexDirection: "column",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <div style={{ height: "100px", width: "100px" }}>
+                      <img
+                        draggable="false"
+                        onClick={() => getCategory(item.id)}
+                        style={{
+                          height: "100%",
+                          width: "100%",
+                          borderRadius: "12px",
+                          cursor: "pointer",
+                        }}
+                        src={item.images[0]?.url ? item.images[0].url : ""}
+                        alt=""
+                      />
+                    </div>
+                  </IonSlide>
+                );
+              })
+            ) : (
+              <div
+                style={{
+                  height: "40vh",
+                  width: "100vw",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <IonSpinner name="crescent" />
+              </div>
+            )}
+          </IonSlides>
+
+          <SearchResults />
+        </div>
+      )}
+    </div>
   );
 }
 function setUsers(data: any) {

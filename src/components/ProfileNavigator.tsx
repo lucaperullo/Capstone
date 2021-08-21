@@ -22,7 +22,7 @@ export default function ProfileNavigator() {
         style={{
           height: "48px",
           position: "sticky",
-          top: 0,
+          top: "65px",
           zIndex: 20,
         }}
       >

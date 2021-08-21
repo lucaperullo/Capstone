@@ -43,6 +43,7 @@ export default function SongList() {
               <IonItem>
                 <IonThumbnail slot="start">
                   <img
+                    draggable="false"
                     src={track.track.album.images[0].url}
                     alt={track.track.name}
                   />

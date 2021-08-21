@@ -25,17 +25,17 @@
     rgba(143, 161, 161, 0.471) 89%,
     rgba(172, 152, 152, 0.582) 100%
   );
-  width: 50vw;
-  margin-left: 25vw;
-  border-radius: 4px;
+  width: 70vw;
+  margin-left: 15vw;
+  border-radius: 17px;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: -30px;
-  position: absolute;
+  margin-top: 20px;
+  margin-bottom: -20px;
   z-index: 4;
 
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(100px);
 }
 .avatar {
   border-radius: 50%;
@@ -203,6 +203,52 @@
   border-radius: 50%;
   transition: 0.25s ease;
   animation: rotate-cover-playing 5.5s infinite linear;
+}
+.suggested-card {
+  transition: 0.25s ease;
+}
+.suggested-card:hover {
+  cursor: pointer;
+  transform: scale(1.1);
+}
+.song-actions {
+  font-size: 30px;
+  display: flex;
+  position: relative;
+  top: -65px;
+  justify-content: center;
+}
+.category {
+  transition: 0.25s ease;
+  height: 100%;
+  width: 100%;
+  border-radius: 12px;
+  cursor: pointer;
+}
+.category:hover {
+  transform: scale(1.05);
+}
+.profile-cover {
+  background-image: url(https://scontent-mxp1-1.xx.fbcdn.net/v/t1.18169-9/16602626_1864482570507781_4867568338555947310_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=e3f864&_nc_ohc=WSuSJeOC0awAX_N8t1F&_nc_ht=scontent-mxp1-1.xx&oh=0a8ef4e6bf6b50fe2c8f61a0b888a7d5&oe=6147552A);
+  background-repeat: no-repeat;
+  background-size: cover;
+  border-radius: 12px;
+  background-position-y: 40%;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50vw;
+  display: flex;
+  justify-content: center;
+  height: 250px;
+}
+.our-avatar {
+  height: 200px;
+  width: 200px;
+  border-radius: 50%;
+  border: 1px solid #d1b8b8;
+  position: relative;
+  bottom: -150px;
+  right: 350px;
 }
 @keyframes rotate-cover-playing {
   0% {
@@ -6482,4 +6528,44 @@ ion-content ::-webkit-scrollbar {
   to {
     opacity: 1;
   }
+}
+
+.wave {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+}
+
+.wave svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 129px;
+}
+
+.wave .shape-fill {
+  fill: #c0bfbf;
+}
+.wave-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.wave-bottom svg {
+  position: relative;
+  display: block;
+  width: calc(100% + 1.3px);
+  height: 109px;
+}
+
+.wave-bottom .shape-fill {
+  fill: #292929;
 }

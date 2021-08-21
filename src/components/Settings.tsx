@@ -245,6 +245,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -256,6 +257,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -269,6 +271,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -280,6 +283,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -291,6 +295,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -304,6 +309,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -316,6 +322,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)
@@ -327,6 +334,7 @@ const Settings = (props: SettingsProps) => {
                 <IonCol sizeSm="">
                   <IonCard style={{ height: "60px" }}>
                     <img
+                      draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
                         props.setChatBackground(e.currentTarget.src!)

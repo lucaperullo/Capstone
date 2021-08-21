@@ -101,7 +101,7 @@ export default function Conversations() {
                 }}
               >
                 <IonAvatar slot="start">
-                  <img src={profilePic} alt="pro-pic" />
+                  <img draggable="false" src={profilePic} alt="pro-pic" />
                 </IonAvatar>
                 <IonLabel>
                   <h3>{username}</h3>

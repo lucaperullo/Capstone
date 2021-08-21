@@ -154,6 +154,7 @@ export default function Player() {
     >
       <div className="music-player-info">
         <img
+          draggable="false"
           className={
             state?.player?.playing
               ? "music-player-cover-playing"

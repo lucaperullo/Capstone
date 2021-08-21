@@ -214,7 +214,11 @@ const Chat = () => {
               <div className="contact-header">
                 <IonItem>
                   <IonAvatar slot="start">
-                    <img src={state.actualChat.profilePic} alt="" />
+                    <img
+                      draggable="false"
+                      src={state.actualChat.profilePic}
+                      alt=""
+                    />
                   </IonAvatar>
                   <IonLabel>
                     <h2>{state.actualChat.username}</h2>
@@ -342,6 +346,7 @@ const Chat = () => {
                       >
                         <IonCardHeader>
                           <img
+                            draggable="false"
                             src={track.album.images[0].url}
                             alt={track.name}
                           />

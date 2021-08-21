@@ -3,6 +3,7 @@ import {
   IonButtons,
   IonCard,
   IonCardContent,
+  IonCardHeader,
   IonCol,
   IonContent,
   IonGrid,
@@ -85,17 +86,16 @@ export default function Category() {
                   <IonCard
                     onClick={() => getTracks(playlist.id, idx, playlist.name)}
                   >
-                    <div
-                      style={{ justifyContent: "space-between" }}
-                      className="flex"
-                    >
-                      <img
-                        style={{ height: "100px" }}
-                        alt={playlist.uri}
-                        src={playlist.images[0].url}
-                      />
+                    <img
+                      draggable="false"
+                      style={{ height: "100%", width: "100%" }}
+                      alt={playlist.uri}
+                      src={playlist.images[0].url}
+                    />
+
+                    <IonCardHeader>
                       <h3>{playlist.name}</h3>
-                    </div>
+                    </IonCardHeader>
                     <IonCardContent style={{ height: "125px" }}>
                       {playlist.description}
                     </IonCardContent>

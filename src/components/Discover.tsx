@@ -54,17 +54,6 @@ const Discover = () => {
   const [state, dispatch] = useStateValue();
   const [users, setUsers] = useState<any>();
 
-  const toggleFollow = async (userid: string) => {
-    try {
-      const data = await fetch(`http://localhost:3999/users/follow/${userid}`, {
-        method: "PUT",
-        credentials: "include",
-      });
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
@@ -203,45 +192,8 @@ const Discover = () => {
     fetchUser();
     fetchUsers();
   }, []);
-  // const loadStuff = async () => {
-  //   console.log(state);
-  //   setTimeout(async () => {
-  //     fetchUsers();
-  //     getTokens();
-  //   }, 100);
-  // };
 
-  return (
-    <>
-      {/*-- Default Refresher --*/}
-      <IonContainer>
-        <div style={{ paddingTop: "80px" }}>
-          <Navigator />
-        </div>
-      </IonContainer>
-
-      {/*-- Custom Refresher Properties --*/}
-      {/* <IonContent>
-          <IonRefresher
-            slot="fixed"
-            onIonRefresh={doRefresh}
-            pullFactor={3.5}
-            pullMin={100}
-            pullMax={500}
-          >
-            <IonRefresherContent></IonRefresherContent>
-          </IonRefresher>
-        </IonContent> */}
-    </>
-  );
+  return <Navigator />;
 };
 
-const StyledCard = styled(IonCard)`
-  border-radius: 15px;
-`;
-const IonContainer = styled(IonContent)`
-  overflow: hidden;
-  height: 100vh;
-  padding-bottom: 1000px;
-`;
 export default Discover;

@@ -206,6 +206,7 @@ const Profile = () => {
           {!Loading && (
             <>
               <IonContent style={{ minHeight: "100vh" }}>
+                <div style={{ height: "10vh", width: "100vw" }}></div>
                 <IonSearchbar
                   value={searchText}
                   onIonChange={(e) => setSearchText(e.detail.value!)}
@@ -222,9 +223,14 @@ const Profile = () => {
                       </IonFabButton>
                     </IonFab>
                   </div>
-                  <IonAvatar>
+                  <div className="profile-cover">
                     {!clicked ? (
-                      <img src={state?.user?.profilePic} alt="" />
+                      <img
+                        draggable="false"
+                        className="our-avatar"
+                        src={state?.user?.profilePic}
+                        alt=""
+                      />
                     ) : (
                       <input
                         onChange={(e) =>
@@ -236,7 +242,7 @@ const Profile = () => {
                         accept="image/*"
                       ></input>
                     )}
-                  </IonAvatar>
+                  </div>
                   {clicked && (
                     <div>
                       <IonText>Status</IonText>
@@ -299,6 +305,7 @@ const Profile = () => {
                 <IonCardContent>
                   <ProfileNavigator />
                 </IonCardContent>
+                <div style={{ height: "20vh", width: "100vw" }}></div>
               </IonContent>
             </>
           )}

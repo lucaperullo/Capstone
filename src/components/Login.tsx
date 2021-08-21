@@ -63,9 +63,11 @@ export default function Login() {
           </Typist>
         </div>
       </div>
+
       <LoginForm>
         <IonCardHeader>
           <img
+            draggable="false"
             className="logo"
             height="70"
             src="https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=495&height=492"
@@ -76,6 +78,7 @@ export default function Login() {
           <IonButton color="dark">
             C
             <img
+              draggable="false"
               height="70"
               src="https://reports.exodus-privacy.eu.org/reports/30176/icon"
               alt=""

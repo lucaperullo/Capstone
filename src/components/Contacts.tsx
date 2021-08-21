@@ -40,7 +40,7 @@ const Contacts: React.FC = () => {
         <IonHeader slot="fixed">
           <IonItem>
             <IonAvatar slot="start">
-              <img src={user?.profilePic} alt="pro-pic" />
+              <img draggable="false" src={user?.profilePic} alt="pro-pic" />
             </IonAvatar>
             <IonSearchbar
               animated={true}
@@ -71,7 +71,7 @@ const Contacts: React.FC = () => {
                 }}
               >
                 <IonAvatar slot="start">
-                  <img src={profilePic} alt="pro-pic" />
+                  <img draggable="false" src={profilePic} alt="pro-pic" />
                 </IonAvatar>
                 <IonLabel>
                   <h3>{username}</h3>
