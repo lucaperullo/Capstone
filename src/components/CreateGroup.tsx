@@ -60,15 +60,7 @@ const CreateGroup = (props: modalProps) => {
                   )[0];
                   const { profilePic, bio, username, status } = userId;
                   return (
-                    // <IonContent
-                    //   key={i}
-                    //   style={{
-                    //     position: "absolute",
-                    //     top: "12vh",
-                    //     height: "50vh",
-                    //   }}
-                    // >
-                    <IonItem>
+                    <IonItem key={i}>
                       <IonAvatar slot="start">
                         <img draggable="false" src={profilePic} alt="pro-pic" />
                       </IonAvatar>

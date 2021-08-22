@@ -37,7 +37,7 @@ const Following = () => {
   const toggleFollow = async (userid: string, username: string) => {
     try {
       const data = await fetch(
-        `http://localhost:3999/users/follow/${userid}/${username}`,
+        ` https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`,
         {
           method: "PUT",
           credentials: "include",
@@ -50,7 +50,7 @@ const Following = () => {
   };
   const fetchUsers = async () => {
     try {
-      const res = await fetch(`http://localhost:3999/users`, {
+      const res = await fetch(` https://capstonebe.herokuapp.com/users`, {
         credentials: "include",
       });
       const dat = await res.json();
@@ -156,8 +156,8 @@ const Following = () => {
                           }}
                         >
                           {user.playlists.userPlaylists.items.map(
-                            (playlist: any) => {
-                              <>
+                            (playlist: any, i: number) => {
+                              <div key={i}>
                                 <IonThumbnail>
                                   <img
                                     draggable="false"
@@ -166,7 +166,7 @@ const Following = () => {
                                   />
                                 </IonThumbnail>
                                 <IonText>{playlist.name}</IonText>
-                              </>;
+                              </div>;
                             }
                           )}
                         </div>

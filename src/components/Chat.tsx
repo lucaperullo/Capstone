@@ -113,7 +113,7 @@ const Chat = () => {
   };
   const fetchMessages = async () => {
     const messages = await axios.get(
-      `http://localhost:3999/messages/${roomId}`,
+      ` https://capstonebe.herokuapp.com/messages/${roomId}`,
       {
         withCredentials: true,
       }
@@ -173,7 +173,6 @@ const Chat = () => {
       })
       .catch((err) => {
         console.log(err);
-        console.log(state);
       });
   };
 
@@ -193,7 +192,6 @@ const Chat = () => {
       })
       .catch((err) => {
         console.log(err);
-        console.log(state);
       });
   }, [searchText]);
   return (

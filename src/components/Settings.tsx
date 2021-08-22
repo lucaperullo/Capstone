@@ -63,7 +63,7 @@ const Settings = (props: SettingsProps) => {
           bubbleChat: props.messageTheme,
         },
       };
-      const data = await fetch("http://localhost:3999" + "/me", {
+      const data = await fetch(" https://capstonebe.herokuapp.com" + "/me", {
         method: "PUT",
         credentials: "include",
         headers: {

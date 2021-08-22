@@ -4,9 +4,11 @@ import {
   IonCardHeader,
   IonCol,
   IonGrid,
+  IonIcon,
   IonRow,
   IonThumbnail,
 } from "@ionic/react";
+import { add, heart, play } from "ionicons/icons";
 import React from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 
@@ -45,49 +47,50 @@ export default function ProfilePlaylists() {
   return (
     <IonGrid>
       <IonRow>
-        {state?.user?.playlists?.userPlaylists?.items.map((playlist: any) => (
-          <IonCol
-            onClick={() =>
-              playTrack(
-                playlist.tracks.href ? playlist.tracks.href : playlist.href
-              )
-            }
-            sizeLg="3"
-            sizeXl="2"
-            sizeMd="6"
-            sizeSm="6"
-            sizeXs="12"
-          >
-            <IonCard
-              className="profile-playlists-card"
-              style={{ cursor: "pointer" }}
+        {state?.user?.playlists?.userPlaylists?.items.map(
+          (playlist: any, i: number) => (
+            <IonCol
+              key={i}
+              onClick={() =>
+                playTrack(
+                  playlist.tracks.href ? playlist.tracks.href : playlist.href
+                )
+              }
+              sizeLg="3"
+              sizeXl="2"
+              sizeMd="6"
+              sizeSm="6"
+              sizeXs="12"
             >
-              <img
-                draggable="false"
-                style={{
-                  width: "100%",
-                  height: "100%",
-                }}
-                src={
-                  playlist.images[0]?.url
-                    ? playlist.images[0]?.url
-                    : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTWcT0gfUfQFnyI5p8HCnWSbLHQhmy_cO80TxudY7E4ZtfoqI93Ky2Dx6FDvjoICrsBAj8&usqp=CAU"
-                }
-                alt=""
-              />
-              <IonCardHeader
-                style={{
-                  textOverflow: "ellipsis",
-                  height: "50px",
-                  overflow: "hidden",
-                }}
-              >
-                <h4>{playlist.name}</h4>
-              </IonCardHeader>
-              <IonCardContent></IonCardContent>
-            </IonCard>
-          </IonCol>
-        ))}
+              <div className="song">
+                <img
+                  className="song-image"
+                  draggable="false"
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                  }}
+                  src={
+                    playlist.images[0]?.url
+                      ? playlist.images[0]?.url
+                      : "https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=706&height=703"
+                  }
+                  alt={playlist.name}
+                />
+                <div className="song-info">
+                  <h3 className="song-text"> {playlist.name}</h3>
+                </div>
+                <div className="song-actions">
+                  <IonIcon
+                    onClick={() => playTrack(playlist.preview_url)}
+                    className="song-button play-button"
+                    icon={play}
+                  />
+                </div>
+              </div>
+            </IonCol>
+          )
+        )}
       </IonRow>
     </IonGrid>
   );

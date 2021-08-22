@@ -15,7 +15,7 @@ export default function Searchbar() {
       });
     } else {
       const data = await fetch(
-        `http://localhost:3999/spotify/search/${query}`,
+        ` https://capstonebe.herokuapp.com/spotify/search/${query}`,
         {
           credentials: "include",
         }

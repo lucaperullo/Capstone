@@ -33,7 +33,7 @@ export default function Navbar() {
   let socket: { disconnect: () => any };
   const fetchUser = async () => {
     try {
-      const response = await fetch(`http://localhost:3999/me`, {
+      const response = await fetch(` https://capstonebe.herokuapp.com/me`, {
         credentials: "include",
       });
       if (response.ok) {
@@ -60,7 +60,6 @@ export default function Navbar() {
   };
   useEffect(() => {
     fetchUser();
-    console.log(state);
   }, []);
 
   return (

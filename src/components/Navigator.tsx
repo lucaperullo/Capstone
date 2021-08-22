@@ -49,13 +49,13 @@ export default function Navigator() {
             }
           }}
         >
-          <IonSegmentButton value="Music">
+          <IonSegmentButton color="secondary" value="Music">
             <IonLabel style={{ color: "white" }}>Music</IonLabel>
           </IonSegmentButton>
           {/* <IonSegmentButton value="Tranding">
           <IonLabel>People</IonLabel>
         </IonSegmentButton> */}
-          <IonSegmentButton value="Feed">
+          <IonSegmentButton color="tertiary" value="Feed">
             <IonLabel style={{ color: "white" }}>Feed</IonLabel>
           </IonSegmentButton>
         </IonSegment>

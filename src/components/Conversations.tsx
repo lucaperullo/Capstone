@@ -32,7 +32,7 @@ export default function Conversations() {
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
-      const response = await fetch(`http://localhost:3999/me`, {
+      const response = await fetch(` https://capstonebe.herokuapp.com/me`, {
         credentials: "include",
       });
       if (response.ok) {
@@ -77,21 +77,16 @@ export default function Conversations() {
           onIonChange={(e) => setSearchText(e.detail.value!)}
         ></IonSearchbar>
       </IonToolbar>
-
-      {state.user?.rooms > 0 ? (
-        state.user?.rooms?.map((data: Group, i: number) => {
-          const { userId } = data.participants.filter(
-            (p: any) => p.userId._id !== state.user._id
-          )[0];
-          const { profilePic, bio, username, status } = userId;
-          return (
-            <IonContent
-              style={{ position: "absolute", top: "16vh", height: "100%" }}
-            >
-              You dont have any conversations yet <br />
-              <a href="/discover">
-                Discover new people with similar music tastes!
-              </a>
+      <IonContent style={{ position: "absolute", top: "16vh", height: "100%" }}>
+        You dont have any conversations yet <br />
+        <a href="/discover">Discover new people with similar music tastes!</a>
+        {state.user?.rooms > 0 ? (
+          state.user?.rooms?.map((data: Group, i: number) => {
+            const { userId } = data.participants.filter(
+              (p: any) => p.userId._id !== state.user._id
+            )[0];
+            const { profilePic, bio, username, status } = userId;
+            return (
               <IonItem
                 key={i}
                 onClick={(e) => {
@@ -108,17 +103,19 @@ export default function Conversations() {
                   <p>{bio}</p>
                 </IonLabel>
               </IonItem>
-            </IonContent>
-          );
-        })
-      ) : (
-        <IonContent
-          style={{ position: "absolute", top: "16vh", height: "100%" }}
-        >
-          You dont have any conversations yet <br />
-          <a href="/discover">Discover new people with similar music tastes!</a>
-        </IonContent>
-      )}
+            );
+          })
+        ) : (
+          <IonContent
+            style={{ position: "absolute", top: "16vh", height: "100%" }}
+          >
+            You dont have any conversations yet <br />
+            <a href="/discover">
+              Discover new people with similar music tastes!
+            </a>
+          </IonContent>
+        )}
+      </IonContent>
     </IonContent>
   );
 }

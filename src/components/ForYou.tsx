@@ -9,7 +9,7 @@ import {
   IonCard,
   IonCardHeader,
 } from "@ionic/react";
-import { heartOutline, addOutline } from "ionicons/icons";
+import { heartOutline, addOutline, play, heart, add } from "ionicons/icons";
 import { useStateValue } from "../contextApi/stateProvider";
 import styled from "styled-components";
 
@@ -67,7 +67,9 @@ export default function ForYou() {
   return (
     <>
       <div className="section-name">
-        <h2>Choosed for {state?.user?.username.split(" ")[0]}</h2>
+        <h2 style={{ marginTop: "60px" }}>
+          Chosen for {state?.user?.username.split(" ")[0]}
+        </h2>
       </div>
       <IonSlides
         style={{ paddingTop: "30px" }}
@@ -76,8 +78,9 @@ export default function ForYou() {
           .join("_")}
         options={forYou}
       >
-        {state?.forYou?.map((song: any) => (
+        {state?.forYou?.map((song: any, i: number) => (
           <IonSlide
+            key={i}
             style={{
               height: "100%",
               width: "100%",
@@ -87,33 +90,39 @@ export default function ForYou() {
               alignItems: "center",
             }}
           >
-            <IonCard
-              className="suggested-card"
-              onClick={() => playTrack(song.preview_url)}
-            >
+            <div className="song">
               <img
+                className="song-image"
                 draggable="false"
                 style={{
                   height: "100%",
                   width: "100%",
                 }}
-                src={song.album.images[0].url}
-                alt={song.name}
+                src={song?.album?.images[0]?.url}
+                alt={song?.name}
               />
-              <IonCardHeader
-                style={{
-                  height: "65px",
-                }}
-              >
-                <h3> {song.name}</h3>
-              </IonCardHeader>
-              <IonCardContent>
-                <div className="song-actions">
-                  <IonIcon icon={heartOutline}></IonIcon>
-                  <IonIcon icon={addOutline}></IonIcon>
-                </div>
-              </IonCardContent>
-            </IonCard>
+              <div className="song-info">
+                <h3 className="song-text"> {song?.name}</h3>
+                <p className="song-text muted">
+                  {song?.artists.map((artist: any) => artist.name).join(", ")}
+                </p>
+              </div>
+              <div className="song-actions">
+                <IonIcon
+                  onClick={() => playTrack(song.preview_url)}
+                  className="song-button play-button"
+                  icon={play}
+                />
+                <IonIcon
+                  className="song-button like-button"
+                  icon={heart}
+                ></IonIcon>
+                <IonIcon
+                  className="song-button playlist-button"
+                  icon={add}
+                ></IonIcon>
+              </div>
+            </div>
           </IonSlide>
         ))}
       </IonSlides>

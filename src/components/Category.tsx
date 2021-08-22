@@ -21,8 +21,6 @@ export default function Category() {
   let history = useHistory();
   const getTracks = async (id: string, idx: number, playlistName: string) => {
     try {
-      console.log(state);
-
       console.log("hey");
       dispatch({
         type: "SET_ACTUAL_IDX",
@@ -31,7 +29,7 @@ export default function Category() {
 
       const code = state?.user?.spotifyTokens?.access_token;
       const data = await fetch(
-        `http://localhost:3999/spotify/playlist/${id}/tracks`,
+        ` https://capstonebe.herokuapp.com/spotify/playlist/${id}/tracks`,
         {
           headers: {
             Authorization: `Bearer ${code}`,
@@ -55,7 +53,6 @@ export default function Category() {
   };
   useEffect(() => {
     console.log("Category mounted");
-    console.log(state);
   }, []);
   return (
     <IonContent
@@ -82,7 +79,14 @@ export default function Category() {
           <IonRow>
             {state?.category?.playlists?.items?.map(
               (playlist: any, idx: number) => (
-                <IonCol sizeLg="3" sizeXl="2" sizeMd="6" sizeSm="6" sizeXs="12">
+                <IonCol
+                  key={idx}
+                  sizeLg="3"
+                  sizeXl="2"
+                  sizeMd="6"
+                  sizeSm="6"
+                  sizeXs="12"
+                >
                   <IonCard
                     onClick={() => getTracks(playlist.id, idx, playlist.name)}
                   >

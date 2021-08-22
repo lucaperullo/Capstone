@@ -38,8 +38,8 @@ export default function SongList() {
           </IonToolbar>
         </div>
         <IonList>
-          {state?.tracks.map((track: any) => (
-            <IonItemSliding>
+          {state?.tracks.map((track: any, i: number) => (
+            <IonItemSliding key={i}>
               <IonItem>
                 <IonThumbnail slot="start">
                   <img

@@ -7,50 +7,67 @@ import {
   IonCol,
   IonGrid,
   IonRow,
+  IonIcon,
 } from "@ionic/react";
+import { play } from "ionicons/icons";
 import React, { useEffect } from "react";
 import { useHistory } from "react-router";
 import { useStateValue } from "../contextApi/stateProvider";
 
 export default function SearchResults() {
+  const playTrack = (track: string) => {
+    dispatch({
+      type: "SET_ACTUAL_SONG",
+      payload: track,
+    });
+    dispatch({
+      type: "SET_PLAYING",
+      payload: true,
+    });
+  };
   let history = useHistory();
   const [state, dispatch] = useStateValue();
 
   return (
-    <div style={{ height: "100vh", paddingBottom: "100px" }}>
+    <div style={{ height: "100vh" }}>
+      <div className="section-name">
+        <h2 style={{ marginBottom: "50px" }}>Search results..</h2>
+      </div>
       <IonGrid>
         <IonRow>
           {state?.searchResults?.map((item: any) => (
-            <IonCol size="12" sizeMd="6" sizeLg="4" key={item.id}>
-              <IonCard style={{ height: "300px" }}>
-                <IonCardHeader>
-                  <IonCardTitle>{item.name}</IonCardTitle>
-
-                  <IonCardSubtitle>
-                    {item.artists?.map((artist: any) => {
-                      return artist.name;
-                    })}
-                  </IonCardSubtitle>
-                </IonCardHeader>
-                <IonCardContent>
-                  <div style={{ height: "150px", width: "150px" }}>
-                    <img
-                      draggable="false"
-                      style={{
-                        height: "100%",
-                        width: "100%",
-                        borderRadius: "12px",
-                      }}
-                      src={item.album.images[0].url}
-                      alt=""
-                    />
-                  </div>
-                </IonCardContent>
-              </IonCard>
+            <IonCol size="12" sizeSm="6" sizeMd="4" sizeLg="3" key={item.id}>
+              <div className="song">
+                <img
+                  className="song-image"
+                  draggable="false"
+                  style={{
+                    height: "100%",
+                    width: "100%",
+                  }}
+                  src={
+                    item.album.images[0]?.url
+                      ? item.album.images[0]?.url
+                      : "https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=706&height=703"
+                  }
+                  alt={item.name}
+                />
+                <div className="song-info">
+                  <h3 className="song-text"> {item.name}</h3>
+                </div>
+                <div className="song-actions">
+                  <IonIcon
+                    onClick={() => playTrack(item.preview_url)}
+                    className="song-button play-button"
+                    icon={play}
+                  />
+                </div>
+              </div>
             </IonCol>
           ))}
         </IonRow>
       </IonGrid>
+      <div style={{ height: "20vh" }}></div>
     </div>
   );
 }

@@ -52,12 +52,11 @@ const Discover = () => {
   let history = useHistory();
   const [searchText, setSearchText] = useState<string>("");
   const [state, dispatch] = useStateValue();
-  const [users, setUsers] = useState<any>();
 
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
-      const response = await fetch(`http://localhost:3999/me`, {
+      const response = await fetch(` https://capstonebe.herokuapp.com/me`, {
         credentials: "include",
       });
       if (response.ok) {
@@ -77,74 +76,12 @@ const Discover = () => {
       socket && socket.disconnect();
     };
   };
-  const fetchNewReleases = async () => {
-    try {
-      const code = state?.user?.spotifyTokens?.access_token;
-      console.log(code);
-      const response = await fetch(
-        `http://localhost:3999/spotify/new/releases`,
-        { method: "POST", body: code, credentials: "include" }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        dispatch({
-          type: "SET_NEW_RELEASES",
-          payload: data,
-        });
-      } else {
-        console.log("Error while fetching releases");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const getCategory = async (category: any) => {
-    try {
-      const code = state?.user?.spotifyTokens?.access_token;
-
-      const response = await fetch(
-        `http://localhost:3999/spotify/category/${category}`,
-        {
-          headers: {
-            Authorization: `Bearer ${code}`,
-          },
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        const data = await response.json();
-        console.log("CATEFOEYAUIUADBAI", data);
-        dispatch({
-          type: "SET_SELECTED_CATEGORY",
-          payload: data,
-        });
-        // history.push(`/discover/${category}`);
-      } else {
-        console.log("Error while fetching categories");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const fetchUsers = async () => {
-    try {
-      const data = await axios.get(`http://localhost:3999/users`, {
-        withCredentials: true,
-      });
-
-      setUsers(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
 
   const getMoreCategories = async () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
       const response = await fetch(
-        `http://localhost:3999/spotify/view-more-categories`,
+        ` https://capstonebe.herokuapp.com/spotify/view-more-categories`,
         {
           method: "POST",
           body: code,
@@ -169,7 +106,7 @@ const Discover = () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
       const response = await fetch(
-        `http://localhost:3999/spotify/view-more-releases`,
+        ` https://capstonebe.herokuapp.com/spotify/view-more-releases`,
         { method: "POST", body: code, credentials: "include" }
       );
       if (response.ok) {
@@ -185,12 +122,95 @@ const Discover = () => {
       console.log(error);
     }
   };
+  const getForYou = async () => {
+    try {
+      const code = state?.user?.spotifyTokens?.access_token;
+
+      const response = await fetch(
+        ` https://capstonebe.herokuapp.com/spotify/raccomanded`,
+        {
+          headers: {
+            Authorization: `Bearer ${code}`,
+          },
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        const res = await response.json();
+
+        const data = res.filter((item: any) => item.preview_url !== null);
+        dispatch({
+          type: "SET_FOR_YOU",
+          payload: data,
+        });
+      } else {
+        console.log("Error while fetching categories");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getRecent = async () => {
+    try {
+      const code = state?.user?.spotifyTokens?.access_token;
+
+      const response = await fetch(
+        ` https://capstonebe.herokuapp.com/spotify/recently-played`,
+        {
+          headers: {
+            Authorization: `Bearer ${code}`,
+          },
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        const res = await response.json();
+
+        const data = res.filter((item: any) => item.track.preview_url !== null);
+        dispatch({
+          type: "SET_RECENT",
+          payload: data,
+        });
+      } else {
+        console.log("Error while fetching categories");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const getUserFavourites = async () => {
+    try {
+      const res = await fetch(
+        " https://capstonebe.herokuapp.com/spotify/favourites",
+        {
+          credentials: "include",
+        }
+      );
+      console.log(res);
+      if (res.ok) {
+        console.log("favourits setted");
+        const res2 = await res.json();
+        console.log(res2);
+        const data = res2.items.filter(
+          (item: any) => item.track.preview_url !== null
+        );
+        dispatch({
+          type: "SET_FAVOURITES",
+          payload: data,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getMoreReleases();
     getMoreCategories();
     fetchUser();
-    fetchUsers();
+    getUserFavourites();
+    getForYou();
+    getRecent();
   }, []);
 
   return <Navigator />;

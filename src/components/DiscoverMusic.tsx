@@ -84,36 +84,13 @@ export default function DiscoverMusic() {
     lazy: true,
     loop: true,
   };
-  const fetchUser = async () => {
-    let socket: { disconnect: () => any };
-    try {
-      const response = await fetch(`http://localhost:3999/me`, {
-        credentials: "include",
-      });
-      if (response.ok) {
-        const data = await response.json();
-
-        dispatch({
-          type: "SET_USER",
-          payload: data,
-        });
-      } else {
-        console.log("Error while fetching user");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    return () => {
-      socket && socket.disconnect();
-    };
-  };
 
   const getCategory = async (category: any) => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
 
       const response = await fetch(
-        `http://localhost:3999/spotify/category/${category}`,
+        ` https://capstonebe.herokuapp.com/spotify/category/${category}`,
         {
           headers: {
             Authorization: `Bearer ${code}`,
@@ -132,7 +109,7 @@ export default function DiscoverMusic() {
           type: "SET_SELECTED_CATEGORY",
           payload: category,
         });
-        console.log(state);
+
         history.push(`/discover/${category}`);
       } else {
         console.log("Error while fetching categories");
@@ -141,84 +118,6 @@ export default function DiscoverMusic() {
       console.log(error);
     }
   };
-  const getForYou = async () => {
-    try {
-      const code = state?.user?.spotifyTokens?.access_token;
-      console.log("running forYou");
-      const response = await fetch(
-        `http://localhost:3999/spotify/raccomanded`,
-        {
-          headers: {
-            Authorization: `Bearer ${code}`,
-          },
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        const res = await response.json();
-        console.log("this is res, ", res);
-        const data = res.filter((item: any) => item.preview_url !== null);
-        dispatch({
-          type: "SET_FOR_YOU",
-          payload: data,
-        });
-
-        console.log(state);
-      } else {
-        console.log("Error while fetching categories");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const getRecent = async () => {
-    try {
-      console.log("running get recent");
-      const code = state?.user?.spotifyTokens?.access_token;
-
-      const response = await fetch(
-        `http://localhost:3999/spotify/recently-played`,
-        {
-          headers: {
-            Authorization: `Bearer ${code}`,
-          },
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        const res = await response.json();
-
-        const data = res.filter((item: any) => item.track.preview_url !== null);
-        dispatch({
-          type: "SET_RECENT",
-          payload: data,
-        });
-
-        console.log(state);
-      } else {
-        console.log("Error while fetching categories");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  const fetchUsers = async () => {
-    try {
-      const data = await axios.get(`http://localhost:3999/users`, {
-        withCredentials: true,
-      });
-
-      setUsers(data.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-  useEffect(() => {
-    // getMoreCategories();
-    // getMoreReleases();
-    getForYou();
-    getRecent();
-  }, []);
 
   return (
     <div
@@ -236,27 +135,18 @@ export default function DiscoverMusic() {
           <div className="section-name">
             <h2>Categories</h2>
           </div>
-          <IonSlides
-            style={{ paddingTop: "40px" }}
-            key={state?.categories?.categories?.items
-              ?.map((slide: any) => slide.id)
-              .join("_")}
-            options={slideOpts}
-          >
-            {state?.categories?.categories?.items !== undefined ? (
-              state?.categories?.categories?.items?.map((item: any) => {
-                return (
-                  <IonSlide
-                    style={{
-                      height: "100%",
-                      width: "100%",
-                      display: "flex",
-                      flexDirection: "column",
-                      justifyContent: "center",
-                      alignItems: "center",
-                    }}
-                  >
-                    <div>
+          <div style={{ height: "30vh" }}>
+            <IonSlides
+              style={{ paddingTop: "40px" }}
+              key={state?.categories?.categories?.items
+                ?.map((slide: any) => slide.id)
+                .join("_")}
+              options={slideOpts}
+            >
+              {state?.categories?.categories?.items !== undefined ? (
+                state?.categories?.categories?.items?.map((item: any) => {
+                  return (
+                    <IonSlide key={item.id}>
                       <img
                         draggable="false"
                         className="category"
@@ -264,34 +154,39 @@ export default function DiscoverMusic() {
                         style={{
                           height: "100%",
                           width: "100%",
-                          borderRadius: "12px",
+                          borderRadius: "4px",
                           cursor: "pointer",
                         }}
                         src={item.icons[0]?.url ? item.icons[0].url : ""}
                         alt=""
                       />
-                      <h4 style={{ marginTop: "-60px", color: "white" }}>
+                      <h4
+                        style={{
+                          color: "white",
+                          position: "absolute",
+                          bottom: "10px",
+                        }}
+                      >
                         {item.name}
                       </h4>
-                    </div>
-                  </IonSlide>
-                );
-              })
-            ) : (
-              <div
-                style={{
-                  height: "40vh",
-                  width: "100vw",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <IonSpinner name="crescent" />
-              </div>
-            )}
-          </IonSlides>
-
+                    </IonSlide>
+                  );
+                })
+              ) : (
+                <div
+                  style={{
+                    height: "40vh",
+                    width: "100vw",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <IonSpinner name="crescent" />
+                </div>
+              )}
+            </IonSlides>
+          </div>
           <ForYou />
           <RecentlyPlayed />
         </>
@@ -308,9 +203,10 @@ export default function DiscoverMusic() {
             options={slideOpts}
           >
             {state?.newReleases?.albums?.items !== undefined ? (
-              state?.newReleases?.albums?.items?.map((item: any) => {
+              state?.newReleases?.albums?.items?.map((item: any, i: number) => {
                 return (
                   <IonSlide
+                    key={i}
                     style={{
                       height: "100%",
                       width: "100%",
@@ -320,14 +216,14 @@ export default function DiscoverMusic() {
                       alignItems: "center",
                     }}
                   >
-                    <div style={{ height: "100px", width: "100px" }}>
+                    <div style={{ height: "100%", width: "100%" }}>
                       <img
                         draggable="false"
                         onClick={() => getCategory(item.id)}
                         style={{
                           height: "100%",
                           width: "100%",
-                          borderRadius: "12px",
+                          borderRadius: "4px",
                           cursor: "pointer",
                         }}
                         src={item.images[0]?.url ? item.images[0].url : ""}

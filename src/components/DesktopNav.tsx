@@ -24,10 +24,14 @@ import animationData from "../lotties/dark-light.json";
 import {
   chatbubbleOutline,
   chatbubblesSharp,
+  cog,
   cogOutline,
   earthSharp,
   ellipsisVerticalOutline,
+  library,
   moon,
+  paperPlane,
+  settings,
   sunny,
   trashSharp,
 } from "ionicons/icons";
@@ -114,7 +118,7 @@ export default function DesktopNav(props: SettingsProps) {
           bubbleChat: props.messageTheme,
         },
       };
-      const data = await fetch("http://localhost:3999" + "/me", {
+      const data = await fetch(" https://capstonebe.herokuapp.com" + "/me", {
         method: "PUT",
         credentials: "include",
         headers: {
@@ -163,29 +167,22 @@ export default function DesktopNav(props: SettingsProps) {
     <div className="desktop-nav">
       <Avatar />
       <div className="desktop-nav-button">
-        <img
-          draggable="false"
+        <IonIcon
+          className="desktop-navs"
+          icon={library}
           onClick={() => history.push("/discover")}
-          className="desktop-navs earth"
-          src="https://media.discordapp.net/attachments/702215602106007573/876058727470489640/icons8-libreria-musicale-96.png"
         />
       </div>
       <div className="desktop-nav-button">
-        <img
-          draggable="false"
+        <IonIcon
+          icon={paperPlane}
           onClick={(e: any) => {
             e.persist();
             setShowPopover({ showPopover: true, event: e });
           }}
-          src={
-            dark
-              ? "https://media.discordapp.net/attachments/702215602106007573/876059499843178566/icons8-invia-e-mail-96_1.png"
-              : "https://media.discordapp.net/attachments/702215602106007573/875755451751477288/icons8-email-send-96.png"
-          }
-          className="desktop-navs sender"
+          className="desktop-navs"
         />
         <IonPopover
-          mode="ios"
           cssClass="my-custom-class"
           event={popoverState.event}
           isOpen={popoverState.showPopover}
@@ -193,7 +190,7 @@ export default function DesktopNav(props: SettingsProps) {
             setShowPopover({ showPopover: false, event: undefined })
           }
         >
-          <IonList mode="ios">
+          <IonList>
             <IonListHeader>CONVERSATIONS</IonListHeader>
             <IonItem>
               <a href="/discover">
@@ -208,14 +205,14 @@ export default function DesktopNav(props: SettingsProps) {
         </IonPopover>
       </div>
       <div className="desktop-nav-button settings-ico">
-        <FcSettings
+        <IonIcon
+          icon={settings}
           onClick={(e) =>
             present({
               event: e.nativeEvent,
             })
           }
           className="desktop-navs"
-          color={document.body.className === "dark" ? "white" : "black"}
         />
       </div>
       <IonModal isOpen={showModal} cssClass="my-custom-class">

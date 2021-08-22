@@ -4,6 +4,7 @@ export const initialState = {
   socket: null,
   newReleases: null,
   searchResults: null,
+  favourites: null,
   categories: null,
   recent: null,
   forYou: null,
@@ -38,6 +39,11 @@ export const reducer = (state = initialState, action) => {
       return {
         ...state,
         recent: action.payload,
+      };
+    case "SET_FAVOURITES":
+      return {
+        ...state,
+        favourites: action.payload,
       };
     case "SET_SEARCH_RESULTS":
       return {
