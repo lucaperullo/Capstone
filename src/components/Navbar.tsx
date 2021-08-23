@@ -16,17 +16,9 @@ interface MMessages {
 }
 export default function Navbar() {
   const [messageTheme, setMessageTheme] = useState<string>("primary");
-  const [searchText, setSearchText] = useState<string>("");
+
   const [SettingsModalShow, setSettingsModalShow] = useState<boolean>(false);
-  const [GroupModalShow, setGroupModalShow] = useState<boolean>(false);
-  // const { status, data, error, isFetching } = useContacts(userNumber);
-  const [searchResults, setSearchResults] = useState<any>(null);
-  const [playingTrack, setPlayingTrack] = useState<any>();
-  const [message, setMessage] = useState<string>("");
 
-  const [conversation, setConversation] = useState<[MMessages]>();
-
-  const [user, setUser] = useState({});
   const [Background, setBackground] = useState<string>("");
   const [BackgroundColor, setBackgroundColor] = useState("");
   const [state, dispatch] = useStateValue();

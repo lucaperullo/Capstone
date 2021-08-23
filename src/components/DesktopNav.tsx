@@ -18,6 +18,7 @@ import {
   IonSegment,
   IonSegmentButton,
   IonText,
+  IonToggle,
   useIonPopover,
 } from "@ionic/react";
 import animationData from "../lotties/dark-light.json";
@@ -35,7 +36,7 @@ import {
   sunny,
   trashSharp,
 } from "ionicons/icons";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Lottie from "react-lottie";
 import { useStateValue } from "../contextApi/stateProvider";
 import Avatar from "./Avatar";
@@ -55,9 +56,20 @@ interface SettingsProps {
 export default function DesktopNav(props: SettingsProps) {
   let history = useHistory();
   const [showModal, setShowModal] = useState(false);
+  const [checked, setChecked] = useState(false);
   const PopoverList: React.FC<{ onHide: () => void }> = ({ onHide }) => (
     <IonList mode="ios">
       <IonListHeader>SETTINGS</IonListHeader>
+      <IonItem>
+        <IonLabel onClick={() => setDark(!dark)}>
+          Dark/Light:{"  "}
+          {checked ? <IonIcon icon={moon} /> : <IonIcon icon={sunny} />}
+        </IonLabel>
+        <IonToggle
+          checked={checked}
+          onIonChange={(e) => setChecked(e.detail.checked)}
+        />
+      </IonItem>
       <IonItem
         onClick={() => {
           setShowModal(!showModal);
@@ -65,9 +77,9 @@ export default function DesktopNav(props: SettingsProps) {
         }}
         button
       >
-        Theming
+        Chat theme
       </IonItem>
-      <IonItem button>comingsoon</IonItem>
+
       <IonItem button>comingsoon</IonItem>
       <IonItem button>comingsoon</IonItem>
       <IonItem lines="none" detail={false} button onClick={onHide}>
@@ -98,16 +110,7 @@ export default function DesktopNav(props: SettingsProps) {
   }
   const [dark, setDark] = useState(false);
   const [state, dispatch] = useStateValue();
-  const themeCheck = () => {
-    if (state?.user?.appTheming?.theme) {
-      console.log(state?.user?.appTheming?.theme);
-      document.body.classList.remove("light");
-      document.body.classList.add("dark");
-    } else {
-      document.body.classList.remove("dark");
-      document.body.classList.add("light");
-    }
-  };
+
   const updateUser = async () => {
     try {
       const payload = {
@@ -119,8 +122,11 @@ export default function DesktopNav(props: SettingsProps) {
         },
       };
       const data = await fetch(
-        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com" +
-          "/me",
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/user/me`
+            : `http://localhost:3999/user/me`
+        }`,
         {
           method: "PUT",
           credentials: "include",
@@ -139,10 +145,21 @@ export default function DesktopNav(props: SettingsProps) {
       console.log(error);
     }
   };
-
+  const themeCheck = () => {
+    if (dark) {
+      document.body.classList.remove("light");
+      document.body.classList.add("dark");
+    } else {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
+    if (!dark) {
+      document.body.classList.remove("dark");
+      document.body.classList.add("light");
+    }
+  };
   const toggleDarkModeHandler = () => {
     themeCheck();
-    setDark(!dark);
 
     lightDarkModeHandler();
   };
@@ -167,6 +184,9 @@ export default function DesktopNav(props: SettingsProps) {
     showPopover: false,
     event: undefined,
   });
+  useEffect(() => {
+    toggleDarkModeHandler();
+  }, [dark]);
   return (
     <div className="desktop-nav">
       <Avatar />
@@ -249,7 +269,7 @@ export default function DesktopNav(props: SettingsProps) {
                 >
                   <IonCard style={{ width: "270px" }} color="primary">
                     <IonCardContent>
-                      <div onClick={toggleDarkModeHandler}>
+                      <div>
                         <Lottie
                           options={defaultOptions}
                           height={30}

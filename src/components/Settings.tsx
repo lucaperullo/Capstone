@@ -64,8 +64,11 @@ const Settings = (props: SettingsProps) => {
         },
       };
       const data = await fetch(
-        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com" +
-          "/me",
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/user/me`
+            : `http://localhost:3999/user/me`
+        }`,
         {
           method: "PUT",
           credentials: "include",
@@ -90,18 +93,16 @@ const Settings = (props: SettingsProps) => {
     setDark(!dark);
 
     const lightDarkModeHandler = () => {
-      setTimeout(() => {
-        if (dark) {
-          document.body.classList.add("dark");
-          document.body.classList.remove("light");
-        } else {
-          document.body.classList.add("light");
-          document.body.classList.remove("dark");
-        }
-      }, 3000);
+      if (dark) {
+        document.body.classList.add("dark");
+        document.body.classList.remove("light");
+      } else {
+        document.body.classList.add("light");
+        document.body.classList.remove("dark");
+      }
     };
-    lightDarkModeHandler();
   };
+
   const defaultOptions = {
     play: dark,
     autoplay: false,

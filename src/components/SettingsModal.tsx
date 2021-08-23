@@ -64,8 +64,11 @@ const SettingsModal = (props: SettingsProps) => {
         },
       };
       const data = await fetch(
-        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com" +
-          "/me",
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/user/me`
+            : `http://localhost:3999/user/me`
+        }`,
         {
           method: "PUT",
           credentials: "include",

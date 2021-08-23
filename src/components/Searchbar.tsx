@@ -15,7 +15,11 @@ export default function Searchbar() {
       });
     } else {
       const data = await fetch(
-        ` {REACT_APP_NODE_ENV===production?"https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me":"http://localhost:3999"}spotify/search/${query}`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/search/${query}`
+            : `http://localhost:3999/spotify/search/${query}`
+        }`,
         {
           credentials: "include",
         }
