@@ -57,7 +57,11 @@ const Discover = () => {
     let socket: { disconnect: () => any };
     try {
       const response = await fetch(
-        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me"
+            : "http://localhost:3999/me"
+        }`,
         {
           credentials: "include",
         }
@@ -84,7 +88,11 @@ const Discover = () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
       const response = await fetch(
-        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/view-more-categories`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/view-more-categories"
+            : "http://localhost:3999/spotify/view-more-categories"
+        }`,
         {
           method: "POST",
           body: code,
@@ -109,7 +117,11 @@ const Discover = () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
       const response = await fetch(
-        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/view-more-releases`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/view-more-releases"
+            : "http://localhost:3999/spotify/view-more-releases"
+        }`,
         { method: "POST", body: code, credentials: "include" }
       );
       if (response.ok) {
@@ -130,7 +142,11 @@ const Discover = () => {
       const code = state?.user?.spotifyTokens?.access_token;
 
       const response = await fetch(
-        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/raccomanded`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/raccomanded"
+            : "http://localhost:3999/spotify/raccomanded"
+        }`,
         {
           headers: {
             Authorization: `Bearer ${code}`,
@@ -158,7 +174,11 @@ const Discover = () => {
       const code = state?.user?.spotifyTokens?.access_token;
 
       const response = await fetch(
-        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/recently-played`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/recently-played"
+            : "http://localhost:3999/spotify/recently-played"
+        }`,
         {
           headers: {
             Authorization: `Bearer ${code}`,
@@ -184,7 +204,11 @@ const Discover = () => {
   const getUserFavourites = async () => {
     try {
       const res = await fetch(
-        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites",
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites"
+            : "http://localhost:3999/spotify/favourites"
+        }`,
         {
           credentials: "include",
         }

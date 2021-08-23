@@ -34,7 +34,11 @@ export default function Navbar() {
   const fetchUser = async () => {
     try {
       const response = await fetch(
-        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me`,
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me"
+            : "http://localhost:3999/me"
+        }`,
         {
           credentials: "include",
         }

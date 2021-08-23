@@ -27,7 +27,12 @@ export default function TopUsersFolder() {
   const getUserFavourites = async () => {
     try {
       const res = await fetch(
-        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites",
+        `${
+          process.env.REACT_APP_NODE_ENV === "production"
+            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites"
+            : "http://localhost:3999/spotify/favourites"
+        }`,
+
         {
           credentials: "include",
         }
