@@ -91,7 +91,7 @@ export default function DiscoverMusic() {
 
       const response = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "production"
+          process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/category/${category}`
             : `http://localhost:3999/spotify/category/${category}`
         }`,

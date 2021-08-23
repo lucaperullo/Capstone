@@ -65,7 +65,7 @@ const SettingsModal = (props: SettingsProps) => {
       };
       const data = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "production"
+          process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me`
             : `http://localhost:3999/me`
         }`,
