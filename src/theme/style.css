@@ -194,7 +194,7 @@
   width: 100%;
 }
 .song:hover > .song-image {
-  filter: brightness(50%);
+  filter: brightness(40%);
 }
 .song-actions {
   text-align: center;
@@ -219,7 +219,7 @@
 }
 .song-image {
   transition: 0.25s ease;
-  filter: brightness(40%);
+  filter: brightness(60%);
   border-radius: 4px;
 }
 
