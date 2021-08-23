@@ -32,7 +32,7 @@ export default function Login() {
   // const loginHandler = async () => {
   //   setShowLoading(true);
   //   const { data } = await axios.post(
-  //     ` {REACT_APP_NODE_ENV===production?"https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me":"http://localhost:3999"}login/spotify/callback`,
+  //     ` {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"http://localhost:3999"}login/spotify/callback`,
   //     code
   //   );
   //   !data && console.log("error");

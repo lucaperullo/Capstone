@@ -29,7 +29,7 @@ export default function TopUsersFolder() {
       const res = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites"
+            ? "https://capstonebe.herokuapp.com/spotify/favourites"
             : "http://localhost:3999/spotify/favourites"
         }`,
 

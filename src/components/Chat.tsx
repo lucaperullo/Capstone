@@ -115,7 +115,7 @@ const Chat = () => {
     const messages = await axios.get(
       `${
         process.env.REACT_APP_NODE_ENV === "Production"
-          ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/messages/${roomId}`
+          ? `https://capstonebe.herokuapp.com/messages/${roomId}`
           : `http://localhost:3999/messages/${roomId}`
       }`,
       {
