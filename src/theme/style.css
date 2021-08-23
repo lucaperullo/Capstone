@@ -99,8 +99,8 @@
   backdrop-filter: blur(15px);
   padding-bottom: 0px;
   transition: 0.25s ease;
-  background: rgba(87, 87, 87, 0.315);
-  background: rgba(87, 87, 87, 0.315);
+  background: rgba(87, 87, 87, 1);
+  background: rgba(87, 87, 87, 1);
 }
 .our-player-light:hover {
   opacity: 1;
@@ -122,16 +122,16 @@
   transition: 0.25s ease;
   background: linear-gradient(
     54deg,
-    rgba(58, 58, 58, 0.692) 0%,
-    rgba(43, 39, 39, 0.692) 8%,
-    rgb(36, 33, 34, 0.692) 15%,
-    rgb(31, 27, 27, 0.692) 24%,
-    rgb(26, 23, 22, 0.692) 33%,
-    rgb(31, 29, 26, 0.692) 44%,
-    rgb(31, 30, 28, 0.692) 57%,
-    rgb(28, 34, 34, 0.692) 75%,
-    rgb(22, 29, 29, 0.692) 89%,
-    rgb(31, 25, 25, 0.692) 100%
+    rgba(58, 58, 58, 1) 0%,
+    rgba(43, 39, 39, 1) 8%,
+    rgb(36, 33, 34, 1) 15%,
+    rgb(31, 27, 27, 1) 24%,
+    rgb(26, 23, 22, 1) 33%,
+    rgb(31, 29, 26, 1) 44%,
+    rgb(31, 30, 28, 1) 57%,
+    rgb(28, 34, 34, 1) 75%,
+    rgb(22, 29, 29, 1) 89%,
+    rgb(31, 25, 25, 1) 100%
   );
 }
 .our-player:hover {
