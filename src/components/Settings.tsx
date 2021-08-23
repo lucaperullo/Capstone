@@ -66,8 +66,8 @@ const Settings = (props: SettingsProps) => {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "production"
-            ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/user/me`
-            : `http://localhost:3999/user/me`
+            ? `https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me`
+            : `http://localhost:3999/me`
         }`,
         {
           method: "PUT",

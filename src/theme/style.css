@@ -23,6 +23,7 @@
 .avatar {
   border-radius: 50%;
   height: 40px;
+  width: 40px;
   border: 2px solid #7274c2;
   transition: 0.25s ease;
 }
@@ -308,6 +309,11 @@
   font-weight: 300;
   margin-left: 12px;
   font-size: 16px;
+}
+ion-modal.fullscreen {
+  --width: 100%;
+  --height: 100%;
+  --border-radius: 0;
 }
 /* .scrollbar {
   margin-left: 30px;
