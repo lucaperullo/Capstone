@@ -29,7 +29,7 @@ export default function Category() {
 
       const code = state?.user?.spotifyTokens?.access_token;
       const data = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/playlist/${id}/tracks`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/playlist/${id}/tracks`,
         {
           headers: {
             Authorization: `Bearer ${code}`,

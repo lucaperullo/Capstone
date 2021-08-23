@@ -56,9 +56,12 @@ const Discover = () => {
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
-      const response = await fetch(` https://capstonebe.herokuapp.com/me`, {
-        credentials: "include",
-      });
+      const response = await fetch(
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me`,
+        {
+          credentials: "include",
+        }
+      );
       if (response.ok) {
         const data = await response.json();
 
@@ -81,7 +84,7 @@ const Discover = () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
       const response = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/view-more-categories`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/view-more-categories`,
         {
           method: "POST",
           body: code,
@@ -106,7 +109,7 @@ const Discover = () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
       const response = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/view-more-releases`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/view-more-releases`,
         { method: "POST", body: code, credentials: "include" }
       );
       if (response.ok) {
@@ -127,7 +130,7 @@ const Discover = () => {
       const code = state?.user?.spotifyTokens?.access_token;
 
       const response = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/raccomanded`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/raccomanded`,
         {
           headers: {
             Authorization: `Bearer ${code}`,
@@ -155,7 +158,7 @@ const Discover = () => {
       const code = state?.user?.spotifyTokens?.access_token;
 
       const response = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/recently-played`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/recently-played`,
         {
           headers: {
             Authorization: `Bearer ${code}`,
@@ -181,7 +184,7 @@ const Discover = () => {
   const getUserFavourites = async () => {
     try {
       const res = await fetch(
-        " https://capstonebe.herokuapp.com/spotify/favourites",
+        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites",
         {
           credentials: "include",
         }

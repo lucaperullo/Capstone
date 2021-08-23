@@ -27,7 +27,7 @@ export default function TopUsersFolder() {
   const getUserFavourites = async () => {
     try {
       const res = await fetch(
-        " https://capstonebe.herokuapp.com/spotify/favourites",
+        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/favourites",
         {
           credentials: "include",
         }

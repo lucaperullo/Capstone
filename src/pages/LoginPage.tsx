@@ -26,7 +26,7 @@ const LoginPage = () => {
   // const spotiLoginHandler = async () => {
   //   setShowLoading(true);
   //   try {
-  //     const data = await fetch(` https://capstonebe.herokuapp.com/login/spotify`);
+  //     const data = await fetch(` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/login/spotify`);
   //     console.log(data);
   //   } catch (error) {
   //     console.log(error);
@@ -36,7 +36,7 @@ const LoginPage = () => {
   // const code = new URLSearchParams(window.location.search).get("code");
   // const handleLogin = async () => {
   //   setShowLoading(true);
-  //   const data = await fetch(" https://capstonebe.herokuapp.com/spotify/login");
+  //   const data = await fetch(" https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/login");
   //   console.log(data);
   // };
 
@@ -70,7 +70,7 @@ const LoginPage = () => {
             />
           </IonCardHeader>
           <a
-            href=" https://capstonebe.herokuapp.com/spotify/login"
+            href=" https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/login"
             style={{ textDecoration: "none" }}
           >
             <IonButton color="dark">

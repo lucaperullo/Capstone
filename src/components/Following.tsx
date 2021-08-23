@@ -37,7 +37,7 @@ const Following = () => {
   const toggleFollow = async (userid: string, username: string) => {
     try {
       const data = await fetch(
-        ` https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`,
         {
           method: "PUT",
           credentials: "include",
@@ -50,9 +50,12 @@ const Following = () => {
   };
   const fetchUsers = async () => {
     try {
-      const res = await fetch(` https://capstonebe.herokuapp.com/users`, {
-        credentials: "include",
-      });
+      const res = await fetch(
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/users`,
+        {
+          credentials: "include",
+        }
+      );
       const dat = await res.json();
       const data = dat.filter(
         (user: any) => user.username !== state?.user?.username

@@ -113,7 +113,7 @@ const Chat = () => {
   };
   const fetchMessages = async () => {
     const messages = await axios.get(
-      ` https://capstonebe.herokuapp.com/messages/${roomId}`,
+      ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/messages/${roomId}`,
       {
         withCredentials: true,
       }

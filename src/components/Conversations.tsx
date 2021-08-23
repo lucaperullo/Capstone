@@ -32,9 +32,12 @@ export default function Conversations() {
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
     try {
-      const response = await fetch(` https://capstonebe.herokuapp.com/me`, {
-        credentials: "include",
-      });
+      const response = await fetch(
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/me`,
+        {
+          credentials: "include",
+        }
+      );
       if (response.ok) {
         socket = socketConnection();
         dispatch({ type: "SET_SOCKET", payload: socket });

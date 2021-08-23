@@ -90,7 +90,7 @@ export default function DiscoverMusic() {
       const code = state?.user?.spotifyTokens?.access_token;
 
       const response = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/category/${category}`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/category/${category}`,
         {
           headers: {
             Authorization: `Bearer ${code}`,

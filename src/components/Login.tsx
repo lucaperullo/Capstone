@@ -32,7 +32,7 @@ export default function Login() {
   // const loginHandler = async () => {
   //   setShowLoading(true);
   //   const { data } = await axios.post(
-  //     ` https://capstonebe.herokuapp.com/login/spotify/callback`,
+  //     ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/login/spotify/callback`,
   //     code
   //   );
   //   !data && console.log("error");

@@ -15,7 +15,7 @@ export default function Searchbar() {
       });
     } else {
       const data = await fetch(
-        ` https://capstonebe.herokuapp.com/spotify/search/${query}`,
+        ` https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com/spotify/search/${query}`,
         {
           credentials: "include",
         }

@@ -118,14 +118,18 @@ export default function DesktopNav(props: SettingsProps) {
           bubbleChat: props.messageTheme,
         },
       };
-      const data = await fetch(" https://capstonebe.herokuapp.com" + "/me", {
-        method: "PUT",
-        credentials: "include",
-        headers: {
-          "Content-type": "application/json; charset=UTF-8",
-        },
-        body: JSON.stringify(payload),
-      });
+      const data = await fetch(
+        " https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com" +
+          "/me",
+        {
+          method: "PUT",
+          credentials: "include",
+          headers: {
+            "Content-type": "application/json; charset=UTF-8",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
       const user = await data.json();
       dispatch({
         type: "SET_USER",
