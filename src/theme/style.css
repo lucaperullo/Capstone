@@ -56,38 +56,6 @@
   }
 }
 
-.zoom-out__slide {
-  position: absolute;
-}
-
-.zoom-out__slide img {
-  background-color: transparent;
-  width: 100%;
-  height: auto;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translateY(-50%) translateX(-50%);
-  -webkit-transform: translateY(-50%) translateX(-50%);
-}
-.swiper-container {
-  width: 100vw;
-  padding-top: 50px;
-  padding-bottom: 50px;
-}
-
-.swiper-slide {
-  text-align: center;
-  background-position: center;
-  background-size: contain;
-  width: 300px;
-  height: 300px;
-}
-
-.swiper-slide img {
-  display: block;
-  width: 100px;
-}
 .our-player-light {
   display: flex;
   justify-content: space-between;
@@ -95,17 +63,15 @@
   bottom: 0;
   height: 80px;
   width: 100vw;
-  opacity: 0.8;
+
   padding: 8px;
-  backdrop-filter: blur(15px);
+
   padding-bottom: 0px;
   transition: 0.25s ease;
   background: rgba(87, 87, 87, 1);
   background: rgba(87, 87, 87, 1);
 }
-.our-player-light:hover {
-  opacity: 1;
-}
+
 .flex {
   display: flex;
 }
@@ -135,9 +101,7 @@
     rgb(31, 25, 25, 1) 100%
   );
 }
-.our-player:hover {
-  opacity: 1;
-}
+
 .player-icons {
   font-size: 25px;
   margin-right: 10px;
@@ -6605,4 +6569,163 @@ ion-content ::-webkit-scrollbar {
 
 .wave-bottom .shape-fill {
   fill: #292929;
+}
+.navbar {
+  position: fixed;
+  background: rgb(87, 87, 87);
+  background: linear-gradient(
+    54deg,
+    rgba(58, 58, 58, 0.692) 0%,
+    rgba(43, 39, 39, 0.692) 8%,
+    rgb(36, 33, 34, 0.692) 15%,
+    rgb(31, 27, 27, 0.692) 24%,
+    rgb(26, 23, 22, 0.692) 33%,
+    rgb(31, 29, 26, 0.692) 44%,
+    rgb(31, 30, 28, 0.692) 57%,
+    rgb(28, 34, 34, 0.692) 75%,
+    rgb(22, 29, 29, 0.692) 89%,
+    rgb(31, 25, 25, 0.692) 100%
+  );
+  top: 0;
+  width: 100vw;
+  padding-bottom: 10px;
+  z-index: 10;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  box-shadow: 0px -2px 20px 11px rgb(206, 137, 137);
+  animation: shade 10s alternate-reverse infinite;
+  backdrop-filter: blur(130px);
+}
+.navbar-light {
+  position: fixed;
+  padding-bottom: 10px;
+  background: rgba(87, 87, 87, 0.315);
+
+  backdrop-filter: blur(120px);
+  top: 0;
+  width: 100vw;
+
+  z-index: 10;
+  padding-top: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  align-items: center;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid black;
+  box-shadow: 0px -2px 20px 11px rgb(206, 137, 137);
+  animation: shade 10s alternate-reverse infinite;
+}
+
+@keyframes shade {
+  10% {
+    box-shadow: 0px -2px 20px 11px rgb(206, 160, 202);
+  }
+  20% {
+    box-shadow: 0px -2px 20px 11px rgb(170, 171, 209);
+  }
+  30% {
+    box-shadow: 0px -2px 20px 11px rgb(203, 187, 221);
+  }
+  40% {
+    box-shadow: 0px -2px 20px 11px rgb(224, 182, 210);
+  }
+  50% {
+    box-shadow: 0px -2px 20px 11px rgb(201, 159, 159);
+  }
+  60% {
+    box-shadow: 0px -2px 20px 11px rgb(207, 196, 165);
+  }
+  70% {
+    box-shadow: 0px -2px 20px 11px rgb(213, 226, 195);
+  }
+  80% {
+    box-shadow: 0px -2px 20px 11px rgb(202, 235, 235);
+  }
+  90% {
+    box-shadow: 0px -2px 20px 11px rgb(226, 189, 189);
+  }
+  100% {
+    box-shadow: 0px -2px 20px 11px rgb(243, 101, 101);
+  }
+}
+.title-logo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.desktop-logo {
+  margin-right: 50px;
+  height: 60px;
+}
+.desktop-nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 250px;
+}
+.desktop-navs {
+  color: #ffffff;
+  font-size: 27px;
+  transition: 0.25s ease;
+  cursor: pointer;
+}
+
+.desktop-nav-button {
+  transition: 0.25s ease;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  padding: 2px;
+}
+.settings-ico {
+  transform: rotate(90deg);
+  transition: 0.25s ease;
+}
+.settings-ico:hover {
+  transform: rotate(180deg);
+}
+
+.sidebar ul {
+  list-style-type: none;
+}
+@media (max-width: 558px) {
+  .navbar {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .title-logo {
+    display: none;
+  }
+}
+/* .searchbar-all {
+  background-color: #2222228f;
+  backdrop-filter: blur(5px);
+} */
+.navigator-discover {
+  position: fixed;
+  top: 80px;
+  z-index: 10;
+  width: 100vw;
+  background-color: #2222228f;
+  backdrop-filter: blur(5px);
+}
+
+.search-results {
+  height: 100vh;
+}
+
+@media (max-width: 558px) {
+  .navigator-discover {
+    top: 60px;
+  }
 }
