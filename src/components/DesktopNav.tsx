@@ -25,6 +25,7 @@ import {
 import animationData from "../lotties/dark-light.json";
 import {
   chatbubblesSharp,
+  grid,
   library,
   moon,
   paperPlane,
@@ -224,13 +225,15 @@ export default function DesktopNav(props: SettingsProps) {
       <Avatar />
       <div className="desktop-nav-button">
         <IonIcon
+          color={state?.user?.appTheming?.theme ? "white" : "dark"}
           className="desktop-navs"
-          icon={library}
+          icon={grid}
           onClick={() => history.push("/discover")}
         />
       </div>
       <div className="desktop-nav-button">
         <IonIcon
+          color={state?.user?.appTheming?.theme ? "white" : "dark"}
           icon={paperPlane}
           onClick={(e: any) => {
             e.persist();
@@ -262,6 +265,7 @@ export default function DesktopNav(props: SettingsProps) {
       </div>
       <div className="desktop-nav-button settings-ico">
         <IonIcon
+          color={state?.user?.appTheming?.theme ? "white" : "dark"}
           icon={settings}
           onClick={(e) =>
             present({

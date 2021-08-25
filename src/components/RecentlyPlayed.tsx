@@ -50,7 +50,12 @@ export default function RecentlyPlayed() {
     },
     lazy: true,
   };
-  const playTrack = (track: string) => {
+  const playTrack = (
+    track: string,
+    cover: string,
+    title: string,
+    artist: string
+  ) => {
     dispatch({
       type: "SET_ACTUAL_SONG",
       payload: track,
@@ -58,6 +63,18 @@ export default function RecentlyPlayed() {
     dispatch({
       type: "SET_PLAYING",
       payload: true,
+    });
+    dispatch({
+      type: "SET_COVER",
+      payload: cover,
+    });
+    dispatch({
+      type: "SET_TITLE",
+      payload: title,
+    });
+    dispatch({
+      type: "SET_ARTIST",
+      payload: artist,
     });
   };
   return (
@@ -98,14 +115,19 @@ export default function RecentlyPlayed() {
               <div className="song-info">
                 <h3 className="song-text"> {song?.track?.name}</h3>
                 <p className="song-text muted">
-                  {song?.track?.artists
-                    .map((artist: any) => artist.name)
-                    .join(", ")}
+                  {song?.track?.artists.map((artist: any) => artist.name)}
                 </p>
               </div>
               <div className="song-actions">
                 <IonIcon
-                  onClick={() => playTrack(song.track.preview_url)}
+                  onClick={() =>
+                    playTrack(
+                      song.track.preview_url,
+                      song.track.album.images[0].url,
+                      song.track.name,
+                      song.track.artists.map((artist: any) => artist.name)
+                    )
+                  }
                   className="song-button play-button"
                   icon={play}
                 />
@@ -122,7 +144,7 @@ export default function RecentlyPlayed() {
           </IonSlide>
         ))}
       </IonSlides>
-      <div style={{ height: "20vh" }}></div>
+      <div style={{ height: "40vh" }}></div>
     </div>
   );
 }

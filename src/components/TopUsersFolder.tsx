@@ -14,7 +14,12 @@ import { useStateValue } from "../contextApi/stateProvider";
 export default function TopUsersFolder() {
   const [state, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
-  const playTrack = (track: string) => {
+  const playTrack = (
+    track: string,
+    cover: string,
+    title: string,
+    artist: string
+  ) => {
     dispatch({
       type: "SET_ACTUAL_SONG",
       payload: track,
@@ -22,6 +27,18 @@ export default function TopUsersFolder() {
     dispatch({
       type: "SET_PLAYING",
       payload: true,
+    });
+    dispatch({
+      type: "SET_COVER",
+      payload: cover,
+    });
+    dispatch({
+      type: "SET_TITLE",
+      payload: title,
+    });
+    dispatch({
+      type: "SET_ARTIST",
+      payload: artist,
     });
   };
   const getUserFavourites = async () => {
@@ -67,7 +84,14 @@ export default function TopUsersFolder() {
         {state?.favourites?.map((track: any, i: number) => (
           <IonCol
             key={i}
-            onClick={() => playTrack(track.track.preview_url)}
+            onClick={() =>
+              playTrack(
+                track.track.preview_url,
+                track.track.album.images[0].url,
+                track.track.name,
+                track.track.artists[0].name
+              )
+            }
             sizeLg="3"
             sizeXl="2"
             sizeMd="6"
@@ -90,7 +114,14 @@ export default function TopUsersFolder() {
               </div>
               <div className="song-actions">
                 <IonIcon
-                  onClick={() => playTrack(track.track.preview_url)}
+                  onClick={() =>
+                    playTrack(
+                      track.track.preview_url,
+                      track.track.album.images[0].url,
+                      track.track.name,
+                      track.track.artists[0].name
+                    )
+                  }
                   className="song-button play-button"
                   icon={play}
                 />

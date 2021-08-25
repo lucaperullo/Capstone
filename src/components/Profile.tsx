@@ -213,7 +213,6 @@ const Profile = () => {
           {!Loading && (
             <>
               <IonContent style={{ minHeight: "100vh" }}>
-                <div style={{ height: "10vh", width: "100vw" }}></div>
                 <IonSearchbar
                   value={searchText}
                   onIonChange={(e) => setSearchText(e.detail.value!)}

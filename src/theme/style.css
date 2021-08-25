@@ -58,18 +58,14 @@
 
 .our-player-light {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   position: fixed;
   bottom: 0;
-  height: 80px;
+  height: 90px;
   width: 100vw;
 
-  padding: 8px;
-
-  padding-bottom: 0px;
-  transition: 0.25s ease;
-  background: rgba(87, 87, 87, 1);
-  background: rgba(87, 87, 87, 1);
+  background-color: rgb(255, 255, 255);
 }
 
 .flex {
@@ -77,29 +73,14 @@
 }
 .our-player {
   display: flex;
+  align-items: center;
   justify-content: space-between;
   position: fixed;
   bottom: 0;
-  height: 80px;
+  height: 90px;
   width: 100vw;
 
-  padding: 8px;
-
-  padding-bottom: 0px;
-  transition: 0.25s ease;
-  background: linear-gradient(
-    54deg,
-    rgba(58, 58, 58, 1) 0%,
-    rgba(43, 39, 39, 1) 8%,
-    rgb(36, 33, 34, 1) 15%,
-    rgb(31, 27, 27, 1) 24%,
-    rgb(26, 23, 22, 1) 33%,
-    rgb(31, 29, 26, 1) 44%,
-    rgb(31, 30, 28, 1) 57%,
-    rgb(28, 34, 34, 1) 75%,
-    rgb(22, 29, 29, 1) 89%,
-    rgb(31, 25, 25, 1) 100%
-  );
+  background-color: black;
 }
 
 .player-icons {
@@ -109,36 +90,139 @@
 .playPause {
   margin-right: 10px;
   border-radius: 50%;
-  background-color: #160d0d54;
-  backdrop-filter: blur(15px);
-  padding: 5px;
-  box-shadow: 0px 0px 16px 10px #5f5f5f46;
-  backdrop-filter: blur(55px);
+  background-color: #000000;
+  padding: 3px;
   transition: 0.25s ease;
 }
 .playPause:active {
-  box-shadow: inset 0px 0px 10px #0a0a0aa8;
+  transform: scale(0.9);
+  background-color: #1b1b1b;
 }
-.playPause:hover {
-  box-shadow: 0px 0px 10px #d1b8b8a8;
-}
+
 .music-player-info {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 200px;
 }
+
+.player-volume {
+  display: flex;
+  align-items: center;
+  padding-right: 50px;
+}
+.music-player-cover-fs {
+  height: 150px;
+  width: 150px;
+  border-radius: 25%;
+  transition: 0.6s ease;
+}
+.fs-cd {
+  transition: 0.6s ease;
+  position: absolute;
+  -webkit-filter: drop-shadow(0px 0px 5px #000000);
+  filter: drop-shadow(0px 0px 5px #000000);
+  /* position: fixed; */
+  z-index: -1;
+  width: 300px;
+
+  /* left: 38.6%; */
+}
+.fs-cd-playing {
+  transition: 0.6s ease;
+  -webkit-filter: drop-shadow(0px 0px 7px #000000);
+  filter: drop-shadow(0px 0px 7px #00000075);
+  position: absolute;
+  /* position: fixed; */
+  z-index: -1;
+  width: 300px;
+
+  /* left: 38.6%; */
+  animation: rotate-cover-playing 5.5s infinite linear;
+}
+
+.music-player-cover-playing-fs {
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+  transition: 0.6s ease;
+  animation: rotate-cover-playing 5.5s infinite linear;
+}
+.fs-player-track-info {
+  width: 300px;
+  text-align: center;
+}
+.volume-icon {
+  font-size: 25px;
+  color: white;
+}
+.volume-range {
+  width: 100px;
+}
+.timeline-range-fs {
+  height: 100px;
+  width: 80vw;
+  margin-left: 10vw;
+  padding-bottom: 100px;
+}
+.player-volume-fs {
+  height: 100px;
+  width: 200px;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 20px;
+  right: 20px;
+}
+
 .music-player-cover {
+  position: fixed;
+  bottom: 15px;
+  left: 10px;
   height: 50px;
   border-radius: 50%;
   transition: 0.25s ease;
 }
 .music-player-cover-playing {
+  position: fixed;
+  bottom: 15px;
+  left: 10px;
   height: 50px;
   border-radius: 50%;
   transition: 0.25s ease;
   animation: rotate-cover-playing 5.5s infinite linear;
 }
+.player-buttons {
+  margin-left: -185px;
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  right: auto;
+  left: auto;
+  bottom: 35px;
+  justify-content: center;
+  align-items: center;
+}
+.artist-name {
+  color: rgb(66, 66, 66);
+}
+.song-title-light {
+  color: white;
+}
+.song-title {
+  color: #000000;
+}
+.artist-name {
+  color: #202020;
+}
+.artist-name-light {
+  color: rgb(201, 201, 201);
+}
+.song-track-duration {
+  position: absolute;
+  width: 500px;
+  bottom: -42px;
+}
+
 .suggested-card {
   transition: 0.25s ease;
 }
@@ -232,7 +316,7 @@
   background-position-y: 40%;
   margin-left: auto;
   margin-right: auto;
-  width: 50vw;
+
   display: flex;
   justify-content: center;
   height: 250px;
@@ -277,7 +361,6 @@
 ion-modal.fullscreen {
   --width: 100%;
   --height: 100%;
-  --border-radius: 0;
 }
 /* .scrollbar {
   margin-left: 30px;
@@ -6571,55 +6654,28 @@ ion-content ::-webkit-scrollbar {
   fill: #292929;
 }
 .navbar {
-  position: fixed;
-  background: rgb(87, 87, 87);
-  background: linear-gradient(
-    54deg,
-    rgba(58, 58, 58, 0.692) 0%,
-    rgba(43, 39, 39, 0.692) 8%,
-    rgb(36, 33, 34, 0.692) 15%,
-    rgb(31, 27, 27, 0.692) 24%,
-    rgb(26, 23, 22, 0.692) 33%,
-    rgb(31, 29, 26, 0.692) 44%,
-    rgb(31, 30, 28, 0.692) 57%,
-    rgb(28, 34, 34, 0.692) 75%,
-    rgb(22, 29, 29, 0.692) 89%,
-    rgb(31, 25, 25, 0.692) 100%
-  );
-  top: 0;
+  background-color: #0a000a;
   width: 100vw;
   padding-bottom: 10px;
-  z-index: 10;
+
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 20px;
   align-items: center;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid black;
-  box-shadow: 0px -2px 20px 11px rgb(206, 137, 137);
-  animation: shade 10s alternate-reverse infinite;
   backdrop-filter: blur(130px);
 }
 .navbar-light {
-  position: fixed;
   padding-bottom: 10px;
-  background: rgba(87, 87, 87, 0.315);
-
-  backdrop-filter: blur(120px);
-  top: 0;
+  background-color: rgb(216, 216, 216);
   width: 100vw;
-
-  z-index: 10;
   padding-top: 10px;
   padding-left: 20px;
   padding-right: 20px;
   align-items: center;
   display: flex;
   justify-content: space-between;
-  border-bottom: 1px solid black;
-  box-shadow: 0px -2px 20px 11px rgb(206, 137, 137);
-  animation: shade 10s alternate-reverse infinite;
 }
 
 @keyframes shade {
@@ -6703,6 +6759,11 @@ ion-content ::-webkit-scrollbar {
     justify-content: center;
     align-items: center;
   }
+  .navbar-light {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   .title-logo {
     display: none;
   }
@@ -6723,9 +6784,36 @@ ion-content ::-webkit-scrollbar {
 .search-results {
   height: 100vh;
 }
-
+.fullscreen-player {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
 @media (max-width: 558px) {
   .navigator-discover {
     top: 60px;
+  }
+}
+@media (max-width: 768px) {
+  .player-volume-fs {
+    display: none;
+  }
+  .volume-icon {
+    display: none;
+  }
+  .timeline-range {
+    display: none;
+  }
+  .volume-range {
+    display: none;
+  }
+  .p-buttons {
+    position: fixed;
+    right: 10px;
+    bottom: 20px;
+  }
+  .desktop-buttons {
+    display: none;
   }
 }

@@ -129,7 +129,7 @@ export default function DiscoverMusic() {
       style={{
         height: "100vh",
         overflow: "visible",
-        paddingTop: "120px",
+        paddingTop: "45px",
       }}
     >
       <div className="searchbar-">

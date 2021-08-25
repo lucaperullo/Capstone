@@ -92,20 +92,6 @@ export default function Navbar() {
           />
         </div>
       </div>
-      <div className="sidebar">
-        <ul>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-          <li></li>
-        </ul>
-      </div>
     </div>
   );
 }

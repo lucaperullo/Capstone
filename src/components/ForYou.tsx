@@ -54,7 +54,12 @@ export default function ForYou() {
     },
     lazy: true,
   };
-  const playTrack = (track: string) => {
+  const playTrack = (
+    track: string,
+    cover: string,
+    title: string,
+    artist: string
+  ) => {
     dispatch({
       type: "SET_ACTUAL_SONG",
       payload: track,
@@ -62,6 +67,18 @@ export default function ForYou() {
     dispatch({
       type: "SET_PLAYING",
       payload: true,
+    });
+    dispatch({
+      type: "SET_COVER",
+      payload: cover,
+    });
+    dispatch({
+      type: "SET_TITLE",
+      payload: title,
+    });
+    dispatch({
+      type: "SET_ARTIST",
+      payload: artist,
     });
   };
   return (
@@ -104,12 +121,19 @@ export default function ForYou() {
               <div className="song-info">
                 <h3 className="song-text"> {song?.name}</h3>
                 <p className="song-text muted">
-                  {song?.artists.map((artist: any) => artist.name).join(", ")}
+                  {song?.artists.map((artist: any) => artist.name)}
                 </p>
               </div>
               <div className="song-actions">
                 <IonIcon
-                  onClick={() => playTrack(song.preview_url)}
+                  onClick={() =>
+                    playTrack(
+                      song.preview_url,
+                      song.album.images[0].url,
+                      song.name,
+                      song.artists.map((artist: any) => artist.name).join(", ")
+                    )
+                  }
                   className="song-button play-button"
                   icon={play}
                 />

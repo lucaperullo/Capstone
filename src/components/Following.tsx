@@ -82,138 +82,126 @@ const Following = () => {
   }, []);
   return (
     <IonContent style={{ height: "100vh" }}>
-      <div style={{ height: "15vh" }}></div>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        <IonHeader>
-          <h1 style={{ textAlign: "center" }}>
-            Hi {state?.user?.username}, let's see what the world is listening
-            to!
-          </h1>
-        </IonHeader>
-      </div>
-
-      <IonGrid>
-        <IonRow>
-          {state?.users?.map((user: any, idx: number) => {
-            const userPresence = () => {
-              if (user.status.presence === "online") return "green";
-              if (user.status.presence === "offline") return "grey";
-              else return "";
-            };
-            return (
-              <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
-                <IonCard>
-                  <IonCardHeader>
-                    <div
-                      style={{
-                        display: "flex",
-                        alignItems: "center",
-                        justifyContent: "space-between",
-                      }}
-                    >
+      <div style={{ paddingTop: "50px" }}>
+        <IonGrid>
+          <IonRow>
+            {state?.users?.map((user: any, idx: number) => {
+              const userPresence = () => {
+                if (user.status.presence === "online") return "green";
+                if (user.status.presence === "offline") return "grey";
+                else return "";
+              };
+              return (
+                <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
+                  <IonCard>
+                    <IonCardHeader>
                       <div
                         style={{
                           display: "flex",
-                          flexDirection: "row",
                           alignItems: "center",
+                          justifyContent: "space-between",
                         }}
                       >
-                        <img
-                          draggable="false"
-                          style={{
-                            height: "40px",
-                            width: "40px",
-                            borderRadius: "50%",
-                            marginRight: "10px",
-                          }}
-                          onClick={() => toggleFollow(user._id, user.spotifyId)}
-                          src={user.profilePic}
-                          alt=""
-                        />
-                        <IonCardTitle>
-                          <h4>{user.username}</h4>
-                        </IonCardTitle>
-                        <div
-                          style={{
-                            backgroundColor: userPresence(),
-                            height: "6px",
-                            width: "6px",
-                            marginTop: "-4px",
-                            marginLeft: "3px",
-                            borderRadius: "50%",
-                          }}
-                        ></div>
-                      </div>
-                    </div>
-                  </IonCardHeader>
-
-                  <IonCardContent>
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-evenly",
-                      }}
-                    >
-                      <IonGrid>
                         <div
                           style={{
                             display: "flex",
-                            flexDirection: "column",
+                            flexDirection: "row",
+                            alignItems: "center",
                           }}
                         >
-                          {user.playlists.userPlaylists.items.map(
-                            (playlist: any, i: number) => {
-                              <div key={i}>
-                                <IonThumbnail>
-                                  <img
-                                    draggable="false"
-                                    src={playlist.images[0].url}
-                                    alt=""
-                                  />
-                                </IonThumbnail>
-                                <IonText>{playlist.name}</IonText>
-                              </div>;
+                          <img
+                            draggable="false"
+                            style={{
+                              height: "40px",
+                              width: "40px",
+                              borderRadius: "50%",
+                              marginRight: "10px",
+                            }}
+                            onClick={() =>
+                              toggleFollow(user._id, user.spotifyId)
                             }
-                          )}
+                            src={user.profilePic}
+                            alt=""
+                          />
+                          <IonCardTitle>
+                            <h4>{user.username}</h4>
+                          </IonCardTitle>
+                          <div
+                            style={{
+                              backgroundColor: userPresence(),
+                              height: "6px",
+                              width: "6px",
+                              marginTop: "-4px",
+                              marginLeft: "3px",
+                              borderRadius: "50%",
+                            }}
+                          ></div>
                         </div>
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          <IonThumbnail>
-                            <IonSkeletonText animated />
-                          </IonThumbnail>
-                          <IonSkeletonText animated />
-                        </div>
+                      </div>
+                    </IonCardHeader>
 
-                        <div
-                          style={{
-                            display: "flex",
-                            flexDirection: "column",
-                          }}
-                        >
-                          <IonThumbnail>
+                    <IonCardContent>
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-evenly",
+                        }}
+                      >
+                        <IonGrid>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            {user.playlists.userPlaylists.items.map(
+                              (playlist: any, i: number) => {
+                                <div key={i}>
+                                  <IonThumbnail>
+                                    <img
+                                      draggable="false"
+                                      src={playlist.images[0].url}
+                                      alt=""
+                                    />
+                                  </IonThumbnail>
+                                  <IonText>{playlist.name}</IonText>
+                                </div>;
+                              }
+                            )}
+                          </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <IonThumbnail>
+                              <IonSkeletonText animated />
+                            </IonThumbnail>
                             <IonSkeletonText animated />
-                          </IonThumbnail>
-                          <IonSkeletonText animated />
-                        </div>
-                      </IonGrid>
-                    </div>
-                  </IonCardContent>
-                </IonCard>
-              </IonCol>
-            );
-          })}
-        </IonRow>
-      </IonGrid>
+                          </div>
+
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                            }}
+                          >
+                            <IonThumbnail>
+                              <IonSkeletonText animated />
+                            </IonThumbnail>
+                            <IonSkeletonText animated />
+                          </div>
+                        </IonGrid>
+                      </div>
+                    </IonCardContent>
+                  </IonCard>
+                </IonCol>
+              );
+            })}
+          </IonRow>
+        </IonGrid>
+      </div>
     </IonContent>
   );
 };

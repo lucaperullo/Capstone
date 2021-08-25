@@ -22,8 +22,8 @@ export default function ProfileNavigator() {
         style={{
           height: "48px",
           position: "sticky",
-          top: "65px",
-          zIndex: 20,
+          top: "-1px",
+          zIndex: 10,
         }}
       >
         <IonSegment
@@ -60,14 +60,14 @@ export default function ProfileNavigator() {
           <IonSegmentButton value="Liked">
             <IonLabel>Liked</IonLabel>
           </IonSegmentButton>
-          <IonSegmentButton value="Feed">
+          {/* <IonSegmentButton value="Feed">
             <IonLabel>Feed</IonLabel>
-          </IonSegmentButton>
+          </IonSegmentButton> */}
         </IonSegment>
       </IonContent>
       {nrc && <ProfilePlaylists />}
       {mru && <TopUsersFolder />}
-      {feed && <Following />}
+      {/* {feed && <Following />} */}
     </>
   );
 }

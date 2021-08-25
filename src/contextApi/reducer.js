@@ -15,15 +15,57 @@ export const initialState = {
   playing: false,
   idx: 0,
   src: null,
+  time: 0,
+  cover: "",
+  title: "",
+  artist: "",
+  volume: 0.5,
+  song: {
+    currentTime: 0,
+    duration: 0,
+  },
 };
 
 export const reducer = (state = initialState, action) => {
-  console.log(action);
+  // console.log(action);
   switch (action.type) {
     case "SET_USER":
       return {
         ...state,
         user: action.payload,
+      };
+    case "SET_TRACK_SPECS":
+      return {
+        ...state,
+        song: {
+          currentTime: action.payload.currentTime,
+          duration: action.payload.duration,
+        },
+      };
+    case "SET_COVER":
+      return {
+        ...state,
+        cover: action.payload,
+      };
+    case "SET_TITLE":
+      return {
+        ...state,
+        title: action.payload,
+      };
+    case "SET_ARTIST":
+      return {
+        ...state,
+        artist: action.payload,
+      };
+    case "SET_VOLUME":
+      return {
+        ...state,
+        volume: action.payload,
+      };
+    case "SET_TIME":
+      return {
+        ...state,
+        time: action.payload,
       };
     case "SET_USERS":
       return {

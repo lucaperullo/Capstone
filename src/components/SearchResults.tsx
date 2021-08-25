@@ -15,7 +15,12 @@ import { useHistory } from "react-router";
 import { useStateValue } from "../contextApi/stateProvider";
 
 export default function SearchResults() {
-  const playTrack = (track: string) => {
+  const playTrack = (
+    track: string,
+    cover: string,
+    title: string,
+    artist: string
+  ) => {
     dispatch({
       type: "SET_ACTUAL_SONG",
       payload: track,
@@ -23,6 +28,18 @@ export default function SearchResults() {
     dispatch({
       type: "SET_PLAYING",
       payload: true,
+    });
+    dispatch({
+      type: "SET_COVER",
+      payload: cover,
+    });
+    dispatch({
+      type: "SET_TITLE",
+      payload: title,
+    });
+    dispatch({
+      type: "SET_ARTIST",
+      payload: artist,
     });
   };
   let history = useHistory();
@@ -57,7 +74,14 @@ export default function SearchResults() {
                 </div>
                 <div className="song-actions">
                   <IonIcon
-                    onClick={() => playTrack(item.preview_url)}
+                    onClick={() =>
+                      playTrack(
+                        item.preview_url,
+                        item.album.images[0]?.url,
+                        item.name,
+                        item.artists[0].name
+                      )
+                    }
                     className="song-button play-button"
                     icon={play}
                   />

@@ -17,6 +17,7 @@ import Login from "../components/Login";
 import Typist from "react-typist";
 import "../theme/style.css";
 import LoginAnimation from "../components/loginAnimation";
+import TextLoop from "react-text-loop";
 
 const LoginPage = () => {
   const [username, setUsername] = useState<string>("");
@@ -54,9 +55,15 @@ const LoginPage = () => {
               padding: "60px",
             }}
           >
-            <Typist cursor={{ show: false }}>
-              <h1 style={{ fontSize: 40 }}>WELCOME TO OURMUSIC.</h1>
-            </Typist>
+            <h1 style={{ fontSize: 40 }}>WELCOME TO OURMUSIC.</h1>
+            <TextLoop mask={true}>
+              <h3>Listen</h3>
+              <h3>Chat</h3>
+              <h3>Discover</h3>
+            </TextLoop>
+            {/* <Typist cursor={{ show: false }}>
+              
+            </Typist> */}
           </div>
         </div>
         <LoginForm>
