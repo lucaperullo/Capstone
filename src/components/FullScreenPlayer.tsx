@@ -13,99 +13,77 @@ import {
   volumeMediumOutline,
   volumeMuteOutline,
 } from "ionicons/icons";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 import TextLoop from "react-text-loop";
 import Link from "react-router";
 
 export default function FullScreenPlayer(props: any) {
   const [state, dispatch] = useStateValue();
-  const [time, setTime] = useState(0);
-  const actualSong = state?.src;
-  const audio = document.getElementById("audio-bar");
+
+  if (props.audiotoplay.current) {
+    props.audiotoplay.current.onended = () => {
+      nextTrack();
+    };
+  }
   const playMusic = () => {
-    if (state?.tracks) {
-      console.log(state.tracks);
-      dispatch({
-        type: "SET_ACTUAL_SONG",
-        payload: state.tracks[state.idx]?.track?.preview_url,
-      });
-    }
-    dispatch({
-      type: "SET_PLAYING",
-      payload: true,
-    });
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.src = state?.src;
-    const playPromise = audiotoplay.play();
-    if (playPromise) {
-      playPromise.then(() => {
-        setTimeout(() => {
-          audiotoplay.pause();
-          dispatch({
-            type: "SET_PLAYING",
-            payload: false,
-          });
-        }, 30000);
-      });
-      // .catch(() => {
-      //   dispatch({
-      //     type: "SET_PLAYING",
-      //     payload: false,
-      //   });
-      // });
+    if (props.audiotoplay.current) {
+      props.audiotoplay.current.src =
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url;
+      state?.nowPlaying?.playing
+        ? props.audiotoplay?.current?.play()
+        : props.audiotoplay?.current?.pause();
     }
   };
-  const pauseMusic = () => {
-    // dispatch({
-    //   type: "SET_ACTUAL_SONG",
-    //   src: state?.tracks?.items[state?.idx]?.track?.preview_url,
-    // });
+
+  const playPauseMusic = () => {
     dispatch({
-      type: "SET_PLAYING",
-      payload: false,
+      type: "SET_PLAY_PAUSE",
+      payload: !state.nowPlaying.playing,
     });
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.pause();
   };
-  const updateTrackBar = (dur: any, time: any) => {
+
+  useEffect(() => {
+    playMusic();
+  }, [state?.nowPlaying]);
+  const previousTrack = () => {
     dispatch({
-      type: "SET_TRACK_SPECS",
+      type: "SET_CURRENT_PLAYLIST",
       payload: {
-        currentTime: time,
-        duration: dur,
+        ...state?.nowPlaying,
+        index: state?.nowPlaying?.index > 1 ? state?.nowPlaying?.index - 1 : 0,
       },
     });
   };
-  useEffect(() => {
-    // audio?.addEventListener("timeupdate", () => {
-    //   updateTrackBar(audio?.duration, audio?.currentTime);
-    // });
-    if (actualSong !== null || undefined) {
-      console.log(audio);
-    }
-  }, [actualSong]);
+  const nextTrack = () => {
+    dispatch({
+      type: "SET_CURRENT_PLAYLIST",
+      payload: {
+        ...state?.nowPlaying,
+        index:
+          state?.nowPlaying?.tracks.length > state?.nowPlaying?.index + 1
+            ? state?.nowPlaying?.index + 1
+            : 0,
+      },
+    });
+  };
+
   const updateVolume = (e: any) => {
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.volume = e.target.value / 100;
-    props.setVolume(e.target.value);
+    if (props.audiotoplay.current) {
+      props.audiotoplay.current.volume = e.target.value / 100;
+      props.setVolume(e.target.value);
+    }
   };
   const updateTime = () => {
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.ontimeupdate = () => {
-      setTime(audiotoplay.currentTime);
-    };
+    console.log("hi");
+    // if (props.audiotoplay.current.currentTime !== null) {
+    //   console.log(props.audiotoplay.current);
+    //   props.audiotoplay.current.ontimeupdate = () => {
+    //     props.setTime(props.audiotoplay.current.currentTime);
+    //   };
+    // }
   };
-  // const repeatOrPlayAll = () => {
-  //   const audiotoplay: any = document.getElementById("audio-tag-element");
-  //   audiotoplay.play();
-  //   setTimeout(() => {
-  //     audiotoplay.pause();
-  //     audiotoplay.src = state?.tracks?.items[index]?.track?.preview_url;
-  //     setIndex(+1);
-  //     audiotoplay.play();
-  //   }, 3000);
-  // };
+
   const volumeIcons = () => {
     if (props.volume === 0) {
       return volumeMuteOutline;
@@ -116,10 +94,15 @@ export default function FullScreenPlayer(props: any) {
     if (props.volume <= 50) {
       return volumeMediumOutline;
     }
-    if (props.volume <= 80) {
+    if (props.volume >= 80) {
       return volumeHighOutline;
     }
   };
+  useEffect(() => {
+    if (!!props.audiotoplay.current) {
+      props.audiotoplay.current.volume = props.volume / 100;
+    }
+  }, [props.audiotoplay, props.volume]);
   useEffect(() => {
     updateTime();
   }, []);
@@ -132,15 +115,6 @@ export default function FullScreenPlayer(props: any) {
       isOpen={props.showModal}
     >
       <div className="fullscreen-player">
-        <audio
-          id="audio-bar"
-          className="playTimeBar"
-          onTimeUpdateCapture={(e: any) =>
-            updateTrackBar(e.currentTarget.currentTime, e.target.duration)
-          }
-          src={actualSong}
-        />
-
         <div
           style={{
             display: "flex",
@@ -151,14 +125,19 @@ export default function FullScreenPlayer(props: any) {
           }}
         >
           <div
-            className={state?.playing ? "fs-cd-playing" : "fs-cd"}
+            className={state.nowPlaying.playing ? "fs-cd-playing" : "fs-cd"}
             // src="https://www.pngitem.com/pimgs/m/13-134510_vinyl-record-high-resolution-hd-png-download.png"
           ></div>
           <div className="disco"></div>
           <img
-            src={state?.cover}
+            src={
+              state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.album
+                ?.images[0]?.url ||
+              state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.album
+                ?.images[0]?.url
+            }
             className={
-              state?.playing
+              state.nowPlaying.playing
                 ? "music-player-cover-playing-fs"
                 : "music-player-cover-fs"
             }
@@ -167,10 +146,10 @@ export default function FullScreenPlayer(props: any) {
         </div>
         <div className="fs-player-buttons">
           <button className="playPause">
-            {state?.playing === true ? (
+            {state.nowPlaying.playing === true ? (
               <IonIcon
                 onClick={() => {
-                  pauseMusic();
+                  playPauseMusic();
                 }}
                 size="large"
                 icon={pauseOutline}
@@ -178,7 +157,7 @@ export default function FullScreenPlayer(props: any) {
             ) : (
               <IonIcon
                 onClick={() => {
-                  playMusic();
+                  playPauseMusic();
                 }}
                 size="large"
                 icon={playOutline}
@@ -195,7 +174,9 @@ export default function FullScreenPlayer(props: any) {
                   : "song-title"
               }
             >
-              {state?.title}
+              {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                ?.name ||
+                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.name}
             </h4>
             <h4
               className={
@@ -204,7 +185,10 @@ export default function FullScreenPlayer(props: any) {
                   : "artist-name"
               }
             >
-              {state?.artist}
+              {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                ?.artists[0].name ||
+                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.artists[0]
+                  ?.name}
             </h4>
           </TextLoop>
         </div>
@@ -233,7 +217,7 @@ export default function FullScreenPlayer(props: any) {
         <IonRange
           className="volume-range-fs"
           value={props.volume}
-          onIonChange={(e: any) => updateVolume(e)}
+          onIonChange={(e: any) => props.setVolume(e.detail.value)}
           min={0}
           max={100}
           color="tertiary"

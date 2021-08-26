@@ -30,7 +30,8 @@ export default function Player() {
   }
   const playMusic = () => {
     audiotoplay.current.src =
-      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url;
+      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url;
     state?.nowPlaying?.playing
       ? audiotoplay?.current?.play()
       : audiotoplay?.current?.pause();
@@ -69,14 +70,16 @@ export default function Player() {
   };
 
   const updateVolume = (e: any) => {
-    const audiotop: any = document.getElementById("audio-tag-element");
-    audiotop.volume = e.target.value / 100;
+    // const audiotoplay: any = document.getElementById("audio-tag-element");
+    audiotoplay.current.volume = e.target.value / 100;
     setVolume(e.target.value);
   };
   const updateTime = () => {
-    audiotoplay.current.ontimeupdate = () => {
-      setTime(audiotoplay.current.currentTime);
-    };
+    if (audiotoplay.current.currentTime) {
+      audiotoplay.current.ontimeupdate = () => {
+        setTime(audiotoplay.current?.currentTime);
+      };
+    }
   };
 
   const volumeIcons = () => {
@@ -97,9 +100,15 @@ export default function Player() {
   useEffect(() => {
     updateTime();
   }, []);
+  useEffect(() => {
+    if (!!audiotoplay.current) {
+      audiotoplay.current.volume = volume / 100;
+    }
+  }, [audiotoplay, volume]);
   return (
     <>
       <FullScreenPlayer
+        audiotoplay={audiotoplay}
         volume={volume}
         setVolume={setVolume}
         time={time}
@@ -117,11 +126,16 @@ export default function Player() {
             onClick={() => setShowModal(true)}
             draggable="false"
             className={
-              state?.playing
+              state?.nowPlaying?.playing
                 ? "music-player-cover-playing"
                 : "music-player-cover"
             }
-            src={state?.cover}
+            src={
+              state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.album
+                ?.images[0]?.url ||
+              state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.album
+                ?.images[0]?.url
+            }
           />
           <div className="player-track-info">
             <TextLoop mask={true}>
@@ -133,7 +147,9 @@ export default function Player() {
                     : "song-title"
                 }
               >
-                {state?.title}
+                {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                  ?.name ||
+                  state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.name}
               </h4>
               <h4
                 style={{ width: "200px" }}
@@ -143,11 +159,14 @@ export default function Player() {
                     : "artist-name"
                 }
               >
-                {state?.artist}
+                {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                  ?.artists[0]?.name ||
+                  state?.nowPlaying?.tracks[state?.nowPlaying?.index]
+                    ?.artists[0]?.name}
               </h4>
             </TextLoop>
           </div>
-          <audio ref={audiotoplay} id="audio-tag-element" src={state?.src} />
+          <audio ref={audiotoplay} id="audio-tag-element" />
         </div>
         <div>
           <div className="player-buttons">

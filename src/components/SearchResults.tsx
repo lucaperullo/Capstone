@@ -15,31 +15,13 @@ import { useHistory } from "react-router";
 import { useStateValue } from "../contextApi/stateProvider";
 
 export default function SearchResults() {
-  const playTrack = (
-    track: string,
-    cover: string,
-    title: string,
-    artist: string
-  ) => {
+  const playTrack = (index: number) => {
     dispatch({
-      type: "SET_ACTUAL_SONG",
-      payload: track,
-    });
-    dispatch({
-      type: "SET_PLAYING",
-      payload: true,
-    });
-    dispatch({
-      type: "SET_COVER",
-      payload: cover,
-    });
-    dispatch({
-      type: "SET_TITLE",
-      payload: title,
-    });
-    dispatch({
-      type: "SET_ARTIST",
-      payload: artist,
+      type: "SET_CURRENT_PLAYLIST",
+      payload: {
+        tracks: state.searchResults,
+        index: index,
+      },
     });
   };
   let history = useHistory();
@@ -52,7 +34,7 @@ export default function SearchResults() {
       </div>
       <IonGrid>
         <IonRow>
-          {state?.searchResults?.map((item: any) => (
+          {state?.searchResults?.map((item: any, i: number) => (
             <IonCol size="12" sizeSm="6" sizeMd="4" sizeLg="3" key={item.id}>
               <div className="song">
                 <img
@@ -74,14 +56,7 @@ export default function SearchResults() {
                 </div>
                 <div className="song-actions">
                   <IonIcon
-                    onClick={() =>
-                      playTrack(
-                        item.preview_url,
-                        item.album.images[0]?.url,
-                        item.name,
-                        item.artists[0].name
-                      )
-                    }
+                    onClick={() => playTrack(i)}
                     className="song-button play-button"
                     icon={play}
                   />

@@ -38,7 +38,7 @@ export default function SongList() {
           </IonToolbar>
         </div>
         <IonList>
-          {state?.tracks.map((track: any, i: number) => (
+          {state?.nowPlaying?.tracks.map((track: any, i: number) => (
             <IonItemSliding key={i}>
               <IonItem>
                 <IonThumbnail slot="start">
@@ -49,8 +49,6 @@ export default function SongList() {
                   />
                 </IonThumbnail>
                 <IonLabel>{track.track.name}</IonLabel>
-
-                <audio controls src={track.track.preview_url}></audio>
               </IonItem>
               <IonItemOptions side="end">
                 <IonItemOption onClick={() => {}}>Play</IonItemOption>

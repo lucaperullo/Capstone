@@ -21,12 +21,6 @@ export default function Category() {
   let history = useHistory();
   const getTracks = async (id: string, idx: number, playlistName: string) => {
     try {
-      console.log("hey");
-      dispatch({
-        type: "SET_ACTUAL_IDX",
-        payload: 0,
-      });
-
       const code = state?.user?.spotifyTokens?.access_token;
       const data = await fetch(
         `${
@@ -42,13 +36,17 @@ export default function Category() {
         }
       );
       const playlistss = await data.json();
-      console.log(playlistss);
+
       const playlist = playlistss?.items?.filter(
         (item: any) => item.track.preview_url !== null
       );
+
       dispatch({
         type: "SET_CURRENT_PLAYLIST",
-        payload: playlist,
+        payload: {
+          tracks: playlist,
+          index: 0,
+        },
       });
       history.push(`/discover/${state?.categoryName}/${playlistName}`);
     } catch (error) {
