@@ -6,12 +6,17 @@ import {
   IonCardContent,
   IonIcon,
 } from "@ionic/react";
-import { heart, add, play } from "ionicons/icons";
+import { heart, add, play, bookmarkOutline } from "ionicons/icons";
 import React from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 
 export default function RecentlyPlayed() {
   const [state, dispatch] = useStateValue();
+  const toggleLike = async (id: any) => {
+    const data = await fetch(`http://localhost:3999/spotify/likeTrack/${id}`, {
+      credentials: "include",
+    });
+  };
   const recentlyPlayed = {
     // Responsive breakpoints
 
@@ -132,8 +137,11 @@ export default function RecentlyPlayed() {
                   icon={play}
                 />
                 <IonIcon
+                  onClick={() => {
+                    toggleLike(song.track.id);
+                  }}
                   className="song-button like-button"
-                  icon={heart}
+                  icon={bookmarkOutline}
                 ></IonIcon>
                 <IonIcon
                   className="song-button playlist-button"

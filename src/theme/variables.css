@@ -158,7 +158,7 @@ body {
 
     --ion-item-background: #000000;
 
-    --ion-card-background: #1c1c1d;
+    --ion-card-background: #19191a;
   }
 
   .ios ion-modal {
@@ -324,7 +324,7 @@ body.dark {
 
   --ion-tab-bar-background: #020202;
 
-  --ion-card-background: #262e2a;
+  --ion-card-background: #202020;
 }
 body.light {
   --ion-font-family: OurMusic;

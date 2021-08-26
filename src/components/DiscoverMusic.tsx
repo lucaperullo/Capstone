@@ -30,7 +30,7 @@ import { useHistory } from "react-router";
 import {
   addOutline,
   chevronDownCircleOutline,
-  heartOutline,
+  bookmarkOutline,
 } from "ionicons/icons";
 import ForYou from "./ForYou";
 import Searchbar from "./Searchbar";

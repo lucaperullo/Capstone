@@ -22,135 +22,63 @@ export default function Player() {
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState(0);
   const [volume, setVolume] = useState(100);
-  const audioPlayer: any = useRef();
+  const audiotoplay: any = useRef();
+  if (audiotoplay.current) {
+    audiotoplay.current.onended = () => {
+      nextTrack();
+    };
+  }
   const playMusic = () => {
-    if (state?.tracks) {
-      console.log(state.tracks);
-      dispatch({
-        type: "SET_ACTUAL_SONG",
-        payload: state.tracks[state.idx]?.track?.preview_url,
-      });
-    }
-    dispatch({
-      type: "SET_PLAYING",
-      payload: true,
-    });
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.src = state?.src;
-    const playPromise = audiotoplay.play();
-    if (playPromise) {
-      playPromise.then(() => {
-        setTimeout(() => {
-          audiotoplay.pause();
-          dispatch({
-            type: "SET_PLAYING",
-            payload: false,
-          });
-        }, 30000);
-      });
-      // .catch(() => {
-      //   dispatch({
-      //     type: "SET_PLAYING",
-      //     payload: false,
-      //   });
-      // });
-    }
+    audiotoplay.current.src =
+      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url;
+    state?.nowPlaying?.playing
+      ? audiotoplay?.current?.play()
+      : audiotoplay?.current?.pause();
   };
+
+  const playPauseMusic = () => {
+    dispatch({
+      type: "SET_PLAY_PAUSE",
+      payload: !state.nowPlaying.playing,
+    });
+  };
+
+  useEffect(() => {
+    playMusic();
+  }, [state?.nowPlaying]);
   const previousTrack = () => {
-    const audiotoplay: any = document.getElementById("audio-tag-element");
     dispatch({
-      type: "SET_ACTUAL_IDX",
-      payload: state.idx - 1,
+      type: "SET_CURRENT_PLAYLIST",
+      payload: {
+        ...state?.nowPlaying,
+        index: state?.nowPlaying?.index > 1 ? state?.nowPlaying?.index - 1 : 0,
+      },
     });
-    dispatch({
-      type: "SET_ACTUAL_SONG",
-      payload: state?.tracks[state.idx - 1]?.track?.preview_url,
-    });
-    audiotoplay.src = state?.src;
-    const playPromise = audiotoplay.play();
-    dispatch({
-      type: "SET_PLAYING",
-      payload: true,
-    });
-    if (playPromise) {
-      playPromise.then(() => {
-        setTimeout(() => {
-          audiotoplay.pause();
-          dispatch({
-            type: "SET_PLAYING",
-            payload: false,
-          });
-        }, 30000);
-      });
-    }
   };
   const nextTrack = () => {
-    const audiotoplay: any = document.getElementById("audio-tag-element");
     dispatch({
-      type: "SET_ACTUAL_IDX",
-      payload: state.idx + 1,
+      type: "SET_CURRENT_PLAYLIST",
+      payload: {
+        ...state?.nowPlaying,
+        index:
+          state?.nowPlaying?.tracks.length > state?.nowPlaying?.index + 1
+            ? state?.nowPlaying?.index + 1
+            : 0,
+      },
     });
-    dispatch({
-      type: "SET_ACTUAL_SONG",
-      payload: state?.tracks[state.idx + 1]?.track?.preview_url,
-    });
-    dispatch({
-      type: "SET_PLAYING",
-      payload: true,
-    });
-    audiotoplay.src = state?.src;
-    const playPromise = audiotoplay.play();
-    if (playPromise) {
-      playPromise.then(() => {
-        setTimeout(() => {
-          audiotoplay.pause();
-          dispatch({
-            type: "SET_PLAYING",
-            payload: false,
-          });
-        }, 30000);
-      });
-      // .catch(() => {
-      //   dispatch({
-      //     type: "SET_PLAYING",
-      //     payload: false,
-      //   });
-      // });
-    }
   };
-  const pauseMusic = () => {
-    // dispatch({
-    //   type: "SET_ACTUAL_SONG",
-    //   src: state?.tracks?.items[state?.idx]?.track?.preview_url,
-    // });
-    dispatch({
-      type: "SET_PLAYING",
-      payload: false,
-    });
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.pause();
-  };
+
   const updateVolume = (e: any) => {
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.volume = e.target.value / 100;
+    const audiotop: any = document.getElementById("audio-tag-element");
+    audiotop.volume = e.target.value / 100;
     setVolume(e.target.value);
   };
   const updateTime = () => {
-    const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.ontimeupdate = () => {
-      setTime(audiotoplay.currentTime);
+    audiotoplay.current.ontimeupdate = () => {
+      setTime(audiotoplay.current.currentTime);
     };
   };
-  // const repeatOrPlayAll = () => {
-  //   const audiotoplay: any = document.getElementById("audio-tag-element");
-  //   audiotoplay.play();
-  //   setTimeout(() => {
-  //     audiotoplay.pause();
-  //     audiotoplay.src = state?.tracks?.items[index]?.track?.preview_url;
-  //     setIndex(+1);
-  //     audiotoplay.play();
-  //   }, 3000);
-  // };
+
   const volumeIcons = () => {
     if (volume === 0) {
       return volumeMuteOutline;
@@ -165,6 +93,7 @@ export default function Player() {
       return volumeHighOutline;
     }
   };
+
   useEffect(() => {
     updateTime();
   }, []);
@@ -194,9 +123,10 @@ export default function Player() {
             }
             src={state?.cover}
           />
-          <div className="fs-player-track-info">
+          <div className="player-track-info">
             <TextLoop mask={true}>
               <h4
+                style={{ width: "200px" }}
                 className={
                   state?.user?.appTheming?.theme
                     ? "song-title-light"
@@ -206,6 +136,7 @@ export default function Player() {
                 {state?.title}
               </h4>
               <h4
+                style={{ width: "200px" }}
                 className={
                   state?.user?.appTheming?.theme
                     ? "artist-name-light"
@@ -216,7 +147,7 @@ export default function Player() {
               </h4>
             </TextLoop>
           </div>
-          <audio ref={audioPlayer} id="audio-tag-element" src={state?.src} />
+          <audio ref={audiotoplay} id="audio-tag-element" src={state?.src} />
         </div>
         <div>
           <div className="player-buttons">
@@ -233,10 +164,10 @@ export default function Player() {
                 icon={playSkipBackOutline}
               ></IonIcon>
               <button className="playPause">
-                {state?.playing === true ? (
+                {state.nowPlaying.playing === true ? (
                   <IonIcon
                     onClick={() => {
-                      pauseMusic();
+                      playPauseMusic();
                     }}
                     size="large"
                     icon={pauseOutline}
@@ -244,7 +175,7 @@ export default function Player() {
                 ) : (
                   <IonIcon
                     onClick={() => {
-                      playMusic();
+                      playPauseMusic();
                     }}
                     size="large"
                     icon={playOutline}

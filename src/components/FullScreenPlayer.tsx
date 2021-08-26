@@ -150,10 +150,11 @@ export default function FullScreenPlayer(props: any) {
             alignItems: "center",
           }}
         >
-          <img
+          <div
             className={state?.playing ? "fs-cd-playing" : "fs-cd"}
-            src="https://lh3.googleusercontent.com/proxy/XPi2YX8HMO32_GjSnXwRJCqr8WRCOhx13z7K4UrkQjSAUWlWswWT4IAs-JVDBYW9fqpnL60AAgLfOhfIAU_-LNjo"
-          />
+            // src="https://www.pngitem.com/pimgs/m/13-134510_vinyl-record-high-resolution-hd-png-download.png"
+          ></div>
+          <div className="disco"></div>
           <img
             src={state?.cover}
             className={

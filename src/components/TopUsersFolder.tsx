@@ -8,10 +8,16 @@ import {
   IonSlides,
   IonContent,
 } from "@ionic/react";
-import { play } from "ionicons/icons";
+import { bookmark, play } from "ionicons/icons";
 import { useStateValue } from "../contextApi/stateProvider";
 
 export default function TopUsersFolder() {
+  const dislike = async (id: any) => {
+    const data = await fetch(
+      `http://localhost:3000/spotify/unlikeTrack/${id}`,
+      { credentials: "include" }
+    );
+  };
   const [state, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
   const playTrack = (
@@ -124,6 +130,10 @@ export default function TopUsersFolder() {
                   }
                   className="song-button play-button"
                   icon={play}
+                />
+                <IonIcon
+                  onClick={() => dislike(track.track.id)}
+                  icon={bookmark}
                 />
               </div>
             </div>

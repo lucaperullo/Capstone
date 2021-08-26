@@ -130,8 +130,8 @@ export default function DesktopNav(props: SettingsProps) {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? `https://capstonebe.herokuapp.com/me`
-            : `http://localhost:3999/me`
+            ? `https://capstonebe.herokuapp.com/auth/me`
+            : `http://localhost:3999/auth/me`
         }`,
         {
           method: "PUT",
@@ -164,8 +164,8 @@ export default function DesktopNav(props: SettingsProps) {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? `https://capstonebe.herokuapp.com/me`
-            : `http://localhost:3999/me`
+            ? `https://capstonebe.herokuapp.com/auth/me`
+            : `http://localhost:3999/auth/me`
         }`,
         {
           method: "PUT",

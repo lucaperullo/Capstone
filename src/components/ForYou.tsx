@@ -9,13 +9,17 @@ import {
   IonCard,
   IonCardHeader,
 } from "@ionic/react";
-import { heartOutline, addOutline, play, heart, add } from "ionicons/icons";
+import { bookmarkOutline, addOutline, play, heart, add } from "ionicons/icons";
 import { useStateValue } from "../contextApi/stateProvider";
 import styled from "styled-components";
 
 export default function ForYou() {
   const [state, dispatch] = useStateValue();
-
+  const toggleLike = async (id: any) => {
+    const data = await fetch(`http://localhost:3999/spotify/likeTrack/${id}`, {
+      credentials: "include",
+    });
+  };
   const forYou = {
     // Responsive breakpoints
 
@@ -54,31 +58,13 @@ export default function ForYou() {
     },
     lazy: true,
   };
-  const playTrack = (
-    track: string,
-    cover: string,
-    title: string,
-    artist: string
-  ) => {
+  const playTrack = (index: number) => {
     dispatch({
-      type: "SET_ACTUAL_SONG",
-      payload: track,
-    });
-    dispatch({
-      type: "SET_PLAYING",
-      payload: true,
-    });
-    dispatch({
-      type: "SET_COVER",
-      payload: cover,
-    });
-    dispatch({
-      type: "SET_TITLE",
-      payload: title,
-    });
-    dispatch({
-      type: "SET_ARTIST",
-      payload: artist,
+      type: "SET_CURRENT_PLAYLIST",
+      payload: {
+        tracks: state.forYou,
+        index: index,
+      },
     });
   };
   return (
@@ -126,20 +112,16 @@ export default function ForYou() {
               </div>
               <div className="song-actions">
                 <IonIcon
-                  onClick={() =>
-                    playTrack(
-                      song.preview_url,
-                      song.album.images[0].url,
-                      song.name,
-                      song.artists.map((artist: any) => artist.name).join(", ")
-                    )
-                  }
+                  onClick={() => playTrack(i)}
                   className="song-button play-button"
                   icon={play}
                 />
                 <IonIcon
+                  onClick={() => {
+                    toggleLike(song.id);
+                  }}
                   className="song-button like-button"
-                  icon={heart}
+                  icon={bookmarkOutline}
                 ></IonIcon>
                 <IonIcon
                   className="song-button playlist-button"

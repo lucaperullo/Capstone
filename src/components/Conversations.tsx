@@ -85,8 +85,6 @@ export default function Conversations() {
         ></IonSearchbar>
       </IonToolbar>
       <IonContent style={{ position: "absolute", top: "16vh", height: "100%" }}>
-        You dont have any conversations yet <br />
-        <a href="/discover">Discover new people with similar music tastes!</a>
         {state.user?.rooms > 0 ? (
           state.user?.rooms?.map((data: Group, i: number) => {
             const { userId } = data.participants.filter(
@@ -113,14 +111,12 @@ export default function Conversations() {
             );
           })
         ) : (
-          <IonContent
-            style={{ position: "absolute", top: "16vh", height: "100%" }}
-          >
-            You dont have any conversations yet <br />
+          <div>
+            <h3>You dont have any conversations yet</h3> <br />
             <a href="/discover">
               Discover new people with similar music tastes!
             </a>
-          </IonContent>
+          </div>
         )}
       </IonContent>
     </IonContent>

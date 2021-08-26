@@ -58,7 +58,7 @@ export default function ProfileNavigator() {
             <IonLabel>Playlists</IonLabel>
           </IonSegmentButton>
           <IonSegmentButton value="Liked">
-            <IonLabel>Liked</IonLabel>
+            <IonLabel>Saved</IonLabel>
           </IonSegmentButton>
           {/* <IonSegmentButton value="Feed">
             <IonLabel>Feed</IonLabel>
