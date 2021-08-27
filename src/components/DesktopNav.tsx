@@ -386,7 +386,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/tree-bark.png"
                       />
@@ -398,7 +398,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/type.png"
                       />
@@ -412,7 +412,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/skulls.png"
                       />
@@ -424,7 +424,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/dark-wood.png"
                       />
@@ -436,7 +436,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/xv.png"
                       />
@@ -450,7 +450,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/flowers.png"
                       />
@@ -463,7 +463,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/food.png"
                       />
@@ -475,7 +475,7 @@ export default function DesktopNav(props: SettingsProps) {
                         draggable="false"
                         style={{ height: "60px" }}
                         onClick={(e) =>
-                          props.setChatBackground(e.currentTarget.src!)
+                          props.setChatBackground(e.currentTarget?.src!)
                         }
                         src="https://www.transparenttextures.com/patterns/foggy-birds.png"
                       />

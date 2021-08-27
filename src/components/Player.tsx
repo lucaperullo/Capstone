@@ -40,7 +40,7 @@ export default function Player() {
   const playMusic = () => {
     const audiotoplay: any = document.getElementById("audio-tag-element");
     if (
-      audiotoplay.src !==
+      audiotoplay?.src !==
         state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
       state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
     ) {
@@ -55,7 +55,7 @@ export default function Player() {
 
   const playPauseMusic = () => {
     if (
-      audiotoplay.src !==
+      audiotoplay?.src !==
         state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
       state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
     ) {

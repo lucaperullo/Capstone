@@ -253,7 +253,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/tree-bark.png"
                     />
@@ -265,7 +265,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/type.png"
                     />
@@ -279,7 +279,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/skulls.png"
                     />
@@ -291,7 +291,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/dark-wood.png"
                     />
@@ -303,7 +303,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/xv.png"
                     />
@@ -317,7 +317,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/flowers.png"
                     />
@@ -330,7 +330,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/food.png"
                     />
@@ -342,7 +342,7 @@ const Settings = (props: SettingsProps) => {
                       draggable="false"
                       style={{ height: "60px" }}
                       onClick={(e) =>
-                        props.setChatBackground(e.currentTarget.src!)
+                        props.setChatBackground(e.currentTarget?.src!)
                       }
                       src="https://www.transparenttextures.com/patterns/foggy-birds.png"
                     />

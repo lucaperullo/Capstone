@@ -35,7 +35,7 @@ export default function FullScreenPlayer(props: any) {
 
   const playMusic = () => {
     if (
-      props.audiotoplay.src ===
+      props.audiotoplay?.src ===
         state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
       state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
     ) {
