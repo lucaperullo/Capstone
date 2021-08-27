@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   IonSlides,
   IonSlide,
@@ -9,16 +9,28 @@ import {
   IonCard,
   IonCardHeader,
 } from "@ionic/react";
-import { bookmarkOutline, addOutline, play, heart, add } from "ionicons/icons";
+import {
+  bookmarkOutline,
+  addOutline,
+  play,
+  heart,
+  add,
+  bookmark,
+} from "ionicons/icons";
 import { useStateValue } from "../contextApi/stateProvider";
 import styled from "styled-components";
 
 export default function ForYou() {
   const [state, dispatch] = useStateValue();
+  const [liked, setLiked] = useState(false);
   const toggleLike = async (id: any) => {
     const data = await fetch(`http://localhost:3999/spotify/likeTrack/${id}`, {
       credentials: "include",
     });
+    if (data) {
+      console.log(data);
+      setLiked(true);
+    }
   };
   const forYou = {
     // Responsive breakpoints
@@ -121,7 +133,7 @@ export default function ForYou() {
                     toggleLike(song.id);
                   }}
                   className="song-button like-button"
-                  icon={bookmarkOutline}
+                  icon={liked ? bookmark : bookmarkOutline}
                 ></IonIcon>
                 <IonIcon
                   className="song-button playlist-button"

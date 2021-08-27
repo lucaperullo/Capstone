@@ -64,8 +64,7 @@
   bottom: 0;
   height: 90px;
   width: 100vw;
-
-  background-color: rgb(255, 255, 255);
+  background: rgb(212, 212, 212);
 }
 
 .flex {
@@ -85,19 +84,34 @@
 
 .player-icons {
   font-size: 25px;
-  margin-right: 10px;
+  filter: drop-shadow(0px 10px 8px #7e7e7e);
+}
+.fs-player-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+}
+.p-buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
 }
 .playPause {
   margin-right: 10px;
-  border-radius: 50%;
-  background-color: #000000;
-  padding: 3px;
+  border-radius: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   transition: 0.25s ease;
+  background-color: transparent;
 }
-.playPause:active {
+
+/* .playPause:active {
   transform: scale(0.9);
   background-color: #1b1b1b;
-}
+} */
 
 .music-player-info {
   display: flex;
@@ -448,7 +462,7 @@
     ),
     black;
   background-blend-mode: normal, normal, color-dodge, normal, normal;
-  animation: wiggle 30ms linear infinite alternate;
+  animation: wiggle 0.1ms linear infinite alternate;
   border-radius: 100%;
   overflow: hidden;
 
@@ -478,19 +492,63 @@
   width: 100px;
 }
 .timeline-range-fs {
-  height: 100px;
-  width: 80vw;
-  margin-left: 10vw;
-  padding-bottom: 100px;
+  border-radius: 8px;
+  transition: 0.25s ease;
+  height: 6px;
+  background-color: rgb(64, 152, 224);
+}
+.song-track-duration-fs:hover {
+  height: 20px;
+}
+.song-track-duration-fs {
+  cursor: pointer;
+  transition: 0.25s ease;
+  border-radius: 8px;
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  background-color: grey;
+}
+
+.song-track-duration-fs:hover > .timeline-range-fs {
+  cursor: pointer;
+  height: 20px;
+}
+
+.timeline-range-fs:active {
+  background-color: rgb(80, 175, 253);
+}
+.song-track-duration {
+  position: absolute;
+  border-radius: 8px;
+  width: 500px;
+  bottom: -35px;
+}
+.song-track-duration:hover {
+  cursor: pointer;
+  height: 12px;
+}
+.song-track-duration:hover > .timeline-range {
+  height: 12px;
+}
+.timeline-range {
+  transition: 0.25s ease;
+  background-color: rgb(64, 152, 224);
+  transition: 0.25s ease;
+  height: 6px;
+}
+
+.timeline-range-fs:hover {
+  cursor: pointer;
+  height: 20px;
 }
 .player-volume-fs {
-  height: 100px;
-  width: 200px;
+  position: absolute;
+  bottom: 100px;
+  right: 10vw;
+  width: 20vw;
   display: flex;
   align-items: center;
-  position: fixed;
-  top: 20px;
-  right: 20px;
 }
 
 .music-player-cover {
@@ -548,11 +606,6 @@
 .artist-name-light {
   color: rgb(201, 201, 201);
 }
-.song-track-duration {
-  position: absolute;
-  width: 500px;
-  bottom: -42px;
-}
 
 .suggested-card {
   transition: 0.25s ease;
@@ -563,6 +616,7 @@
 }
 .song {
   transition: 0.25s ease;
+  overflow: hidden;
 }
 .song:hover {
   transform: scale(1.05);
@@ -648,8 +702,9 @@
 .category:hover {
   transform: scale(1.05);
 }
+
 .profile-cover {
-  background-image: url(https://scontent-mxp1-1.xx.fbcdn.net/v/t1.18169-9/16602626_1864482570507781_4867568338555947310_n.jpg?_nc_cat=110&ccb=1-5&_nc_sid=e3f864&_nc_ohc=WSuSJeOC0awAX_N8t1F&_nc_ht=scontent-mxp1-1.xx&oh=0a8ef4e6bf6b50fe2c8f61a0b888a7d5&oe=6147552A);
+  background-image: url(https://media.discordapp.net/attachments/702215602106007573/880828107660099624/unknown.png?width=1440&height=462);
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 12px;
@@ -701,6 +756,7 @@
 ion-modal.fullscreen {
   --width: 100%;
   --height: 100%;
+  --border-radius: 0;
 }
 /* .scrollbar {
   margin-left: 30px;
@@ -7180,11 +7236,11 @@ ion-content ::-webkit-scrollbar {
   }
   50% {
     opacity: 0.8;
-    transform: scale(1.2) rotate(180deg);
+    transform: scale(1.2) rotate(-180deg);
   }
   100% {
     opacity: 0.5;
-    transform: scale(1) rotate(360deg);
+    transform: scale(1) rotate(-360deg);
   }
 }
 @keyframes spin {
@@ -7192,6 +7248,6 @@ ion-content ::-webkit-scrollbar {
     transform: rotate(0);
   }
   100% {
-    transform: rotate(360deg);
+    transform: rotate(-360deg);
   }
 }

@@ -62,11 +62,11 @@ export default function Category() {
         height: "100vh",
       }}
     >
-      <div style={{ paddingTop: "80px", paddingBottom: "100px" }}>
+      <div style={{ paddingBottom: "10px" }}>
         <div
           style={{
             position: "sticky",
-            top: "80px",
+            top: "0px",
             width: "100vw",
             zIndex: 10,
           }}
@@ -85,7 +85,7 @@ export default function Category() {
                   key={idx}
                   sizeLg="3"
                   sizeXl="2"
-                  sizeMd="6"
+                  sizeMd="4"
                   sizeSm="6"
                   sizeXs="12"
                 >
@@ -103,7 +103,11 @@ export default function Category() {
                       <h3>{playlist.name}</h3>
                     </IonCardHeader>
                     <IonCardContent style={{ height: "125px" }}>
-                      {playlist.description}
+                      <div
+                        dangerouslySetInnerHTML={{
+                          __html: playlist.description,
+                        }}
+                      ></div>
                     </IonCardContent>
                   </IonCard>
                 </IonCol>

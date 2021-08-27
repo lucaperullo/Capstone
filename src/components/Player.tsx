@@ -11,6 +11,12 @@ import {
   volumeLowOutline,
   volumeMediumOutline,
   volumeHighOutline,
+  play,
+  pauseSharp,
+  playSkipBack,
+  repeat,
+  playSkipForward,
+  shuffle,
 } from "ionicons/icons";
 import React, { useEffect, useRef, useState } from "react";
 import TextLoop from "react-text-loop";
@@ -18,30 +24,52 @@ import TextLoop from "react-text-loop";
 import { useStateValue } from "../contextApi/stateProvider";
 import FullScreenPlayer from "./FullScreenPlayer";
 export default function Player() {
+  //TODO: Fix volume
   const [state, dispatch] = useStateValue();
   const [showModal, setShowModal] = useState(false);
   const [time, setTime] = useState(0);
+  const [duration, setDuration] = useState(100);
   const [volume, setVolume] = useState(100);
-  const audiotoplay: any = useRef();
-  if (audiotoplay.current) {
-    audiotoplay.current.onended = () => {
+  const audiotoplay: any = document.getElementById("audio-tag-element");
+
+  if (audiotoplay) {
+    audiotoplay.onended = () => {
       nextTrack();
     };
   }
   const playMusic = () => {
-    audiotoplay.current.src =
-      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
-      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url;
-    state?.nowPlaying?.playing
-      ? audiotoplay?.current?.play()
-      : audiotoplay?.current?.pause();
+    const audiotoplay: any = document.getElementById("audio-tag-element");
+    if (
+      audiotoplay.src !==
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
+    ) {
+      audiotoplay.src =
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url;
+      state?.nowPlaying?.playing ? audiotoplay?.play() : audiotoplay?.pause();
+    } else {
+      state?.nowPlaying?.playing ? audiotoplay?.play() : audiotoplay?.pause();
+    }
   };
 
   const playPauseMusic = () => {
-    dispatch({
-      type: "SET_PLAY_PAUSE",
-      payload: !state.nowPlaying.playing,
-    });
+    if (
+      audiotoplay.src !==
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
+    ) {
+      audiotoplay.play();
+      dispatch({
+        type: "SET_PLAY_PAUSE",
+        payload: !state.nowPlaying.playing,
+      });
+    } else {
+      dispatch({
+        type: "SET_PLAY_PAUSE",
+        payload: !state.nowPlaying.playing,
+      });
+    }
   };
 
   useEffect(() => {
@@ -69,17 +97,14 @@ export default function Player() {
     });
   };
 
-  const updateVolume = (e: any) => {
-    // const audiotoplay: any = document.getElementById("audio-tag-element");
-    audiotoplay.current.volume = e.target.value / 100;
-    setVolume(e.target.value);
-  };
-  const updateTime = () => {
-    if (audiotoplay.current.currentTime) {
-      audiotoplay.current.ontimeupdate = () => {
-        setTime(audiotoplay.current?.currentTime);
-      };
-    }
+  const updateTime = (e: any) => {
+    const percentage =
+      (e.nativeEvent.offsetX / e.currentTarget.clientWidth) * 100;
+    console.log(Math.floor((percentage / 100) * audiotoplay.duration));
+
+    audiotoplay.currentTime = Math.floor(
+      (percentage / 100) * audiotoplay.duration
+    );
   };
 
   const volumeIcons = () => {
@@ -96,18 +121,26 @@ export default function Player() {
       return volumeHighOutline;
     }
   };
-
+  const updateVolume = (e: any) => {
+    const audiotoplay: any = document.getElementById("audio-tag-element");
+    audiotoplay.volume = e.target.value / 100;
+    setVolume(e.target.value);
+  };
   useEffect(() => {
-    updateTime();
+    const audiotoplay: any = document.getElementById("audio-tag-element");
+    audiotoplay.ontimeupdate = () => {
+      setTime((audiotoplay.currentTime / audiotoplay.duration) * 100);
+    };
   }, []);
-  useEffect(() => {
-    if (!!audiotoplay.current) {
-      audiotoplay.current.volume = volume / 100;
-    }
-  }, [audiotoplay, volume]);
+  // useEffect(() => {
+  //   setVolume(volume);
+  // }, [audiotoplay, volume]);
   return (
     <>
+      <audio id="audio-tag-element" />
       <FullScreenPlayer
+        duration={duration}
+        updatetime={updateTime}
         audiotoplay={audiotoplay}
         volume={volume}
         setVolume={setVolume}
@@ -166,62 +199,78 @@ export default function Player() {
               </h4>
             </TextLoop>
           </div>
-          <audio ref={audiotoplay} id="audio-tag-element" />
         </div>
         <div>
           <div className="player-buttons">
             <div className="p-buttons">
-              <IonIcon
-                // onClick={() => repeatOrPlayAll()}
-                className="player-icons desktop-buttons"
-                icon={repeatOutline}
-              ></IonIcon>
-
-              <IonIcon
-                onClick={() => previousTrack()}
-                className="player-icons desktop-buttons"
-                icon={playSkipBackOutline}
-              ></IonIcon>
+              <button className="playPause">
+                <IonIcon
+                  color={state?.user?.appTheming?.theme ? "white" : "dark"}
+                  // onClick={() => repeatOrPlayAll()}
+                  className="player-icons desktop-buttons"
+                  icon={repeat}
+                ></IonIcon>
+              </button>
+              <button className="playPause">
+                <IonIcon
+                  color={state?.user?.appTheming?.theme ? "white" : "dark"}
+                  onClick={() => previousTrack()}
+                  className="player-icons desktop-buttons"
+                  icon={playSkipBack}
+                ></IonIcon>
+              </button>
               <button className="playPause">
                 {state.nowPlaying.playing === true ? (
                   <IonIcon
+                    color={state?.user?.appTheming?.theme ? "white" : "dark"}
+                    className="player-icons"
                     onClick={() => {
                       playPauseMusic();
                     }}
                     size="large"
-                    icon={pauseOutline}
+                    icon={pauseSharp}
                   ></IonIcon>
                 ) : (
                   <IonIcon
+                    color={state?.user?.appTheming?.theme ? "white" : "dark"}
                     onClick={() => {
                       playPauseMusic();
                     }}
                     size="large"
-                    icon={playOutline}
+                    icon={play}
                   ></IonIcon>
                 )}
               </button>
-              <IonIcon
-                onClick={() => nextTrack()}
-                className="player-icons desktop-buttons"
-                icon={playSkipForwardOutline}
-              ></IonIcon>
-              <IonIcon
-                className="player-icons desktop-buttons"
-                icon={shuffleOutline}
-              ></IonIcon>
+              <button className="playPause">
+                <IonIcon
+                  color={state?.user?.appTheming?.theme ? "white" : "dark"}
+                  onClick={() => nextTrack()}
+                  className="player-icons desktop-buttons"
+                  icon={playSkipForward}
+                ></IonIcon>
+              </button>
+              <button className="playPause">
+                <IonIcon
+                  color={state?.user?.appTheming?.theme ? "white" : "dark"}
+                  className="player-icons desktop-buttons"
+                  icon={shuffle}
+                ></IonIcon>
+              </button>
             </div>
-            <div className="song-track-duration">
-              <IonRange
-                color="dark"
+            <div
+              onClick={(e: any) => {
+                updateTime(e);
+              }}
+              style={{ width: `${duration}vw` }}
+              className="song-track-duration"
+            >
+              <div
+                color="secondary"
                 className="timeline-range"
-                onIonChange={(e: any) => {
-                  setTime(e.target.value);
+                style={{
+                  width: `${time}%`,
                 }}
-                value={time}
-                min={0}
-                max={30}
-              ></IonRange>
+              ></div>
             </div>
           </div>
         </div>
@@ -235,12 +284,12 @@ export default function Player() {
             icon={volumeIcons()}
           />
           <IonRange
+            color="secondary"
             className="volume-range"
             value={volume}
             onIonChange={(e: any) => updateVolume(e)}
             min={0}
             max={100}
-            color="tertiary"
           ></IonRange>
         </div>
       </div>

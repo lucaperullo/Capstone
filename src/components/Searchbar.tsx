@@ -4,6 +4,7 @@ import { useHistory } from "react-router";
 import { useStateValue } from "../contextApi/stateProvider";
 
 export default function Searchbar() {
+  //TODO: add users results in search
   const [searchText, setSearchText] = useState("");
   let history = useHistory();
   const [state, dispatch] = useStateValue();

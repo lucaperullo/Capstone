@@ -22,11 +22,11 @@ export default function SongList() {
   const [state, dispatch] = useStateValue();
   return (
     <IonContent>
-      <div style={{ paddingTop: "80px", paddingBottom: "100px" }}>
+      <div style={{ paddingBottom: "10px" }}>
         <div
           style={{
             position: "sticky",
-            top: "80px",
+            top: "0",
             width: "100vw",
             zIndex: 10,
           }}

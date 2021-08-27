@@ -7,7 +7,13 @@ import {
 } from "@ionic/react";
 import {
   pauseOutline,
+  pauseSharp,
+  play,
   playOutline,
+  playSkipBack,
+  playSkipForward,
+  repeat,
+  shuffle,
   volumeHighOutline,
   volumeLowOutline,
   volumeMediumOutline,
@@ -21,18 +27,28 @@ import Link from "react-router";
 export default function FullScreenPlayer(props: any) {
   const [state, dispatch] = useStateValue();
 
-  if (props.audiotoplay.current) {
-    props.audiotoplay.current.onended = () => {
+  if (props.audiotoplay) {
+    props.audiotoplay.onended = () => {
       nextTrack();
     };
   }
+
   const playMusic = () => {
-    if (props.audiotoplay.current) {
-      props.audiotoplay.current.src =
-        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url;
+    if (
+      props.audiotoplay.src ===
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
+    ) {
       state?.nowPlaying?.playing
-        ? props.audiotoplay?.current?.play()
-        : props.audiotoplay?.current?.pause();
+        ? props.audiotoplay?.play()
+        : props.audiotoplay?.pause();
+    } else {
+      props.audiotoplay.src =
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url;
+      state?.nowPlaying?.playing
+        ? props.audiotoplay?.play()
+        : props.audiotoplay?.pause();
     }
   };
 
@@ -68,18 +84,12 @@ export default function FullScreenPlayer(props: any) {
     });
   };
 
-  const updateVolume = (e: any) => {
-    if (props.audiotoplay.current) {
-      props.audiotoplay.current.volume = e.target.value / 100;
-      props.setVolume(e.target.value);
-    }
-  };
   const updateTime = () => {
     console.log("hi");
-    // if (props.audiotoplay.current.currentTime !== null) {
+    // if (props.audiotoplay.currentTime !== null) {
     //   console.log(props.audiotoplay.current);
-    //   props.audiotoplay.current.ontimeupdate = () => {
-    //     props.setTime(props.audiotoplay.current.currentTime);
+    //   props.audiotoplay.ontimeupdate = () => {
+    //     props.setTime(props.audiotoplay.currentTime);
     //   };
     // }
   };
@@ -98,11 +108,9 @@ export default function FullScreenPlayer(props: any) {
       return volumeHighOutline;
     }
   };
-  useEffect(() => {
-    if (!!props.audiotoplay.current) {
-      props.audiotoplay.current.volume = props.volume / 100;
-    }
-  }, [props.audiotoplay, props.volume]);
+  // useEffect(() => {
+  //   props.audiotoplay.volume = props.volume / 100;
+  // }, [props.audiotoplay, props.volume]);
   useEffect(() => {
     updateTime();
   }, []);
@@ -146,23 +154,57 @@ export default function FullScreenPlayer(props: any) {
         </div>
         <div className="fs-player-buttons">
           <button className="playPause">
+            <IonIcon
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              // onClick={() => repeatOrPlayAll()}
+              className="player-icons "
+              icon={repeat}
+            ></IonIcon>
+          </button>
+          <button className="playPause">
+            <IonIcon
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              onClick={() => previousTrack()}
+              className="player-icons "
+              icon={playSkipBack}
+            ></IonIcon>
+          </button>
+          <button className="playPause">
             {state.nowPlaying.playing === true ? (
               <IonIcon
+                color={state?.user?.appTheming?.theme ? "white" : "dark"}
+                className="player-icons"
                 onClick={() => {
                   playPauseMusic();
                 }}
                 size="large"
-                icon={pauseOutline}
+                icon={pauseSharp}
               ></IonIcon>
             ) : (
               <IonIcon
+                color={state?.user?.appTheming?.theme ? "white" : "dark"}
                 onClick={() => {
                   playPauseMusic();
                 }}
                 size="large"
-                icon={playOutline}
+                icon={play}
               ></IonIcon>
             )}
+          </button>
+          <button className="playPause">
+            <IonIcon
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              onClick={() => nextTrack()}
+              className="player-icons "
+              icon={playSkipForward}
+            ></IonIcon>
+          </button>
+          <button className="playPause">
+            <IonIcon
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              className="player-icons "
+              icon={shuffle}
+            ></IonIcon>
           </button>
         </div>
         <div className="fs-player-track-info">
@@ -193,18 +235,23 @@ export default function FullScreenPlayer(props: any) {
           </TextLoop>
         </div>
       </div>
-      <div className="song-track-duration">
-        <IonRange
-          color="white"
+
+      <div
+        onClick={(e: any) => {
+          props.updatetime(e);
+        }}
+        style={{ width: `${props.duration}vw` }}
+        className="song-track-duration-fs"
+      >
+        <div
+          color="secondary"
           className="timeline-range-fs"
-          value={props.time}
-          onIonChange={(e: any) => {
-            props.setTime(e.detail.value);
+          style={{
+            width: `${props.time}%`,
           }}
-          min={0}
-          max={30}
-        ></IonRange>
+        ></div>
       </div>
+
       <div className="player-volume-fs">
         <IonIcon
           className="volume-icon"
