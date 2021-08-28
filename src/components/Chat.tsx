@@ -105,6 +105,18 @@ const Chat = () => {
     fetchMessages();
     // scrollToBottom();
   };
+  const handleSubmitMessageEnter = async (e: any) => {
+    if (e.keyCode === 13) {
+      e.preventDefault();
+      socket.emit("SEND_MESSAGE", {
+        text: message,
+        roomId,
+        senderId: state?.user?._id,
+      });
+      setMessage("");
+      fetchMessages();
+    }
+  };
   const contentRef = useRef<HTMLIonContentElement | null>(null);
   const scrollToBottom = () => {
     contentRef.current && contentRef.current.scrollToBottom();
@@ -200,6 +212,7 @@ const Chat = () => {
               style={{
                 paddingBottom: "60px",
                 paddingTop: "20px",
+                minHeight: "100%",
                 height: "auto",
                 backgroundImage: `url(${
                   state?.user?.appTheming?.backgroundImage?.length > 0
@@ -286,6 +299,7 @@ const Chat = () => {
                     value={message}
                     // onKeyPress={handleSendMessage}
                     onIonChange={(e) => setMessage(e.detail.value!)}
+                    onKeyDown={(e) => handleSubmitMessageEnter(e)}
                   />
 
                   {message.length > 0 && (

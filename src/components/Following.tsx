@@ -1,5 +1,6 @@
 import {
   IonBadge,
+  IonButton,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -183,6 +184,13 @@ const Following = () => {
                               borderRadius: "50%",
                             }}
                           ></div>
+                          <IonButton
+                            onClick={() =>
+                              toggleFollow(user._id, user.spotifyId)
+                            }
+                          >
+                            Follow
+                          </IonButton>
                         </div>
                       </div>
                     </IonCardHeader>
