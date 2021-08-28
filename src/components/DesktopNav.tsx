@@ -27,6 +27,7 @@ import {
   chatbubblesSharp,
   grid,
   library,
+  logOut,
   moon,
   paperPlane,
   settings,
@@ -87,7 +88,18 @@ export default function DesktopNav(props: SettingsProps) {
       socket && socket.disconnect();
     };
   };
-
+  const logout = async () => {
+    const data = await fetch(
+      process.env.REACT_APP_NODE_ENV === "Dev"
+        ? "http://localhost:3999/users/logout"
+        : "https://capstonebe.herokuapp.com/users/logout",
+      { credentials: "include" }
+    );
+    if (data.ok) {
+      const res = await data.json();
+      console.log(res);
+    }
+  };
   let history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -123,7 +135,12 @@ export default function DesktopNav(props: SettingsProps) {
       <IonItem button lines="none">
         comingsoon
       </IonItem>
-      <IonItem button>
+      <IonItem
+        onClick={() => {
+          logout();
+        }}
+        button
+      >
         <IonText color="red">Logout</IonText>
       </IonItem>
       <IonItem lines="none" detail={false} button onClick={onHide}>
@@ -264,7 +281,7 @@ export default function DesktopNav(props: SettingsProps) {
       <Avatar />
       <div className="desktop-nav-button">
         <IonIcon
-          color={state?.user?.appTheming?.theme ? "white" : "dark"}
+          color={state?.user?.appTheming?.theme ? "dark" : "white"}
           className="desktop-navs"
           icon={grid}
           onClick={() => history.push("/discover")}
@@ -272,7 +289,7 @@ export default function DesktopNav(props: SettingsProps) {
       </div>
       <div className="desktop-nav-button">
         <IonIcon
-          color={state?.user?.appTheming?.theme ? "white" : "dark"}
+          color={state?.user?.appTheming?.theme ? "dark" : "white"}
           icon={paperPlane}
           onClick={(e: any) => {
             e.persist();
@@ -302,7 +319,7 @@ export default function DesktopNav(props: SettingsProps) {
       </div>
       <div className="desktop-nav-button settings-ico">
         <IonIcon
-          color={state?.user?.appTheming?.theme ? "white" : "dark"}
+          color={state?.user?.appTheming?.theme ? "dark" : "white"}
           icon={settings}
           onClick={(e) =>
             present({

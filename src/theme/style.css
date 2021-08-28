@@ -7050,7 +7050,7 @@ ion-content ::-webkit-scrollbar {
   fill: #292929;
 }
 .navbar {
-  background-color: #0a000a;
+  background-color: rgb(216, 216, 216);
   width: 100vw;
   padding-bottom: 10px;
 
@@ -7064,7 +7064,7 @@ ion-content ::-webkit-scrollbar {
 }
 .navbar-light {
   padding-bottom: 10px;
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(19, 19, 19);
   width: 100vw;
   padding-top: 10px;
   padding-left: 20px;

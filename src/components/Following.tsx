@@ -15,6 +15,8 @@ import {
   IonRow,
   IonSearchbar,
   IonSkeletonText,
+  IonSlide,
+  IonSlides,
   IonText,
   IonThumbnail,
 } from "@ionic/react";
@@ -24,6 +26,49 @@ import { useEffect, useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Following = () => {
+  const slideOpts = {
+    freeMode: true,
+    // Responsive breakpoints
+    breakpoints: {
+      320: {
+        slidesPerView: 2,
+        spaceBetween: 10,
+      },
+      // when window width is >= 320px
+      640: {
+        slidesPerView: 3,
+        spaceBetween: 10,
+      },
+      // when window width is >= 480px
+      720: {
+        slidesPerView: 4,
+        spaceBetween: 10,
+      },
+      // when window width is >= 640px
+      1024: {
+        slidesPerView: 5,
+        spaceBetween: 10,
+      },
+      1080: {
+        slidesPerView: 6,
+        spaceBetween: 10,
+      },
+      1280: {
+        slidesPerView: 7,
+        spaceBetween: 10,
+      },
+      1920: {
+        slidesPerView: 8,
+        spaceBetween: 10,
+      },
+    },
+
+    autoplay: { delay: 2000, disableOnInteraction: false },
+
+    lazy: true,
+    loop: true,
+  };
+
   const [searchText, setSearchText] = useState<string>("");
   const [state, dispatch] = useStateValue();
   function doRefresh(event: { detail: { complete: () => void } }) {
@@ -92,7 +137,7 @@ const Following = () => {
                 else return "";
               };
               return (
-                <IonCol key={idx} sizeSm="12" sizeMd="6" sizeLg="4">
+                <IonCol key={idx} sizeSm="12" sizeMd="12" sizeLg="12">
                   <IonCard>
                     <IonCardHeader>
                       <div
@@ -115,12 +160,14 @@ const Following = () => {
                               height: "40px",
                               width: "40px",
                               borderRadius: "50%",
+
                               marginRight: "10px",
                             }}
-                            onClick={() =>
-                              toggleFollow(user._id, user.spotifyId)
+                            src={
+                              user.profilePic
+                                ? user.profilePic
+                                : "https://media.discordapp.net/attachments/786174311718322227/859063520858341387/LOGO_LUCA.png?width=530&height=530"
                             }
-                            src={user.profilePic}
                             alt=""
                           />
                           <IonCardTitle>
@@ -141,59 +188,23 @@ const Following = () => {
                     </IonCardHeader>
 
                     <IonCardContent>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-evenly",
-                        }}
-                      >
-                        <IonGrid>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            {user.playlists.userPlaylists.items.map(
-                              (playlist: any, i: number) => {
-                                <div key={i}>
-                                  <IonThumbnail>
-                                    <img
-                                      draggable="false"
-                                      src={playlist.images[0]?.url}
-                                      alt=""
-                                    />
-                                  </IonThumbnail>
-                                  <IonText>{playlist.name}</IonText>
-                                </div>;
-                              }
-                            )}
-                          </div>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <IonThumbnail>
-                              <IonSkeletonText animated />
-                            </IonThumbnail>
-                            <IonSkeletonText animated />
-                          </div>
+                      <IonSlides options={slideOpts}>
+                        {user.playlists.userPlaylists.items.map(
+                          (playlist: any, i: number) => (
+                            <IonSlide>
+                              <div key={i}>
+                                <img
+                                  draggable="false"
+                                  src={playlist.images[0]?.url}
+                                  alt=""
+                                />
 
-                          <div
-                            style={{
-                              display: "flex",
-                              flexDirection: "column",
-                            }}
-                          >
-                            <IonThumbnail>
-                              <IonSkeletonText animated />
-                            </IonThumbnail>
-                            <IonSkeletonText animated />
-                          </div>
-                        </IonGrid>
-                      </div>
+                                <h4>{playlist.name}</h4>
+                              </div>
+                            </IonSlide>
+                          )
+                        )}
+                      </IonSlides>
                     </IonCardContent>
                   </IonCard>
                 </IonCol>
