@@ -112,7 +112,7 @@ const Chat = () => {
   const fetchMessages = async () => {
     const messages = await axios.get(
       `${
-        process.env.REACT_APP_NODE_ENV === "Production"
+        process.env.REACT_APP_NODE_ENV === "Dev"
           ? `http://localhost:3999/messages/${roomId}`
           : `https://capstonebe.herokuapp.com/messages/${roomId}`
       }`,

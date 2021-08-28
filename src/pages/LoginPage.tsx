@@ -78,9 +78,9 @@ const LoginPage = () => {
           </IonCardHeader>
           <a
             href={`${
-              process.env.REACT_APP_NODE_ENV === "Production"
-                ? "https://capstonebe.herokuapp.com/spotify/login"
-                : "http://localhost:3999/spotify/login"
+              process.env.REACT_APP_NODE_ENV === "Dev"
+                ? "http://localhost:3999/spotify/login"
+                : "https://capstonebe.herokuapp.com/spotify/login"
             }`}
             style={{ textDecoration: "none" }}
           >

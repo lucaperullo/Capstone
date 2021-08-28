@@ -40,6 +40,8 @@ import Avatar from "./Avatar";
 
 import { useHistory } from "react-router-dom";
 import Conversations from "./Conversations";
+import { connectToRooms } from "../socketCalls/roomsConnection";
+import { socketConnection } from "../socketCalls/connection";
 interface SettingsProps {
   messageTheme: string;
   setMessageTheme: (theme: string) => void;
@@ -51,6 +53,41 @@ interface SettingsProps {
   setModalShow: (arg0: boolean) => void;
 }
 export default function DesktopNav(props: SettingsProps) {
+  const fetchUser = async () => {
+    let socket: { disconnect: () => any };
+    try {
+      const response = await fetch(
+        `${
+          process.env.REACT_APP_NODE_ENV === "Dev"
+            ? "http://localhost:3999/auth/me"
+            : "https://capstonebe.herokuapp.com/auth/me"
+        }`,
+        {
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        socket = socketConnection();
+        dispatch({ type: "SET_SOCKET", payload: socket });
+
+        const data = await response.json();
+
+        dispatch({
+          type: "SET_USER",
+          payload: data,
+        });
+        connectToRooms(socket, data.rooms);
+      } else {
+        console.log("Error while fetching user");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    return () => {
+      socket && socket.disconnect();
+    };
+  };
+
   let history = useHistory();
   const [showModal, setShowModal] = useState(false);
   const [checked, setChecked] = useState(false);
@@ -130,7 +167,7 @@ export default function DesktopNav(props: SettingsProps) {
       };
       const data = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "Production"
+          process.env.REACT_APP_NODE_ENV === "Dev"
             ? `http://localhost:3999/auth/me`
             : `https://capstonebe.herokuapp.com/auth/me`
         }`,
@@ -164,7 +201,7 @@ export default function DesktopNav(props: SettingsProps) {
       };
       const data = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "Production"
+          process.env.REACT_APP_NODE_ENV === "Dev"
             ? `http://localhost:3999/auth/me`
             : `https://capstonebe.herokuapp.com/auth/me`
         }`,
@@ -182,6 +219,7 @@ export default function DesktopNav(props: SettingsProps) {
         type: "SET_USER",
         payload: await user,
       });
+      fetchUser();
     } catch (error) {
       console.log(error);
     }

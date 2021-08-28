@@ -3,7 +3,7 @@ import io from "socket.io-client";
 export const socketConnection = () => {
   const socket = io.connect(
     `${
-      process.env.REACT_APP_NODE_ENV === "Production"
+      process.env.REACT_APP_NODE_ENV === "Dev"
         ? "http://localhost:3999"
         : "https://capstonebe.herokuapp.com"
     }`

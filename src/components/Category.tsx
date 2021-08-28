@@ -24,7 +24,7 @@ export default function Category() {
       const code = state?.user?.spotifyTokens?.access_token;
       const data = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "Production"
+          process.env.REACT_APP_NODE_ENV === "Dev"
             ? ` http://localhost:3999/spotify/playlist/${id}/tracks`
             : `https://capstonebe.herokuapp.com/spotify/playlist/${id}/tracks`
         }`,

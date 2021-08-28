@@ -21,63 +21,11 @@ export default function Conversations() {
   const [state, dispatch] = useStateValue();
   const [searchText, setSearchText] = useState("");
   let history = useHistory();
-  function doRefresh(event: { detail: { complete: () => void } }) {
-    console.log("Begin async operation");
-    fetchUser();
-    setTimeout(() => {
-      console.log("Async operation has ended");
-      event.detail.complete();
-    }, 2000);
-  }
-  const fetchUser = async () => {
-    let socket: { disconnect: () => any };
-    try {
-      const response = await fetch(
-        `${
-          process.env.REACT_APP_NODE_ENV === "Production"
-            ? "http://localhost:3999/me"
-            : "https://capstonebe.herokuapp.com/me"
-        }`,
-        {
-          credentials: "include",
-        }
-      );
-      if (response.ok) {
-        socket = socketConnection();
-        dispatch({ type: "SET_SOCKET", payload: socket });
-
-        const data = await response.json();
-
-        dispatch({
-          type: "SET_USER",
-          payload: data,
-        });
-
-        connectToRooms(socket, data.rooms);
-      } else {
-        console.log("Error while fetching user");
-      }
-    } catch (error) {
-      console.log(error);
-    }
-    return () => {
-      socket && socket.disconnect();
-    };
-  };
 
   // };
 
   return (
     <IonContent style={{ display: "flex" }}>
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-        <IonRefresherContent
-          pullingIcon={chevronDownCircleOutline}
-          pullingText="Pull to refresh"
-          refreshingSpinner="circles"
-          refreshingText="Refreshing..."
-        ></IonRefresherContent>
-      </IonRefresher>
-
       <IonToolbar>
         <IonSearchbar
           value={searchText}

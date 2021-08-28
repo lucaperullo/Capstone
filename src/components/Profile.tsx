@@ -82,19 +82,6 @@ const Profile = () => {
     }
   };
 
-  function doRefresh(event: { detail: { complete: () => void } }) {
-    console.log("Begin async operation");
-
-    setTimeout(() => {
-      console.log("Async operation has ended");
-      event.detail.complete();
-      setLoading(!Loading);
-      setTimeout(() => {
-        console.log(state.user);
-        setLoading(false);
-      }, 1000);
-    }, 10);
-  }
   const [profilePic, setProfilePic] = useState<any>();
   const [bio, setBio] = useState(state?.user?.bio);
   const [username, setUsername] = useState(state?.user?.username);
@@ -112,7 +99,7 @@ const Profile = () => {
       };
       const data = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "Production"
+          process.env.REACT_APP_NODE_ENV === "Dev"
             ? "http://localhost:3999/auth/me"
             : "https://capstonebe.herokuapp.com/auth/me"
         }`,
@@ -140,14 +127,6 @@ const Profile = () => {
       <IonContent style={{ minHeight: "100vh" }}>
         {/*-- Default Refresher --*/}
         <IonContent>
-          <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-            <IonRefresherContent
-              pullingIcon={chevronDownCircleOutline}
-              pullingText="Pull to refresh"
-              refreshingSpinner="circles"
-              refreshingText="Refreshing..."
-            ></IonRefresherContent>
-          </IonRefresher>
           {Loading && (
             <IonCard>
               <IonSearchbar

@@ -27,7 +27,7 @@ export default function Navbar() {
     try {
       const response = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "Production"
+          process.env.REACT_APP_NODE_ENV === "Dev"
             ? "http://localhost:3999/auth/me"
             : "https://capstonebe.herokuapp.com/auth/me"
         }`,

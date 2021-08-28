@@ -54,13 +54,13 @@ const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
   const [searchText, setSearchText] = useState<string>();
 
-  let socket: { disconnect: () => any };
   // const fetchUser = async () => {
   const fetchUser = async () => {
+    let socket: { disconnect: () => any };
     try {
       const response = await fetch(
         `${
-          process.env.REACT_APP_NODE_ENV === "Production"
+          process.env.REACT_APP_NODE_ENV === "Dev"
             ? "http://localhost:3999/auth/me"
             : "https://capstonebe.herokuapp.com/auth/me"
         }`,
@@ -78,7 +78,6 @@ const App: React.FC = () => {
           type: "SET_USER",
           payload: data,
         });
-
         connectToRooms(socket, data.rooms);
       } else {
         console.log("Error while fetching user");
