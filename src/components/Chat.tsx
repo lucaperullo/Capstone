@@ -437,8 +437,7 @@ const ChatContainer = styled.div`
   @media (max-width: 768px) {
     width: 100vw;
   }
-  padding: 15px;
-  padding-bottom: 50px;
+
   box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
   position: absolute;
   z-index: 10;

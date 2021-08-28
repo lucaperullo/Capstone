@@ -126,7 +126,7 @@ const Discover = () => {
       if (response.ok) {
         const res = await response.json();
 
-        const data = res.filter((item: any) => item.preview_url !== null);
+        const data = await res.filter((item: any) => item.preview_url !== null);
         dispatch({
           type: "SET_FOR_YOU",
           payload: data,
