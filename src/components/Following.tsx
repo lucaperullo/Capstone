@@ -160,7 +160,7 @@ const Following = () => {
                                   <IonThumbnail>
                                     <img
                                       draggable="false"
-                                      src={playlist.images[0].url}
+                                      src={playlist.images[0]?.url}
                                       alt=""
                                     />
                                   </IonThumbnail>
