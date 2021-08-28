@@ -198,7 +198,9 @@ const Chat = () => {
           >
             <div
               style={{
-                height: "100%",
+                paddingBottom: "60px",
+                paddingTop: "20px",
+                height: "auto",
                 backgroundImage: `url(${
                   state?.user?.appTheming?.backgroundImage?.length > 0
                     ? state?.user?.appTheming?.backgroundImage
@@ -263,66 +265,55 @@ const Chat = () => {
                   );
                 }
               )}
+              <SenderContainer>
+                <IonItem>
+                  <div
+                    style={{
+                      width: "40px",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <IonIcon
+                      className="chat-button"
+                      color="primary"
+                      slot="start"
+                      icon={mic}
+                    />
+                  </div>
+                  <IonTextarea
+                    placeholder="Write some text..."
+                    value={message}
+                    // onKeyPress={handleSendMessage}
+                    onIonChange={(e) => setMessage(e.detail.value!)}
+                  />
+
+                  {message.length > 0 && (
+                    <div
+                      style={{
+                        paddingLeft: "10px",
+                        width: "40px",
+                        display: "flex",
+                        alignItems: "center",
+                      }}
+                      onClick={handleSubmitMessage}
+                    >
+                      <IonIcon
+                        className="chat-button"
+                        color="primary"
+                        slot="end"
+                        icon={sendSharp}
+                      />
+                    </div>
+                  )}
+                </IonItem>
+              </SenderContainer>
             </div>
           </IonContent>
-
-          <SenderContainer>
-            <IonItem>
-              <div
-                style={{
-                  width: "40px",
-                  display: "flex",
-                  alignItems: "center",
-                }}
-              >
-                <IonIcon
-                  className="chat-button"
-                  color="primary"
-                  slot="start"
-                  icon={mic}
-                />
-              </div>
-              <IonTextarea
-                placeholder="Write some text..."
-                value={message}
-                // onKeyPress={handleSendMessage}
-                onIonChange={(e) => setMessage(e.detail.value!)}
-              />
-
-              {message.length > 0 && (
-                <div
-                  style={{
-                    paddingLeft: "10px",
-                    width: "40px",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                  onClick={handleSubmitMessage}
-                >
-                  <IonIcon
-                    className="chat-button"
-                    color="primary"
-                    slot="end"
-                    icon={sendSharp}
-                  />
-                </div>
-              )}
-            </IonItem>
-          </SenderContainer>
         </TextContainer>
 
         <MusiContainer>
-          {/*-- Default Refresher --*/}
           <IonContent>
-            {/* <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
-              <IonRefresherContent
-                pullingIcon={chevronDownCircleOutline}
-                pullingText="Pull to refresh"
-                refreshingSpinner="circles"
-                refreshingText="Refreshing..."
-              ></IonRefresherContent>
-            </IonRefresher> */}
-
             <IonSearchbar
               slot="fixed"
               value={searchText}
@@ -371,20 +362,6 @@ const Chat = () => {
         contentId="content2"
       >
         <IonHeader>
-          {/* <IonIcon
-              color="grey"
-              className="settings"
-              slot="start"
-              icon={personAddOutline}
-              onClick={() => setGroupModalShow(true)}
-            ></IonIcon>
-            <IonIcon
-              color="grey"
-              className="settings"
-              slot="end"
-              icon={settingsOutline}
-              onClick={() => setSettingsModalShow(true)}
-            ></IonIcon> */}
           <Settings
             messageTheme={messageTheme}
             setMessageTheme={setMessageTheme}
@@ -395,33 +372,22 @@ const Chat = () => {
             modalShow={SettingsModalShow}
             setModalShow={setSettingsModalShow}
           />
-
-          {/* <CreateGroup
-            modalShow={GroupModalShow}
-            setModalShow={setGroupModalShow}
-          /> */}
         </IonHeader>
         <IonContent id="content2"></IonContent>
       </IonMenu>
-      <IonRouterOutlet
-        style={{ zIndex: 1 }}
-        id="main2"
-        // style={{
-        //   backgroundColor: `${BackgroundColor}`,
-        // }}
-      ></IonRouterOutlet>
+      <IonRouterOutlet style={{ zIndex: 1 }} id="main2"></IonRouterOutlet>
     </IonContent>
   );
 };
 
-const MusiContainer = styled(IonCard)`
+const MusiContainer = styled(IonContent)`
   @media (max-width: 768px) {
     display: none;
   }
-  heigth: 90vh;
+  heigth: 100vh;
   width: 30vw;
 `;
-const TextContainer = styled(IonCard)`
+const TextContainer = styled(IonContent)`
   @media (max-width: 768px) {
     width: 100%;
   }
@@ -444,19 +410,25 @@ const ChatContainer = styled.div`
   display: flex;
   flex-direction: row;
   height: 100%;
+  padding-top: 50px;
   width: 100vw;
 `;
 const HeaderChat = styled.div`
   height: 50px;
-  margin-bottom: 20px;
-  position: relative;
+  width: 100vw;
+  z-index: 10;
+
+  position: fixed;
   width: 100%;
   top: 0px;
 `;
 const SenderContainer = styled.div`
-  position: relative;
-  height: 100%;
-  width: 100%;
+  @media (max-width: 768px) {
+    width: 100vw;
+  }
+  position: fixed;
+  height: 60px;
+  width: 50vw;
   bottom: 0px;
   box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
 `;
