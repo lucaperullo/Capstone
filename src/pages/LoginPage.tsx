@@ -27,7 +27,7 @@ const LoginPage = () => {
   // const spotiLoginHandler = async () => {
   //   setShowLoading(true);
   //   try {
-  //     const data = await fetch(` {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"http://localhost:3999"}login/spotify`);
+  //     const data = await fetch(` {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"https://capstonebe.herokuapp.com"}login/spotify`);
   //     console.log(data);
   //   } catch (error) {
   //     console.log(error);
@@ -37,7 +37,7 @@ const LoginPage = () => {
   // const code = new URLSearchParams(window.location.search).get("code");
   // const handleLogin = async () => {
   //   setShowLoading(true);
-  //   const data = await fetch(" {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"http://localhost:3999"}spotify/login");
+  //   const data = await fetch(" {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"https://capstonebe.herokuapp.com"}spotify/login");
   //   console.log(data);
   // };
 
@@ -80,7 +80,7 @@ const LoginPage = () => {
             href={`${
               process.env.REACT_APP_NODE_ENV === "Production"
                 ? "https://capstonebe.herokuapp.com/spotify/login"
-                : "http://localhost:3999/spotify/login"
+                : "https://capstonebe.herokuapp.com/spotify/login"
             }`}
             style={{ textDecoration: "none" }}
           >

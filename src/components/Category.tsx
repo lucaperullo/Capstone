@@ -26,7 +26,7 @@ export default function Category() {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? ` https://capstonebe.herokuapp.com/spotify/playlist/${id}/tracks`
-            : `http://localhost:3999/spotify/playlist/${id}/tracks`
+            : `https://capstonebe.herokuapp.com/spotify/playlist/${id}/tracks`
         }`,
         {
           headers: {

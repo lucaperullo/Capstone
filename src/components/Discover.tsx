@@ -60,7 +60,7 @@ const Discover = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/auth/me"
-            : "http://localhost:3999/auth/me"
+            : "https://capstonebe.herokuapp.com/auth/me"
         }`,
         {
           credentials: "include",
@@ -91,7 +91,7 @@ const Discover = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/spotify/view-more-categories"
-            : "http://localhost:3999/spotify/view-more-categories"
+            : "https://capstonebe.herokuapp.com/spotify/view-more-categories"
         }`,
         {
           method: "POST",
@@ -120,7 +120,7 @@ const Discover = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/spotify/view-more-releases"
-            : "http://localhost:3999/spotify/view-more-releases"
+            : "https://capstonebe.herokuapp.com/spotify/view-more-releases"
         }`,
         { method: "POST", body: code, credentials: "include" }
       );
@@ -145,7 +145,7 @@ const Discover = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/spotify/raccomanded"
-            : "http://localhost:3999/spotify/raccomanded"
+            : "https://capstonebe.herokuapp.com/spotify/raccomanded"
         }`,
         {
           headers: {
@@ -177,7 +177,7 @@ const Discover = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/spotify/recently-played"
-            : "http://localhost:3999/spotify/recently-played"
+            : "https://capstonebe.herokuapp.com/spotify/recently-played"
         }`,
         {
           headers: {
@@ -207,7 +207,7 @@ const Discover = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/spotify/favourites"
-            : "http://localhost:3999/spotify/favourites"
+            : "https://capstonebe.herokuapp.com/spotify/favourites"
         }`,
         {
           credentials: "include",

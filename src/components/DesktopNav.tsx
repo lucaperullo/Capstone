@@ -39,6 +39,7 @@ import { useStateValue } from "../contextApi/stateProvider";
 import Avatar from "./Avatar";
 
 import { useHistory } from "react-router";
+import Conversations from "./Conversations";
 interface SettingsProps {
   messageTheme: string;
   setMessageTheme: (theme: string) => void;
@@ -131,7 +132,7 @@ export default function DesktopNav(props: SettingsProps) {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://capstonebe.herokuapp.com/auth/me`
-            : `http://localhost:3999/auth/me`
+            : `https://capstonebe.herokuapp.com/auth/me`
         }`,
         {
           method: "PUT",
@@ -165,7 +166,7 @@ export default function DesktopNav(props: SettingsProps) {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://capstonebe.herokuapp.com/auth/me`
-            : `http://localhost:3999/auth/me`
+            : `https://capstonebe.herokuapp.com/auth/me`
         }`,
         {
           method: "PUT",
@@ -252,9 +253,7 @@ export default function DesktopNav(props: SettingsProps) {
           <IonList>
             <IonListHeader>CONVERSATIONS</IonListHeader>
             <IonItem>
-              <a href="/discover">
-                Discover new people with similar music tastes!
-              </a>
+              <Conversations />
             </IonItem>
             {/* <IonItem button>Theming</IonItem>
             <IonItem button>comingsoon</IonItem>

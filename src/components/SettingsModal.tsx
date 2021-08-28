@@ -67,7 +67,7 @@ const SettingsModal = (props: SettingsProps) => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://capstonebe.herokuapp.com/auth/me`
-            : `http://localhost:3999/auth/me`
+            : `https://capstonebe.herokuapp.com/auth/me`
         }`,
         {
           method: "PUT",

@@ -24,7 +24,7 @@ import {
   IonCardContent,
 } from "@ionic/react";
 import { chatbubblesSharp, moon, sunny, trashSharp } from "ionicons/icons";
-import Lottie from "react-lottie";
+
 import animationData from "../lotties/dark-light.json";
 import "../theme/style.css";
 import { useStateValue } from "../contextApi/stateProvider";
@@ -67,7 +67,7 @@ const Settings = (props: SettingsProps) => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://capstonebe.herokuapp.com/auth/me`
-            : `http://localhost:3999/auth/me`
+            : `https://capstonebe.herokuapp.com/auth/me`
         }`,
         {
           method: "PUT",
@@ -143,7 +143,7 @@ const Settings = (props: SettingsProps) => {
                       icon={dark ? sunny : moon}
                     />
                     <div onClick={toggleDarkModeHandler}>
-                      <Lottie options={defaultOptions} height={30} width={50} />
+                      {/* <Lottie options={defaultOptions} height={30} width={50} /> */}
                     </div>
                     {/* <IonToggle
                       checked={state?.user?.appTheming?.theme}

@@ -13,9 +13,12 @@ import { useStateValue } from "../contextApi/stateProvider";
 export default function RecentlyPlayed() {
   const [state, dispatch] = useStateValue();
   const toggleLike = async (id: any) => {
-    const data = await fetch(`http://localhost:3999/spotify/likeTrack/${id}`, {
-      credentials: "include",
-    });
+    const data = await fetch(
+      `https://capstonebe.herokuapp.com/spotify/likeTrack/${id}`,
+      {
+        credentials: "include",
+      }
+    );
   };
   const recentlyPlayed = {
     // Responsive breakpoints

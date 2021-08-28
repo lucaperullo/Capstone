@@ -116,7 +116,7 @@ const Chat = () => {
       `${
         process.env.REACT_APP_NODE_ENV === "Production"
           ? `https://capstonebe.herokuapp.com/messages/${roomId}`
-          : `http://localhost:3999/messages/${roomId}`
+          : `https://capstonebe.herokuapp.com/messages/${roomId}`
       }`,
       {
         withCredentials: true,

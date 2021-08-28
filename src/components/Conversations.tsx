@@ -36,7 +36,7 @@ export default function Conversations() {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/me"
-            : "http://localhost:3999/me"
+            : "https://capstonebe.herokuapp.com/me"
         }`,
         {
           credentials: "include",
@@ -85,7 +85,7 @@ export default function Conversations() {
         ></IonSearchbar>
       </IonToolbar>
       <IonContent style={{ position: "absolute", top: "16vh", height: "100%" }}>
-        {state.user?.rooms > 0 ? (
+        {state.user?.rooms ? (
           state.user?.rooms?.map((data: Group, i: number) => {
             const { userId } = data.participants.filter(
               (p: any) => p.userId._id !== state.user._id

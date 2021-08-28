@@ -36,7 +36,7 @@ export default function TopUsersFolder() {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/spotify/favourites"
-            : "http://localhost:3999/spotify/favourites"
+            : "https://capstonebe.herokuapp.com/spotify/favourites"
         }`,
 
         {

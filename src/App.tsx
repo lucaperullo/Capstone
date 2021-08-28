@@ -1,6 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 
-import { IonApp } from "@ionic/react";
+import { IonApp, IonContent } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
@@ -43,6 +43,7 @@ import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import SongList from "./components/SongList";
 import SwiperCore, { EffectCoverflow, Pagination } from "swiper/core";
+import Chat from "./components/Chat";
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
 //TODO: share timing of the queque of the songs with socket
@@ -60,7 +61,7 @@ const App: React.FC = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/auth/me"
-            : "http://localhost:3999/auth/me"
+            : "https://capstonebe.herokuapp.com/auth/me"
         }`,
         {
           credentials: "include",
@@ -130,6 +131,10 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/profile">
             <Profile />
+          </Route>
+          <Route path="/conversations/:id">
+            <Chat />
+            {/* <Contacts /> */}
           </Route>
         </div>
         <div className="mobileView">

@@ -40,7 +40,7 @@ const Following = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? `https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`
-            : `http://localhost:3999/users/follow/${userid}/${username}`
+            : `https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`
         }`,
 
         {
@@ -59,7 +59,7 @@ const Following = () => {
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
             ? "https://capstonebe.herokuapp.com/users"
-            : "http://localhost:3999/users"
+            : "https://capstonebe.herokuapp.com/users"
         }`,
         {
           credentials: "include",
