@@ -5,7 +5,7 @@ export const socketConnection = () => {
     `${
       process.env.REACT_APP_NODE_ENV === "Dev"
         ? "http://localhost:3999"
-        : "https://spotify-fetch.herokuapp.com/https://capstonebe.herokuapp.com"
+        : "https://capstonebe.herokuapp.com"
     }`
   );
   socket.on("connect", () => {
