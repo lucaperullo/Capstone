@@ -7164,6 +7164,9 @@ ion-content ::-webkit-scrollbar {
     display: none;
   }
 }
+.chat-button {
+  font-size: 25px;
+}
 /* .searchbar-all {
   background-color: #2222228f;
   backdrop-filter: blur(5px);

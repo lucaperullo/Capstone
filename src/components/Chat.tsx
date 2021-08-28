@@ -3,6 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import {
   IonAvatar,
   IonBackButton,
+  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
@@ -102,7 +103,7 @@ const Chat = () => {
     });
     setMessage("");
     fetchMessages();
-    scrollToBottom();
+    // scrollToBottom();
   };
   const contentRef = useRef<HTMLIonContentElement | null>(null);
   const scrollToBottom = () => {
@@ -267,13 +268,20 @@ const Chat = () => {
 
           <SenderContainer>
             <IonItem>
-              <IonIcon
-                className="chat-button"
-                color="primary"
-                slot="start"
-                icon={mic}
-              />
-
+              <div
+                style={{
+                  width: "40px",
+                  display: "flex",
+                  alignItems: "center",
+                }}
+              >
+                <IonIcon
+                  className="chat-button"
+                  color="primary"
+                  slot="start"
+                  icon={mic}
+                />
+              </div>
               <IonTextarea
                 placeholder="Write some text..."
                 value={message}
@@ -282,13 +290,22 @@ const Chat = () => {
               />
 
               {message.length > 0 && (
-                <IonIcon
+                <div
+                  style={{
+                    paddingLeft: "10px",
+                    width: "40px",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
                   onClick={handleSubmitMessage}
-                  className="chat-button"
-                  color="primary"
-                  slot="end"
-                  icon={sendSharp}
-                />
+                >
+                  <IonIcon
+                    className="chat-button"
+                    color="primary"
+                    slot="end"
+                    icon={sendSharp}
+                  />
+                </div>
               )}
             </IonItem>
           </SenderContainer>
