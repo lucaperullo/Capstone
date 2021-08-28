@@ -42,14 +42,14 @@ import Category from "./components/Category";
 import Navbar from "./components/Navbar";
 import Home from "./components/Home";
 import SongList from "./components/SongList";
-import SwiperCore, { EffectCoverflow, Pagination } from "swiper/core";
+
 import Chat from "./components/Chat";
 import Contacts from "./components/Contacts";
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
 //TODO: share timing of the queque of the songs with socket
 //TODO: optimize styling and UX/UI to make it beginner friendly and not hard to use
-SwiperCore.use([EffectCoverflow, Pagination]);
+
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
   const [searchText, setSearchText] = useState<string>();

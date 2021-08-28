@@ -19,7 +19,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 
 // Import Swiper React components
-import { Swiper, SwiperSlide } from "swiper/react";
+
 // import Swiper styles
 
 // Import Swiper React components
