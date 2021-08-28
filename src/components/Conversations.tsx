@@ -35,7 +35,7 @@ export default function Conversations() {
       const response = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? "https://capstonebe.herokuapp.com/me"
+            ? "http://localhost:3999/me"
             : "https://capstonebe.herokuapp.com/me"
         }`,
         {
@@ -84,41 +84,38 @@ export default function Conversations() {
           onIonChange={(e) => setSearchText(e.detail.value!)}
         ></IonSearchbar>
       </IonToolbar>
-      <IonContent style={{ position: "absolute", top: "16vh", height: "100%" }}>
-        {state.user?.rooms ? (
-          state.user?.rooms?.map((data: Group, i: number) => {
-            const { userId } = data.participants.filter(
-              (p: any) => p.userId._id !== state.user._id
-            )[0];
-            const { profilePic, bio, username, status } = userId;
-            return (
-              <IonItem
-                key={i}
-                onClick={(e) => {
-                  history.push(`/conversations/${data._id}`);
-                  // useGenerateGroup()
-                  dispatch({ type: "SET_ACTUAL_CHAT", payload: userId });
-                }}
-              >
-                <IonAvatar slot="start">
-                  <img draggable="false" src={profilePic} alt="pro-pic" />
-                </IonAvatar>
-                <IonLabel>
-                  <h3>{username}</h3>
-                  <p>{bio}</p>
-                </IonLabel>
-              </IonItem>
-            );
-          })
-        ) : (
-          <div>
-            <h3>You dont have any conversations yet</h3> <br />
-            <a href="/discover">
-              Discover new people with similar music tastes!
-            </a>
-          </div>
-        )}
-      </IonContent>
+
+      {state.user?.rooms ? (
+        state.user?.rooms?.map((data: Group, i: number) => {
+          const { userId } = data.participants.filter(
+            (p: any) => p.userId._id !== state.user._id
+          )[0];
+          const { profilePic, bio, username, status } = userId;
+          return (
+            <IonItem
+              key={i}
+              onClick={(e) => {
+                history.push(`/conversations/${data._id}`);
+                // useGenerateGroup()
+                dispatch({ type: "SET_ACTUAL_CHAT", payload: userId });
+              }}
+            >
+              <IonAvatar slot="start">
+                <img draggable="false" src={profilePic} alt="pro-pic" />
+              </IonAvatar>
+              <IonLabel>
+                <h3>{username}</h3>
+                <p>{bio}</p>
+              </IonLabel>
+            </IonItem>
+          );
+        })
+      ) : (
+        <div>
+          <h3>You dont have any conversations yet</h3> <br />
+          <a href="/discover">Discover new people with similar music tastes!</a>
+        </div>
+      )}
     </IonContent>
   );
 }

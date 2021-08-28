@@ -38,7 +38,7 @@ import React, { useEffect, useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 import Avatar from "./Avatar";
 
-import { useHistory } from "react-router";
+import { useHistory } from "react-router-dom";
 import Conversations from "./Conversations";
 interface SettingsProps {
   messageTheme: string;
@@ -131,7 +131,7 @@ export default function DesktopNav(props: SettingsProps) {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? `https://capstonebe.herokuapp.com/auth/me`
+            ? `http://localhost:3999/auth/me`
             : `https://capstonebe.herokuapp.com/auth/me`
         }`,
         {
@@ -165,7 +165,7 @@ export default function DesktopNav(props: SettingsProps) {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? `https://capstonebe.herokuapp.com/auth/me`
+            ? `http://localhost:3999/auth/me`
             : `https://capstonebe.herokuapp.com/auth/me`
         }`,
         {

@@ -6,7 +6,7 @@ export default function Home() {
   const getRooms = async () => {
     const rooms = await fetch(
       process.env.REACT_APP_NODE_ENV === "Production"
-        ? "https://capstonebe.herokuapp.com/rooms"
+        ? "http://localhost:3999/rooms"
         : "https://capstonebe.herokuapp.com/rooms",
       { credentials: "include" }
     );

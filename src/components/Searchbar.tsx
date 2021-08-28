@@ -18,7 +18,7 @@ export default function Searchbar() {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? `https://capstonebe.herokuapp.com/spotify/search/${query}`
+            ? `http://localhost:3999/spotify/search/${query}`
             : `https://capstonebe.herokuapp.com/spotify/search/${query}`
         }`,
         {

@@ -56,11 +56,11 @@ const LoginPage = () => {
             }}
           >
             <h1 style={{ fontSize: 40 }}>WELCOME TO OURMUSIC.</h1>
-            <TextLoop mask={true}>
+            {/* <TextLoop mask={true}>
               <h3>Listen</h3>
               <h3>Chat</h3>
               <h3>Discover</h3>
-            </TextLoop>
+            </TextLoop> */}
             {/* <Typist cursor={{ show: false }}>
               
             </Typist> */}
@@ -80,7 +80,7 @@ const LoginPage = () => {
             href={`${
               process.env.REACT_APP_NODE_ENV === "Production"
                 ? "https://capstonebe.herokuapp.com/spotify/login"
-                : "https://capstonebe.herokuapp.com/spotify/login"
+                : "http://localhost:3999/spotify/login"
             }`}
             style={{ textDecoration: "none" }}
           >

@@ -1,6 +1,6 @@
 {
   "appId": "io.ionic.starter",
-  "appName": "Our-Music",
+  "appName": "Ourmusic",
   "webDir": "build",
   "bundledWebRuntime": false,
   "plugins": {

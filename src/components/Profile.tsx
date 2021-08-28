@@ -113,7 +113,7 @@ const Profile = () => {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? "https://capstonebe.herokuapp.com/auth/me"
+            ? "http://localhost:3999/auth/me"
             : "https://capstonebe.herokuapp.com/auth/me"
         }`,
         {

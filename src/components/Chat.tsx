@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react";
 
 import {
   IonAvatar,
+  IonBackButton,
+  IonButtons,
   IonCard,
   IonCardContent,
   IonCardHeader,
@@ -13,13 +15,11 @@ import {
   IonItem,
   IonLabel,
   IonMenu,
-  IonMenuButton,
-  IonRefresher,
-  IonRefresherContent,
   IonRouterOutlet,
   IonSearchbar,
   IonText,
   IonTextarea,
+  IonToolbar,
 } from "@ionic/react";
 
 import styled from "styled-components";
@@ -27,20 +27,19 @@ import Moment from "react-moment";
 
 import "../theme/style.css";
 
-import { chevronDownCircleOutline, mic } from "ionicons/icons";
+import { mic } from "ionicons/icons";
 
 import { sendSharp } from "ionicons/icons";
 // import CreateGroup from "./CreateGroup";
-import { url } from "inspector";
+
 import "../theme/style.css";
 
 import { useStateValue } from "../contextApi/stateProvider";
 
 import axios from "axios";
 import Settings from "./Settings";
-import SpotifyWebApi from "spotify-web-api-node";
 
-import Player from "./Player";
+import { useHistory } from "react-router-dom";
 
 // export const socket = io(`ws://localhost:3000`, {
 //   withCredentials: true,
@@ -56,6 +55,7 @@ interface MMessages {
   updatedAt: string;
 }
 const Chat = () => {
+  let history = useHistory();
   const [messageTheme, setMessageTheme] = useState<string>("primary");
   const [searchText, setSearchText] = useState<string>("");
   const [SettingsModalShow, setSettingsModalShow] = useState<boolean>(false);
@@ -77,24 +77,21 @@ const Chat = () => {
   const { socket } = state;
   const roomId = window.location.pathname.split("/")[2];
 
-  const spotifyApi = new SpotifyWebApi({
-    clientId: "caefca1208c4456685d3300573064639",
-  });
   // const code = state.spotifyCode.toString();
   // const accessToken = useAuth(code);
 
   // console.log(code);
-  function doRefresh(event: { detail: { complete: () => void } }) {
-    console.log("Begin async operation");
+  // function doRefresh(event: { detail: { complete: () => void } }) {
+  //   console.log("Begin async operation");
 
-    setTimeout(() => {
-      event.detail.complete();
+  //   setTimeout(() => {
+  //     event.detail.complete();
 
-      setTimeout(() => {
-        console.log(searchResults);
-      }, 100);
-    }, 2000);
-  }
+  //     setTimeout(() => {
+  //       console.log(searchResults);
+  //     }, 100);
+  //   }, 2000);
+  // }
   const handleSubmitMessage = async (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -115,14 +112,14 @@ const Chat = () => {
     const messages = await axios.get(
       `${
         process.env.REACT_APP_NODE_ENV === "Production"
-          ? `https://capstonebe.herokuapp.com/messages/${roomId}`
+          ? `http://localhost:3999/messages/${roomId}`
           : `https://capstonebe.herokuapp.com/messages/${roomId}`
       }`,
       {
         withCredentials: true,
       }
     );
-    console.log(messages);
+
     setConversation(messages.data.messages);
     scrollToBottom();
   };
@@ -147,10 +144,10 @@ const Chat = () => {
     // setSearchResults("");
   };
 
-  const handlePlay = (track: any, id: any) => {
-    chooseTrack(track);
-    getControls(id);
-  };
+  // const handlePlay = (track: any, id: any) => {
+  //   chooseTrack(track);
+  //   // getControls(id);
+  // };
 
   useEffect(() => {
     themeCheck();
@@ -168,69 +165,26 @@ const Chat = () => {
   // }, []);
 
   //GET AUDIO CONTROLS FOR SONG
-  const getControls = (id: any) => {
-    spotifyApi.setAccessToken(state?.user?.spotifyTokens?.access_token);
-    spotifyApi
-      .getAudioFeaturesForTrack(id)
-      .then((res: any) => {
-        console.log(res.body);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   useEffect(() => {
     if (!searchText) return setSearchResults([]);
     console.log("search is triggeres");
-    const code = state?.user?.spotifyTokens?.access_token;
-    console.log({ code });
-    if (state?.user?.spotifyTokens?.access_token !== null) {
-      spotifyApi.setAccessToken(state?.user?.spotifyTokens?.access_token);
-    }
-
-    spotifyApi
-      .searchTracks(searchText)
-      .then((res: any) => {
-        setSearchResults(res.body.tracks?.items);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, [searchText]);
+  }, []);
   return (
     <IonContent
       scrollEvents={true}
       scrollY={false}
       slot="fixed"
       style={{
-        zIndex: 10,
+        position: "absolute",
+        height: "100vh",
+        zIndex: 20,
         display: "flex",
         flexDirection: "row",
       }}
     >
       <ChatContainer>
         <TextContainer>
-          <IonHeader>
-            {state?.actualChat && (
-              <div className="contact-header">
-                <IonItem>
-                  <IonAvatar slot="start">
-                    <img
-                      draggable="false"
-                      src={state.actualChat.profilePic}
-                      alt=""
-                    />
-                  </IonAvatar>
-                  <IonLabel>
-                    <h2>{state.actualChat.username}</h2>
-                    <p>{state.actualChat.bio}</p>
-                    <p>{state.actualChat.status.presence}</p>
-                  </IonLabel>
-                </IonItem>
-              </div>
-            )}
-          </IonHeader>
           <IonContent
             ref={contentRef}
             scrollEvents={true}
@@ -254,6 +208,29 @@ const Chat = () => {
                 }`,
               }}
             >
+              <HeaderChat>
+                <IonToolbar>
+                  <IonButtons slot="start">
+                    <IonBackButton defaultHref={"home"} />
+                  </IonButtons>
+                  {state?.actualChat && (
+                    <IonItem>
+                      <IonAvatar slot="start">
+                        <img
+                          draggable="false"
+                          src={state.actualChat.profilePic}
+                          alt=""
+                        />
+                      </IonAvatar>
+                      <IonLabel>
+                        <h2>{state.actualChat.username}</h2>
+                        {/* <p>{state.actualChat.bio}</p> */}
+                        <p>{state.actualChat.status.presence}</p>
+                      </IonLabel>
+                    </IonItem>
+                  )}
+                </IonToolbar>
+              </HeaderChat>
               {conversation?.map(
                 ({ text, senderId, createdAt, _id }, idx: number) => {
                   const current =
@@ -286,47 +263,48 @@ const Chat = () => {
                 }
               )}
             </div>
-            <SenderContainer>
-              <IonItem>
+          </IonContent>
+
+          <SenderContainer>
+            <IonItem>
+              <IonIcon
+                className="chat-button"
+                color="primary"
+                slot="start"
+                icon={mic}
+              />
+
+              <IonTextarea
+                placeholder="Write some text..."
+                value={message}
+                // onKeyPress={handleSendMessage}
+                onIonChange={(e) => setMessage(e.detail.value!)}
+              />
+
+              {message.length > 0 && (
                 <IonIcon
+                  onClick={handleSubmitMessage}
                   className="chat-button"
                   color="primary"
-                  slot="start"
-                  icon={mic}
+                  slot="end"
+                  icon={sendSharp}
                 />
-
-                <IonTextarea
-                  placeholder="Write some text..."
-                  value={message}
-                  // onKeyPress={handleSendMessage}
-                  onIonChange={(e) => setMessage(e.detail.value!)}
-                />
-
-                {message.length > 0 && (
-                  <IonIcon
-                    onClick={handleSubmitMessage}
-                    className="chat-button"
-                    color="primary"
-                    slot="end"
-                    icon={sendSharp}
-                  />
-                )}
-              </IonItem>
-            </SenderContainer>
-          </IonContent>
+              )}
+            </IonItem>
+          </SenderContainer>
         </TextContainer>
 
         <MusiContainer>
           {/*-- Default Refresher --*/}
           <IonContent>
-            <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+            {/* <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
               <IonRefresherContent
                 pullingIcon={chevronDownCircleOutline}
                 pullingText="Pull to refresh"
                 refreshingSpinner="circles"
                 refreshingText="Refreshing..."
               ></IonRefresherContent>
-            </IonRefresher>
+            </IonRefresher> */}
 
             <IonSearchbar
               slot="fixed"
@@ -342,7 +320,7 @@ const Chat = () => {
                   searchResults.map((track: any) => {
                     return (
                       <IonCard
-                        onClick={() => handlePlay(track.uri, track.id)}
+                        // onClick={() => handlePlay(track.uri, track.id)}
                         key={track.uri}
                         style={{ height: "auto", cursor: "pointer" }}
                       >
@@ -430,7 +408,7 @@ const TextContainer = styled(IonCard)`
   @media (max-width: 768px) {
     width: 100%;
   }
-  height: 85vh;
+  height: auto;
   width: 70vw;
   padding-bottom: 65px;
 `;
@@ -452,18 +430,19 @@ const ChatContainer = styled.div`
   height: 100%;
   width: 100vw;
 `;
+const HeaderChat = styled.div`
+  height: 50px;
+  margin-bottom: 20px;
+  position: relative;
+  width: 100%;
+  top: 0px;
+`;
 const SenderContainer = styled.div`
-  @media (max-width: 768px) {
-    width: 100vw;
-    padding: 0;
-    padding-bottom: 40px;
-    left: 0;
-  }
-  width: 500px;
-  padding-bottom: 40px;
+  position: relative;
+  height: 100%;
+  width: 100%;
+  bottom: 0px;
   box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
-  position: fixed;
-  bottom: 0;
 `;
 
 export default Chat;

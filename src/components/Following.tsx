@@ -39,7 +39,7 @@ const Following = () => {
       const data = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? `https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`
+            ? `http://localhost:3999/users/follow/${userid}/${username}`
             : `https://capstonebe.herokuapp.com/users/follow/${userid}/${username}`
         }`,
 
@@ -58,7 +58,7 @@ const Following = () => {
       const res = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? "https://capstonebe.herokuapp.com/users"
+            ? "http://localhost:3999/users"
             : "https://capstonebe.herokuapp.com/users"
         }`,
         {

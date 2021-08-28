@@ -44,6 +44,7 @@ import Home from "./components/Home";
 import SongList from "./components/SongList";
 import SwiperCore, { EffectCoverflow, Pagination } from "swiper/core";
 import Chat from "./components/Chat";
+import Contacts from "./components/Contacts";
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
 //TODO: share timing of the queque of the songs with socket
@@ -60,7 +61,7 @@ const App: React.FC = () => {
       const response = await fetch(
         `${
           process.env.REACT_APP_NODE_ENV === "Production"
-            ? "https://capstonebe.herokuapp.com/auth/me"
+            ? "http://localhost:3999/auth/me"
             : "https://capstonebe.herokuapp.com/auth/me"
         }`,
         {
@@ -114,7 +115,9 @@ const App: React.FC = () => {
         <Route exact path="/">
           <Redirect to="/login" />
         </Route>
-
+        <Route exact path="/conversations/:id">
+          <Chat />
+        </Route>
         <Route path="/" component={Player} />
         <Route path="/login" exact component={LoginPage} />
         <Route exact path="/discover/:category">
@@ -131,10 +134,6 @@ const App: React.FC = () => {
           </Route>
           <Route exact path="/profile">
             <Profile />
-          </Route>
-          <Route path="/conversations/:id">
-            <Chat />
-            {/* <Contacts /> */}
           </Route>
         </div>
         <div className="mobileView">

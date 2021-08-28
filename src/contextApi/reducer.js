@@ -11,6 +11,7 @@ export const initialState = {
   category: null,
   categoryName: null,
   logged: false,
+  actualChat: null,
   nowPlaying: {
     tracks: [],
     playing: false,
@@ -26,7 +27,11 @@ export const reducer = (state = initialState, action) => {
         ...state,
         user: action.payload,
       };
-
+    case "SET_ACTUAL_CHAT":
+      return {
+        ...state,
+        actualChat: action.payload,
+      };
     case "SET_USERS":
       return {
         ...state,
@@ -100,11 +105,7 @@ export const reducer = (state = initialState, action) => {
         ...state,
         socket: action.payload,
       };
-    case "SET_ACTUAL_CHAT":
-      return {
-        ...state,
-        chatTheme: action.payload,
-      };
+
     case "SET_ACTUAL_SONG":
       return {
         ...state,
