@@ -210,8 +210,8 @@ const Chat = () => {
           >
             <div
               style={{
-                paddingBottom: "60px",
-                paddingTop: "20px",
+                paddingBottom: "100px",
+                paddingTop: "50px",
                 minHeight: "100%",
                 height: "auto",
                 backgroundImage: `url(${
