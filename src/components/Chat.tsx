@@ -210,7 +210,7 @@ const Chat = () => {
           >
             <div
               style={{
-                paddingBottom: "100px",
+                paddingBottom: "140px",
                 paddingTop: "50px",
                 minHeight: "100%",
                 height: "auto",
