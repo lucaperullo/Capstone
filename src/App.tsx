@@ -1,6 +1,6 @@
 import { Redirect, Route } from "react-router-dom";
 
-import { IonApp, IonContent } from "@ionic/react";
+import { IonApp } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 
 /* Core CSS required for Ionic components to work properly */
@@ -22,7 +22,6 @@ import "@ionic/react/css/typography.css";
 /* Theme variables */
 import "./theme/variables.css";
 import "./theme/style.css";
-import "swiper/swiper.scss";
 
 // other imports
 
@@ -44,7 +43,7 @@ import Home from "./components/Home";
 import SongList from "./components/SongList";
 
 import Chat from "./components/Chat";
-import Contacts from "./components/Contacts";
+
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
 //TODO: share timing of the queque of the songs with socket
