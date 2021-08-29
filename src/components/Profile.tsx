@@ -35,6 +35,7 @@ import {
   caretForwardOutline,
   chevronDownCircleOutline,
   pauseOutline,
+  pencil,
   playOutline,
   playSkipBackOutline,
   playSkipForwardOutline,
@@ -42,7 +43,7 @@ import {
   settingsOutline,
   shuffleOutline,
 } from "ionicons/icons";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 import ProfileNavigator from "./ProfileNavigator";
 
@@ -81,7 +82,12 @@ const Profile = () => {
       console.log(error);
     }
   };
-
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      setLoading(false);
+    }, 500);
+  }, []);
   const [profilePic, setProfilePic] = useState<any>();
   const [bio, setBio] = useState(state?.user?.bio);
   const [username, setUsername] = useState(state?.user?.username);
@@ -126,175 +132,171 @@ const Profile = () => {
     <>
       <IonContent style={{ minHeight: "100vh" }}>
         {/*-- Default Refresher --*/}
-        <IonContent>
-          {Loading && (
-            <IonCard>
+
+        {Loading && (
+          <IonContent>
+            <IonSearchbar
+              value={searchText}
+              onIonChange={(e) => setSearchText(e.detail.value!)}
+              animated
+            ></IonSearchbar>
+            <IonCardHeader>
+              <IonAvatar>
+                <IonSkeletonText animated />
+              </IonAvatar>
+
+              <IonCardSubtitle>
+                <IonSkeletonText animated style={{ width: "100%" }} />
+              </IonCardSubtitle>
+              <IonCardTitle>
+                <IonSkeletonText animated style={{ width: "100%" }} />
+              </IonCardTitle>
+            </IonCardHeader>
+
+            <IonCardContent>
+              <div style={{ display: "flex", justifyContent: "space-evenly" }}>
+                <IonGrid>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <IonThumbnail>
+                      <IonSkeletonText animated />
+                    </IonThumbnail>
+                    <IonSkeletonText animated />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <IonThumbnail>
+                      <IonSkeletonText animated />
+                    </IonThumbnail>
+                    <IonSkeletonText animated />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <IonThumbnail>
+                      <IonSkeletonText animated />
+                    </IonThumbnail>
+                    <IonSkeletonText animated />
+                  </div>
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <IonThumbnail>
+                      <IonSkeletonText animated />
+                    </IonThumbnail>
+                    <IonSkeletonText animated />
+                  </div>
+
+                  <div style={{ display: "flex", flexDirection: "column" }}>
+                    <IonThumbnail>
+                      <IonSkeletonText animated />
+                    </IonThumbnail>
+                    <IonSkeletonText animated />
+                  </div>
+                </IonGrid>
+              </div>
+            </IonCardContent>
+          </IonContent>
+        )}
+
+        {!Loading && (
+          <>
+            <IonContent style={{ minHeight: "100vh" }}>
               <IonSearchbar
                 value={searchText}
                 onIonChange={(e) => setSearchText(e.detail.value!)}
                 animated
               ></IonSearchbar>
               <IonCardHeader>
-                <IonAvatar>
-                  <IonSkeletonText animated />
-                </IonAvatar>
+                <div
+                  style={{
+                    position: "absolute",
+                    fontSize: "22px",
+                    right: "10px",
+                  }}
+                >
+                  <IonIcon
+                    color="medium"
+                    onClick={() => setClicked(!clicked)}
+                    icon={pencil}
+                  />
+                </div>
+                <div className="profile-cover">
+                  {!clicked ? (
+                    <img
+                      draggable="false"
+                      className="our-avatar"
+                      src={state?.user?.profilePic}
+                      alt=""
+                    />
+                  ) : (
+                    <input
+                      onChange={(e) =>
+                        setProfilePic(e.currentTarget?.files?.[0])
+                      }
+                      type="file"
+                      id="img"
+                      name="img"
+                      accept="image/*"
+                    ></input>
+                  )}
+                </div>
+                {clicked && (
+                  <div>
+                    <IonText>Status</IonText>
 
-                <IonCardSubtitle>
-                  <IonSkeletonText animated style={{ width: "100%" }} />
-                </IonCardSubtitle>
-                <IonCardTitle>
-                  <IonSkeletonText animated style={{ width: "100%" }} />
-                </IonCardTitle>
+                    <IonSelect
+                      value={state?.user?.status?.presence}
+                      placeholder={status}
+                      onIonChange={(e) => setStatus(e.detail.value.toString())}
+                    >
+                      <IonSelectOption value="online">online</IonSelectOption>
+                      <IonSelectOption value="offline">offline</IonSelectOption>
+                    </IonSelect>
+                  </div>
+                )}
+                <div
+                  style={{
+                    width: "100%",
+                    display: "flex",
+                    justifyContent: "center",
+                    flexDirection: "column",
+                    alignItems: "center",
+                  }}
+                >
+                  <IonCardTitle>
+                    {!clicked ? (
+                      <h1>{state?.user?.username}</h1>
+                    ) : (
+                      <IonItem>
+                        <IonInput
+                          value={username}
+                          placeholder="Username here"
+                          onIonChange={(e) => setUsername(e.detail.value!)}
+                        ></IonInput>
+                      </IonItem>
+                    )}
+                  </IonCardTitle>
+                  <IonCardSubtitle>
+                    {!clicked ? (
+                      <h3>{state?.user?.bio}</h3>
+                    ) : (
+                      <IonItem>
+                        <IonTextarea
+                          value={bio}
+                          placeholder="Write something about yourself, let everybody know what music you like!"
+                          onIonChange={(e) => setBio(e.detail.value!)}
+                        ></IonTextarea>
+                      </IonItem>
+                    )}
+                  </IonCardSubtitle>
+                  {clicked && (
+                    <IonButton onClick={() => updateUser()}>save</IonButton>
+                  )}
+                </div>
               </IonCardHeader>
 
               <IonCardContent>
-                <div
-                  style={{ display: "flex", justifyContent: "space-evenly" }}
-                >
-                  <IonGrid>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <IonThumbnail>
-                        <IonSkeletonText animated />
-                      </IonThumbnail>
-                      <IonSkeletonText animated />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <IonThumbnail>
-                        <IonSkeletonText animated />
-                      </IonThumbnail>
-                      <IonSkeletonText animated />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <IonThumbnail>
-                        <IonSkeletonText animated />
-                      </IonThumbnail>
-                      <IonSkeletonText animated />
-                    </div>
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <IonThumbnail>
-                        <IonSkeletonText animated />
-                      </IonThumbnail>
-                      <IonSkeletonText animated />
-                    </div>
-
-                    <div style={{ display: "flex", flexDirection: "column" }}>
-                      <IonThumbnail>
-                        <IonSkeletonText animated />
-                      </IonThumbnail>
-                      <IonSkeletonText animated />
-                    </div>
-                  </IonGrid>
-                </div>
+                <ProfileNavigator />
               </IonCardContent>
-            </IonCard>
-          )}
-
-          {!Loading && (
-            <>
-              <IonContent style={{ minHeight: "100vh" }}>
-                <IonSearchbar
-                  value={searchText}
-                  onIonChange={(e) => setSearchText(e.detail.value!)}
-                  animated
-                ></IonSearchbar>
-                <IonCardHeader>
-                  <div>
-                    <IonFab vertical="top" horizontal="end" slot="fixed">
-                      <IonFabButton>
-                        <IonIcon
-                          onClick={() => setClicked(!clicked)}
-                          icon={settingsOutline}
-                        />
-                      </IonFabButton>
-                    </IonFab>
-                  </div>
-                  <div className="profile-cover">
-                    {!clicked ? (
-                      <img
-                        draggable="false"
-                        className="our-avatar"
-                        src={state?.user?.profilePic}
-                        alt=""
-                      />
-                    ) : (
-                      <input
-                        onChange={(e) =>
-                          setProfilePic(e.currentTarget?.files?.[0])
-                        }
-                        type="file"
-                        id="img"
-                        name="img"
-                        accept="image/*"
-                      ></input>
-                    )}
-                  </div>
-                  {clicked && (
-                    <div>
-                      <IonText>Status</IonText>
-
-                      <IonSelect
-                        value={state?.user?.status?.presence}
-                        placeholder={status}
-                        onIonChange={(e) =>
-                          setStatus(e.detail.value.toString())
-                        }
-                      >
-                        <IonSelectOption value="online">online</IonSelectOption>
-                        <IonSelectOption value="offline">
-                          offline
-                        </IonSelectOption>
-                      </IonSelect>
-                    </div>
-                  )}
-                  <div
-                    style={{
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                      flexDirection: "column",
-                      alignItems: "center",
-                    }}
-                  >
-                    <IonCardTitle>
-                      {!clicked ? (
-                        <h1>{state?.user?.username}</h1>
-                      ) : (
-                        <IonItem>
-                          <IonInput
-                            value={username}
-                            placeholder="Username here"
-                            onIonChange={(e) => setUsername(e.detail.value!)}
-                          ></IonInput>
-                        </IonItem>
-                      )}
-                    </IonCardTitle>
-                    <IonCardSubtitle>
-                      {!clicked ? (
-                        <h3>{state?.user?.bio}</h3>
-                      ) : (
-                        <IonItem>
-                          <IonTextarea
-                            value={bio}
-                            placeholder="Write something about yourself, let everybody know what music you like!"
-                            onIonChange={(e) => setBio(e.detail.value!)}
-                          ></IonTextarea>
-                        </IonItem>
-                      )}
-                    </IonCardSubtitle>
-                    {clicked && (
-                      <IonButton onClick={() => updateUser()}>save</IonButton>
-                    )}
-                  </div>
-                </IonCardHeader>
-
-                <IonCardContent>
-                  <ProfileNavigator />
-                </IonCardContent>
-                <div style={{ height: "20vh", width: "100vw" }}></div>
-              </IonContent>
-            </>
-          )}
-        </IonContent>
+              <div style={{ height: "20vh", width: "100vw" }}></div>
+            </IonContent>
+          </>
+        )}
       </IonContent>
     </>
   );

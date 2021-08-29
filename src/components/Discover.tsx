@@ -44,7 +44,7 @@ import styled from "styled-components";
 import { useStateValue } from "../contextApi/stateProvider";
 import DiscoverMusic from "./DiscoverMusic";
 import MusicFolder from "./Navigator";
-import TopUsersFolder from "./TopUsersFolder";
+import SavedTracks from "./SavedTracks";
 import SimilarTastesFolder from "./SimilarTastesFolder";
 import Navigator from "./Navigator";
 

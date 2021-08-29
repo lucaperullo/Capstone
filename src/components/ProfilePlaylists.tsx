@@ -58,9 +58,9 @@ export default function ProfilePlaylists() {
               }
               sizeLg="3"
               sizeXl="2"
-              sizeMd="6"
+              sizeMd="4"
               sizeSm="6"
-              sizeXs="12"
+              sizeXs="6"
             >
               <div className="song">
                 <img

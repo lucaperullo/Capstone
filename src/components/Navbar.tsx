@@ -1,8 +1,17 @@
+import { IonIcon } from "@ionic/react";
+import {
+  grid,
+  gridOutline,
+  personCircle,
+  personCircleOutline,
+} from "ionicons/icons";
 import React, { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useStateValue } from "../contextApi/stateProvider";
 import { socketConnection } from "../socketCalls/connection";
 import { connectToRooms } from "../socketCalls/roomsConnection";
 import "../theme/desktop.css";
+import Avatar from "./Avatar";
 
 import DesktopNav from "./DesktopNav";
 import Searchbar from "./Searchbar";
@@ -21,8 +30,11 @@ export default function Navbar() {
 
   const [Background, setBackground] = useState<string>("");
   const [BackgroundColor, setBackgroundColor] = useState("");
+  const [discoverr, setDiscover] = useState(true);
+  const [profile, setProfile] = useState(false);
   const [state, dispatch] = useStateValue();
   let socket: { disconnect: () => any };
+  let historyy = useHistory();
   const fetchUser = async () => {
     try {
       const response = await fetch(
@@ -77,20 +89,44 @@ export default function Navbar() {
         <div
           style={{
             display: "flex",
-            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+            width: "150px",
           }}
         >
-          <DesktopNav
-            messageTheme={messageTheme}
-            setMessageTheme={setMessageTheme}
-            setChatBackgroundColor={setBackgroundColor}
-            chatBackgroundColor={BackgroundColor}
-            setChatBackground={setBackground}
-            chatBackground={Background}
-            modalShow={SettingsModalShow}
-            setModalShow={setSettingsModalShow}
+          <IonIcon
+            size="large"
+            icon={profile ? personCircle : personCircleOutline}
+            color={state?.user?.appTheming?.theme ? "dark" : "white"}
+            onClick={() => {
+              historyy.push("/profile");
+              setDiscover(false);
+              setProfile(true);
+            }}
+            className="desktop-navs"
+          />
+
+          <IonIcon
+            color={state?.user?.appTheming?.theme ? "dark" : "white"}
+            className="desktop-navs"
+            icon={discoverr ? grid : gridOutline}
+            onClick={() => {
+              historyy.push("/discover");
+              setDiscover(true);
+              setProfile(false);
+            }}
           />
         </div>
+        <DesktopNav
+          messageTheme={messageTheme}
+          setMessageTheme={setMessageTheme}
+          setChatBackgroundColor={setBackgroundColor}
+          chatBackgroundColor={BackgroundColor}
+          setChatBackground={setBackground}
+          chatBackground={Background}
+          modalShow={SettingsModalShow}
+          setModalShow={setSettingsModalShow}
+        />
       </div>
     </div>
   );

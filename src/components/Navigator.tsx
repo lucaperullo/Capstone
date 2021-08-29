@@ -61,7 +61,7 @@ export default function Navigator() {
         </IonSegment>
       </div>
       {nrc && <DiscoverMusic />}
-      {/* {mru && <TopUsersFolder />} */}
+      {/* {mru && <SavedTracks />} */}
       {feed && <Following />}
       <div style={{ height: "500px" }}></div>
     </IonContent>

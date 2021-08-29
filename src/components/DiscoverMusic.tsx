@@ -15,23 +15,12 @@ import {
   IonCardTitle,
   IonCardSubtitle,
 } from "@ionic/react";
-import axios from "axios";
+
 import React, { useEffect, useRef, useState } from "react";
 
-// Import Swiper React components
-
-// import Swiper styles
-
-// Import Swiper React components
-
-// install Swiper modules
 import { useStateValue } from "../contextApi/stateProvider";
-import { useHistory } from "react-router";
-import {
-  addOutline,
-  chevronDownCircleOutline,
-  bookmarkOutline,
-} from "ionicons/icons";
+import { useHistory } from "react-router-dom";
+
 import ForYou from "./ForYou";
 import Searchbar from "./Searchbar";
 import SearchResults from "./SearchResults";
@@ -41,7 +30,16 @@ export default function DiscoverMusic() {
   let history = useHistory();
   const [state, dispatch] = useStateValue();
   const [Loading, setLoading] = useState(false);
+  useEffect(() => {
+    setLoading(true);
+    setTimeout(
+      () => {
+        setLoading(false);
+      },
 
+      1000
+    );
+  }, []);
   const slideOpts = {
     freeMode: true,
     // Responsive breakpoints
@@ -79,7 +77,7 @@ export default function DiscoverMusic() {
       },
     },
 
-    autoplay: { delay: 2000, disableOnInteraction: false },
+    autoplay: { delay: 4500, disableOnInteraction: false },
 
     lazy: true,
     loop: true,
@@ -258,7 +256,4 @@ export default function DiscoverMusic() {
       )}
     </div>
   );
-}
-function setUsers(data: any) {
-  throw new Error("Function not implemented.");
 }

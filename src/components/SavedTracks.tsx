@@ -11,11 +11,11 @@ import {
 import { bookmark, play } from "ionicons/icons";
 import { useStateValue } from "../contextApi/stateProvider";
 
-export default function TopUsersFolder() {
+export default function SavedTracks() {
   //TODO: ADD remove From saved function FOR SAVED PLAYLIST
   const dislike = async (id: any) => {
     const data = await fetch(
-      `http://localhost:3000/spotify/unlikeTrack/${id}`,
+      `http://localhost:3999/spotify/unlikeTrack/${id}`,
       { credentials: "include" }
     );
   };
@@ -76,9 +76,9 @@ export default function TopUsersFolder() {
             onClick={() => playTrack(i)}
             sizeLg="3"
             sizeXl="2"
-            sizeMd="6"
+            sizeMd="4"
             sizeSm="6"
-            sizeXs="12"
+            sizeXs="6"
           >
             <div className="song">
               <img

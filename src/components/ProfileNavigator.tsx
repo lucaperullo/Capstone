@@ -10,7 +10,7 @@ import { useState } from "react";
 import DiscoverMusic from "./DiscoverMusic";
 import Following from "./Following";
 import ProfilePlaylists from "./ProfilePlaylists";
-import TopUsersFolder from "./TopUsersFolder";
+import SavedTracks from "./SavedTracks";
 
 export default function ProfileNavigator() {
   const [nrc, setNrc] = useState(true);
@@ -66,7 +66,7 @@ export default function ProfileNavigator() {
         </IonSegment>
       </IonContent>
       {nrc && <ProfilePlaylists />}
-      {mru && <TopUsersFolder />}
+      {mru && <SavedTracks />}
       {/* {feed && <Following />} */}
     </>
   );

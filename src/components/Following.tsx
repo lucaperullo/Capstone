@@ -127,18 +127,18 @@ const Following = () => {
     fetchUsers();
   }, []);
   return (
-    <IonContent style={{ height: "100vh" }}>
-      <div style={{ paddingTop: "50px" }}>
-        <IonGrid>
-          <IonRow>
-            {state?.users?.map((user: any, idx: number) => {
-              const userPresence = () => {
-                if (user.status.presence === "online") return "green";
-                if (user.status.presence === "offline") return "grey";
-                else return "";
-              };
-              return (
-                <IonCol key={idx} sizeSm="12" sizeMd="12" sizeLg="12">
+    <div style={{ paddingTop: "50px" }}>
+      <IonGrid>
+        <IonRow>
+          {state?.users?.map((user: any, idx: number) => {
+            const userPresence = () => {
+              if (user.status.presence === "online") return "green";
+              if (user.status.presence === "offline") return "grey";
+              else return "blue";
+            };
+            return (
+              <div key={idx}>
+                <IonCol sizeSm="12" sizeMd="6" sizeLg="3">
                   <IonCard>
                     <IonCardHeader>
                       <div
@@ -199,8 +199,8 @@ const Following = () => {
                       <IonSlides options={slideOpts}>
                         {user.playlists.userPlaylists.items.map(
                           (playlist: any, i: number) => (
-                            <IonSlide>
-                              <div key={i}>
+                            <IonSlide key={i}>
+                              <div>
                                 <img
                                   draggable="false"
                                   src={playlist.images[0]?.url}
@@ -216,12 +216,12 @@ const Following = () => {
                     </IonCardContent>
                   </IonCard>
                 </IonCol>
-              );
-            })}
-          </IonRow>
-        </IonGrid>
-      </div>
-    </IonContent>
+              </div>
+            );
+          })}
+        </IonRow>
+      </IonGrid>
+    </div>
   );
 };
 export default Following;

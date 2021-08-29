@@ -4,8 +4,16 @@ import {
   IonContent,
   IonIcon,
   IonRange,
+  IonBackButton,
+  IonButtons,
+  IonHeader,
+  IonToolbar,
 } from "@ionic/react";
 import {
+  addCircle,
+  albums,
+  arrowDown,
+  heartOutline,
   pauseOutline,
   pauseSharp,
   play,
@@ -51,7 +59,14 @@ export default function FullScreenPlayer(props: any) {
         : props.audiotoplay?.pause();
     }
   };
-
+  const likeSong = async (id: any) => {
+    const like = await fetch(
+      process.env.REACT_APP_NODE_ENV === "Dev"
+        ? `http://localhost:3999/spotify/likeTrack/${id}`
+        : `https://capstone_be.herokuapp.com/spotifty/likeTrack/${id}`,
+      { credentials: "include" }
+    );
+  };
   const playPauseMusic = () => {
     dispatch({
       type: "SET_PLAY_PAUSE",
@@ -84,16 +99,6 @@ export default function FullScreenPlayer(props: any) {
     });
   };
 
-  const updateTime = () => {
-    console.log("hi");
-    // if (props.audiotoplay.currentTime !== null) {
-    //   console.log(props.audiotoplay.current);
-    //   props.audiotoplay.ontimeupdate = () => {
-    //     props.setTime(props.audiotoplay.currentTime);
-    //   };
-    // }
-  };
-
   const volumeIcons = () => {
     if (props.volume === 0) {
       return volumeMuteOutline;
@@ -108,12 +113,7 @@ export default function FullScreenPlayer(props: any) {
       return volumeHighOutline;
     }
   };
-  // useEffect(() => {
-  //   props.audiotoplay.volume = props.volume / 100;
-  // }, [props.audiotoplay, props.volume]);
-  useEffect(() => {
-    updateTime();
-  }, []);
+
   return (
     <IonModal
       swipeToClose={true}
@@ -122,13 +122,25 @@ export default function FullScreenPlayer(props: any) {
       cssClass="fullscreen"
       isOpen={props.showModal}
     >
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonIcon
+              size="large"
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              icon={arrowDown}
+            ></IonIcon>
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
+
       <div className="fullscreen-player">
         <div
           style={{
             display: "flex",
-            height: "80vh",
+            height: "90vh",
             justifyContent: "center",
-
+            paddingBottom: "300px",
             alignItems: "center",
           }}
         >
@@ -136,8 +148,9 @@ export default function FullScreenPlayer(props: any) {
             className={state.nowPlaying.playing ? "fs-cd-playing" : "fs-cd"}
             // src="https://www.pngitem.com/pimgs/m/13-134510_vinyl-record-high-resolution-hd-png-download.png"
           ></div>
-          <div className="disco"></div>
+
           <img
+            draggable={false}
             src={
               state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.album
                 ?.images[0]?.url ||
@@ -151,6 +164,46 @@ export default function FullScreenPlayer(props: any) {
             }
             alt="track-cover-fs"
           />
+        </div>
+        <div className="fs-actions-player">
+          <IonIcon
+            size="large"
+            icon={heartOutline}
+            onClick={() =>
+              likeSong(
+                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                  ?.id ||
+                  state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.id
+              )
+            }
+          />
+        </div>
+        <div className="fs-player-track-info">
+          <TextLoop mask={true}>
+            <h4
+              className={
+                state?.user?.appTheming?.theme
+                  ? "song-title-light"
+                  : "song-title"
+              }
+            >
+              {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                ?.name ||
+                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.name}
+            </h4>
+            <h4
+              className={
+                state?.user?.appTheming?.theme
+                  ? "artist-name-light"
+                  : "artist-name"
+              }
+            >
+              {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                ?.artists[0].name ||
+                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.artists[0]
+                  ?.name}
+            </h4>
+          </TextLoop>
         </div>
         <div className="fs-player-buttons">
           <button className="playPause">
@@ -206,33 +259,6 @@ export default function FullScreenPlayer(props: any) {
               icon={shuffle}
             ></IonIcon>
           </button>
-        </div>
-        <div className="fs-player-track-info">
-          <TextLoop mask={true}>
-            <h4
-              className={
-                state?.user?.appTheming?.theme
-                  ? "song-title-light"
-                  : "song-title"
-              }
-            >
-              {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
-                ?.name ||
-                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.name}
-            </h4>
-            <h4
-              className={
-                state?.user?.appTheming?.theme
-                  ? "artist-name-light"
-                  : "artist-name"
-              }
-            >
-              {state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
-                ?.artists[0].name ||
-                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.artists[0]
-                  ?.name}
-            </h4>
-          </TextLoop>
         </div>
       </div>
 

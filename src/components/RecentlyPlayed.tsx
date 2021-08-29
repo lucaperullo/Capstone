@@ -70,7 +70,7 @@ export default function RecentlyPlayed() {
   return (
     <div>
       <div className="section-name">
-        <h2>Recently played</h2>
+        <h2>Recently played on Spotify</h2>
       </div>
       <IonSlides
         style={{ paddingTop: "30px" }}

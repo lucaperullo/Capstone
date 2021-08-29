@@ -1,12 +1,5 @@
 import { IonButton, IonIcon, IonLabel, IonModal, IonRange } from "@ionic/react";
 import {
-  shuffleOutline,
-  repeatOutline,
-  playSkipBackOutline,
-  playOutline,
-  pauseOutline,
-  playSkipForwardOutline,
-  sunny,
   volumeMuteOutline,
   volumeLowOutline,
   volumeMediumOutline,
@@ -34,11 +27,18 @@ export default function Player() {
 
   if (audiotoplay) {
     audiotoplay.onended = () => {
-      nextTrack();
+      try {
+        if (audiotoplay.play !== null) {
+          nextTrack();
+        }
+      } catch (error) {
+        console.log(error);
+      }
     };
   }
   const playMusic = () => {
     const audiotoplay: any = document.getElementById("audio-tag-element");
+
     if (
       audiotoplay?.src !==
         state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
@@ -47,28 +47,37 @@ export default function Player() {
       audiotoplay.src =
         state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
         state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url;
-      state?.nowPlaying?.playing ? audiotoplay?.play() : audiotoplay?.pause();
+      if (audiotoplay.play !== null) {
+        state?.nowPlaying?.playing ? audiotoplay?.play() : audiotoplay?.pause();
+      }
     } else {
       state?.nowPlaying?.playing ? audiotoplay?.play() : audiotoplay?.pause();
     }
   };
 
   const playPauseMusic = () => {
-    if (
-      audiotoplay?.src !==
-        state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
-      state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.preview_url
-    ) {
-      audiotoplay.play();
-      dispatch({
-        type: "SET_PLAY_PAUSE",
-        payload: !state.nowPlaying.playing,
-      });
-    } else {
-      dispatch({
-        type: "SET_PLAY_PAUSE",
-        payload: !state.nowPlaying.playing,
-      });
+    try {
+      if (audiotoplay.play !== null) {
+        if (
+          audiotoplay?.src !==
+            state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.preview_url ||
+          state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+            ?.preview_url
+        ) {
+          audiotoplay.play();
+          dispatch({
+            type: "SET_PLAY_PAUSE",
+            payload: !state.nowPlaying.playing,
+          });
+        } else {
+          dispatch({
+            type: "SET_PLAY_PAUSE",
+            payload: !state.nowPlaying.playing,
+          });
+        }
+      }
+    } catch (error) {
+      console.log(error);
     }
   };
 

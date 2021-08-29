@@ -26,11 +26,15 @@ import animationData from "../lotties/dark-light.json";
 import {
   chatbubblesSharp,
   grid,
+  gridOutline,
   library,
   logOut,
   moon,
   paperPlane,
+  paperPlaneOutline,
+  paperPlaneSharp,
   settings,
+  settingsSharp,
   sunny,
   trashSharp,
 } from "ionicons/icons";
@@ -277,58 +281,53 @@ export default function DesktopNav(props: SettingsProps) {
     toggleDarkModeHandler();
   }, [dark]);
   return (
-    <div className="desktop-nav">
-      <Avatar />
-      <div className="desktop-nav-button">
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "150px",
+        }}
+      >
         <IonIcon
           color={state?.user?.appTheming?.theme ? "dark" : "white"}
-          className="desktop-navs"
-          icon={grid}
-          onClick={() => history.push("/discover")}
-        />
-      </div>
-      <div className="desktop-nav-button">
-        <IonIcon
-          color={state?.user?.appTheming?.theme ? "dark" : "white"}
-          icon={paperPlane}
+          icon={paperPlaneSharp}
           onClick={(e: any) => {
             e.persist();
             setShowPopover({ showPopover: true, event: e });
           }}
           className="desktop-navs"
         />
-        <IonPopover
-          cssClass="my-custom-class"
-          event={popoverState.event}
-          isOpen={popoverState.showPopover}
-          onDidDismiss={() =>
-            setShowPopover({ showPopover: false, event: undefined })
-          }
-        >
-          <IonList>
-            <IonListHeader>CONVERSATIONS</IonListHeader>
-            <IonItem>
-              <Conversations />
-            </IonItem>
-            {/* <IonItem button>Theming</IonItem>
-            <IonItem button>comingsoon</IonItem>
-            <IonItem button>comingsoon</IonItem>
-            <IonItem button>comingsoon</IonItem> */}
-          </IonList>
-        </IonPopover>
-      </div>
-      <div className="desktop-nav-button settings-ico">
+
         <IonIcon
           color={state?.user?.appTheming?.theme ? "dark" : "white"}
-          icon={settings}
+          icon={settingsSharp}
+          size="large"
           onClick={(e) =>
             present({
               event: e.nativeEvent,
             })
           }
-          className="desktop-navs"
+          className="desktop-navs settings-ico"
         />
       </div>
+      <IonPopover
+        cssClass="my-custom-class"
+        event={popoverState.event}
+        isOpen={popoverState.showPopover}
+        onDidDismiss={() =>
+          setShowPopover({ showPopover: false, event: undefined })
+        }
+      >
+        <IonList>
+          <IonListHeader>CONVERSATIONS</IonListHeader>
+          <IonItem>
+            <Conversations />
+          </IonItem>
+        </IonList>
+      </IonPopover>
+
       <IonModal isOpen={showModal} cssClass="fullscreen">
         <IonContent>
           <div
@@ -569,6 +568,6 @@ export default function DesktopNav(props: SettingsProps) {
           </div>
         </IonContent>
       </IonModal>
-    </div>
+    </>
   );
 }
