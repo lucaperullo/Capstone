@@ -43,6 +43,7 @@ import Home from "./components/Home";
 import SongList from "./components/SongList";
 
 import Chat from "./components/Chat";
+import AppUrlListener from "./components/AppUrlListener";
 
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
@@ -110,6 +111,7 @@ const App: React.FC = () => {
   return (
     <IonApp>
       <IonReactRouter>
+        <AppUrlListener></AppUrlListener>
         <Route exact path="/">
           <Redirect to="/login" />
         </Route>
