@@ -43,12 +43,11 @@ export default function Searchbar() {
     searchTracks(searchText);
   }, [searchText]);
   return (
-    <div className="searchbar-all">
-      <IonSearchbar
-        value={searchText}
-        onIonChange={(e) => setSearchText(e.detail.value!)}
-        animated
-      ></IonSearchbar>
-    </div>
+    <IonSearchbar
+      color={state?.user?.appTheming?.theme ? "dark" : "light"}
+      value={searchText}
+      onIonChange={(e) => setSearchText(e.detail.value!)}
+      animated
+    ></IonSearchbar>
   );
 }

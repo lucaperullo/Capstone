@@ -359,7 +359,7 @@ export default function DesktopNav(props: SettingsProps) {
                       <IonIcon icon={chatbubblesSharp} color="primary" />
                     </IonSegmentButton>
                     <IonSegmentButton value="secondary">
-                      <IonIcon icon={chatbubblesSharp} color="secondary" />
+                      <IonIcon icon={chatbubblesSharp} color="primary" />
                     </IonSegmentButton>
 
                     <IonSegmentButton value="dark">
@@ -371,7 +371,7 @@ export default function DesktopNav(props: SettingsProps) {
                     style={{ display: "flex" }}
                   >
                     <IonSegmentButton value="tertiary">
-                      <IonIcon icon={chatbubblesSharp} color="tertiary" />
+                      <IonIcon icon={chatbubblesSharp} color="primary" />
                     </IonSegmentButton>
                     <IonSegmentButton value="medium">
                       <IonIcon icon={chatbubblesSharp} color="medium" />

@@ -46,7 +46,7 @@ body {
 }
 :root {
   /** primary **/
-  --ion-color-primary: #4695d6;
+  --ion-color-primary: rgb(64, 152, 224);
   --ion-color-primary-rgb: 45, 211, 111;
   --ion-color-primary-contrast: #000000;
   --ion-color-primary-contrast-rgb: 0, 0, 0;
@@ -59,7 +59,7 @@ body {
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #36abe0;
-  --ion-color-secondary-tint: #50c8ff;
+  --ion-color-secondary-tint: rgb(64, 152, 224);
 
   /** tertiary **/
   --ion-color-tertiary: #5260ff;
@@ -94,7 +94,7 @@ body {
   --ion-color-danger-tint: #ed576b;
 
   /** dark **/
-  --ion-color-dark: #222428;
+  --ion-color-dark: #000000;
   --ion-color-dark-rgb: 34, 36, 40;
   --ion-color-dark-contrast: #ffffff;
   --ion-color-dark-contrast-rgb: 255, 255, 255;
@@ -112,9 +112,9 @@ body {
   /** light **/
   --ion-color-light: #f4f5f8;
   --ion-color-light-rgb: 244, 245, 248;
-  --ion-color-light-contrast: #000000;
+  --ion-color-light-contrast: #ffffff;
   --ion-color-light-contrast-rgb: 0, 0, 0;
-  --ion-color-light-shade: #d7d8da;
+  --ion-color-light-shade: #ffffff;
   --ion-color-light-tint: #f5f6f9;
 }
 
@@ -174,14 +174,14 @@ body {
 }
 body.dark {
   --ion-font-family: OurMusic;
-  --ion-color-primary: #4695d6;
-  --ion-color-primary-rgb: 47, 223, 117;
+  --ion-color-primary: rgb(64, 152, 224);
+  --ion-color-primary-rgb: 243, 242, 169;
   --ion-color-primary-contrast: #000000;
   --ion-color-primary-contrast-rgb: 0, 0, 0;
-  --ion-color-primary-shade: #29c467;
-  --ion-color-primary-tint: #44e283;
+  --ion-color-primary-shade: #000000;
+  --ion-color-primary-tint: #000000;
 
-  --ion-color-secondary: #50c8ff;
+  --ion-color-secondary: rgb(38, 198, 219);
   --ion-color-secondary-rgb: 80, 200, 255;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -216,7 +216,7 @@ body.dark {
   --ion-color-danger-shade: #e04055;
   --ion-color-danger-tint: #ff5b71;
 
-  --ion-color-dark: #171822;
+  --ion-color-dark: #000000;
   --ion-color-dark-rgb: 244, 245, 248;
   --ion-color-dark-contrast: #e6e6e6;
   --ion-color-dark-contrast-rgb: 0, 0, 0;
@@ -230,12 +230,12 @@ body.dark {
   --ion-color-medium-shade: #86888f;
   --ion-color-medium-tint: #a2a4ab;
 
-  --ion-color-light: #222428;
-  --ion-color-light-rgb: 34, 36, 40;
-  --ion-color-light-contrast: #ffffff;
+  --ion-color-light: #fafafa;
+  --ion-color-light-rgb: 255, 255, 255;
+  --ion-color-light-contrast: #000000;
   --ion-color-light-contrast-rgb: 255, 255, 255;
-  --ion-color-light-shade: #1e2023;
-  --ion-color-light-tint: #383a3e;
+  --ion-color-light-shade: #d4d4d4;
+  --ion-color-light-tint: #d1d1d1;
 }
 
 /*
@@ -290,7 +290,7 @@ body.dark {
 
 .md body.dark {
   --ion-font-family: OurMusic;
-  --ion-background-color: #070707;
+  --ion-background-color: #000000;
   --ion-background-color-rgb: 18, 18, 18;
 
   --ion-text-color: #ffffff;
@@ -320,7 +320,7 @@ body.dark {
 
   --ion-item-background: #1e1e1e;
 
-  --ion-toolbar-background: #1f1f1f;
+  --ion-toolbar-background: rgb(64, 152, 224);
 
   --ion-tab-bar-background: #020202;
 
@@ -335,7 +335,7 @@ body.light {
   --ion-color-primary-shade: #29c467;
   --ion-color-primary-tint: #44e283;
 
-  --ion-color-secondary: #50c8ff;
+  --ion-color-secondary: rgb(64, 152, 224);
   --ion-color-secondary-rgb: 80, 200, 255;
   --ion-color-secondary-contrast: #ffffff;
   --ion-color-secondary-contrast-rgb: 255, 255, 255;
@@ -370,7 +370,7 @@ body.light {
   --ion-color-danger-shade: #e04055;
   --ion-color-danger-tint: #ff5b71;
 
-  --ion-color-dark: #2e2e2f;
+  --ion-color-dark: #000000;
   --ion-color-dark-rgb: 244, 245, 248;
   --ion-color-dark-contrast: #ececec;
   --ion-color-dark-contrast-rgb: 0, 0, 0;

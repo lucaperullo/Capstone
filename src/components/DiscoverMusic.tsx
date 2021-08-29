@@ -130,9 +130,6 @@ export default function DiscoverMusic() {
         paddingTop: "45px",
       }}
     >
-      <div className="searchbar-">
-        <Searchbar />
-      </div>
       {state?.searchResults < 1 ? (
         <>
           <div className="section-name">

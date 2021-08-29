@@ -81,19 +81,13 @@ export default function Navbar() {
         <div className="title-logo">
           <img
             draggable="false"
-            className="logo desktop-logo"
-            src="https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=495&height=492"
+            className="desktop-logo"
+            src="https://media.discordapp.net/attachments/786174311718322227/859042386185682944/outMusic-removebg-preview.png"
             alt=""
           />
+          <Searchbar />
         </div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "150px",
-          }}
-        >
+        <div className="navigator-icons">
           <IonIcon
             size="large"
             icon={profile ? personCircle : personCircleOutline}
@@ -117,16 +111,18 @@ export default function Navbar() {
             }}
           />
         </div>
-        <DesktopNav
-          messageTheme={messageTheme}
-          setMessageTheme={setMessageTheme}
-          setChatBackgroundColor={setBackgroundColor}
-          chatBackgroundColor={BackgroundColor}
-          setChatBackground={setBackground}
-          chatBackground={Background}
-          modalShow={SettingsModalShow}
-          setModalShow={setSettingsModalShow}
-        />
+        <div className="navigator-icons-end">
+          <DesktopNav
+            messageTheme={messageTheme}
+            setMessageTheme={setMessageTheme}
+            setChatBackgroundColor={setBackgroundColor}
+            chatBackgroundColor={BackgroundColor}
+            setChatBackground={setBackground}
+            chatBackground={Background}
+            modalShow={SettingsModalShow}
+            setModalShow={setSettingsModalShow}
+          />
+        </div>
       </div>
     </div>
   );

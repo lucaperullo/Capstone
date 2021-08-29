@@ -5,6 +5,7 @@ import {
   IonContent,
 } from "@ionic/react";
 import React, { useState } from "react";
+import { useStateValue } from "../contextApi/stateProvider";
 import "../theme/style.css";
 import DiscoverMusic from "./DiscoverMusic";
 import Following from "./Following";
@@ -13,6 +14,7 @@ export default function Navigator() {
   const [nrc, setNrc] = useState(true);
   const [mru, setMru] = useState(false);
   const [feed, setFeed] = useState(false);
+  const [state, dispatch] = useStateValue();
   return (
     <IonContent
       style={{
@@ -20,8 +22,15 @@ export default function Navigator() {
         minHeight: "100vh",
       }}
     >
-      <div className="navigator-discover">
+      <div
+        className={
+          state?.user?.appTheming?.theme
+            ? "navigator-discover"
+            : "navigator-discover-light"
+        }
+      >
         <IonSegment
+          color="primary"
           onIonChange={(e) => {
             if (e.detail.value === "Music") {
               setNrc(true);
@@ -49,14 +58,14 @@ export default function Navigator() {
             }
           }}
         >
-          <IonSegmentButton color="secondary" value="Music">
-            <IonLabel style={{ color: "white" }}>Music</IonLabel>
+          <IonSegmentButton color="primary" value="Music">
+            <IonLabel>Music</IonLabel>
           </IonSegmentButton>
           {/* <IonSegmentButton value="Tranding">
           <IonLabel>People</IonLabel>
         </IonSegmentButton> */}
-          <IonSegmentButton color="tertiary" value="Feed">
-            <IonLabel style={{ color: "white" }}>Feed</IonLabel>
+          <IonSegmentButton color="primary" value="Feed">
+            <IonLabel>Feed</IonLabel>
           </IonSegmentButton>
         </IonSegment>
       </div>

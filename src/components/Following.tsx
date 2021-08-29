@@ -24,9 +24,11 @@ import {
 import axios from "axios";
 import { arrowDownOutline, chevronDownCircleOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { useStateValue } from "../contextApi/stateProvider";
 
 const Following = () => {
+  let history = useHistory();
   const slideOpts = {
     freeMode: true,
     // Responsive breakpoints
@@ -133,7 +135,7 @@ const Following = () => {
           {state?.users?.map((user: any, idx: number) => {
             const userPresence = () => {
               if (user.status.presence === "online") return "green";
-              if (user.status.presence === "offline") return "grey";
+              if (user.status.presence === "offline") return "red";
               else return "blue";
             };
             return (
@@ -171,19 +173,28 @@ const Following = () => {
                             }
                             alt=""
                           />
-                          <IonCardTitle>
-                            <h4>{user.username}</h4>
-                          </IonCardTitle>
+
                           <div
                             style={{
                               backgroundColor: userPresence(),
-                              height: "6px",
-                              width: "6px",
-                              marginTop: "-4px",
-                              marginLeft: "3px",
+                              height: "7px",
+                              width: "7px",
+                              marginTop: "-24px",
+                              marginLeft: "-15px",
+                              marginRight: "15px",
                               borderRadius: "50%",
                             }}
                           ></div>
+                          <IonCardTitle>
+                            <h4
+                              onClick={() =>
+                                history.push(`/users/${user.spotifyId}`)
+                              }
+                              className="link-white"
+                            >
+                              {user.username}
+                            </h4>
+                          </IonCardTitle>
                           <IonButton
                             onClick={() =>
                               toggleFollow(user._id, user.spotifyId)
@@ -196,8 +207,13 @@ const Following = () => {
                     </IonCardHeader>
 
                     <IonCardContent>
-                      <IonSlides options={slideOpts}>
-                        {user.playlists.userPlaylists.items.map(
+                      <IonSlides
+                        key={user?.playlists?.userPlaylists?.items
+                          ?.map((slide: any) => slide.id)
+                          .join("_")}
+                        options={slideOpts}
+                      >
+                        {user?.playlists?.userPlaylists?.items?.map(
                           (playlist: any, i: number) => (
                             <IonSlide key={i}>
                               <div>

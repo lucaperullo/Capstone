@@ -278,7 +278,7 @@ const CreateGroup = (props: modalProps) => {
 
             <div className="modalButtons">
               <IonButton
-                color="tertiary"
+                color="primary"
                 onClick={() =>
                   present({
                     position: "top",

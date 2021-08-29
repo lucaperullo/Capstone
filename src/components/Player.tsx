@@ -176,7 +176,8 @@ export default function Player() {
               state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.album
                 ?.images[0]?.url ||
               state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.album
-                ?.images[0]?.url
+                ?.images[0]?.url ||
+              "https://media.discordapp.net/attachments/786174311718322227/859042386185682944/outMusic-removebg-preview.png"
             }
           />
           <div className="player-track-info">
@@ -216,7 +217,7 @@ export default function Player() {
                 <IonIcon
                   color={state?.user?.appTheming?.theme ? "white" : "dark"}
                   // onClick={() => repeatOrPlayAll()}
-                  className="player-icons desktop-buttons"
+                  className="player-icons desktop-buttons player-ico"
                   icon={repeat}
                 ></IonIcon>
               </button>
@@ -224,7 +225,7 @@ export default function Player() {
                 <IonIcon
                   color={state?.user?.appTheming?.theme ? "white" : "dark"}
                   onClick={() => previousTrack()}
-                  className="player-icons desktop-buttons"
+                  className="player-icons desktop-buttons player-ico"
                   icon={playSkipBack}
                 ></IonIcon>
               </button>
@@ -232,7 +233,7 @@ export default function Player() {
                 {state.nowPlaying.playing === true ? (
                   <IonIcon
                     color={state?.user?.appTheming?.theme ? "white" : "dark"}
-                    className="player-icons"
+                    className="player-icons player-ico"
                     onClick={() => {
                       playPauseMusic();
                     }}
@@ -245,6 +246,7 @@ export default function Player() {
                     onClick={() => {
                       playPauseMusic();
                     }}
+                    className="player-ico"
                     size="large"
                     icon={play}
                   ></IonIcon>
@@ -254,14 +256,14 @@ export default function Player() {
                 <IonIcon
                   color={state?.user?.appTheming?.theme ? "white" : "dark"}
                   onClick={() => nextTrack()}
-                  className="player-icons desktop-buttons"
+                  className="player-icons desktop-buttons player-ico"
                   icon={playSkipForward}
                 ></IonIcon>
               </button>
               <button className="playPause">
                 <IonIcon
                   color={state?.user?.appTheming?.theme ? "white" : "dark"}
-                  className="player-icons desktop-buttons"
+                  className="player-icons desktop-buttons player-ico"
                   icon={shuffle}
                 ></IonIcon>
               </button>
@@ -274,7 +276,7 @@ export default function Player() {
               className="song-track-duration"
             >
               <div
-                color="secondary"
+                color="primary"
                 className="timeline-range"
                 style={{
                   width: `${time}%`,
@@ -293,7 +295,7 @@ export default function Player() {
             icon={volumeIcons()}
           />
           <IonRange
-            color="secondary"
+            color="primary"
             className="volume-range"
             value={volume}
             onIonChange={(e: any) => updateVolume(e)}

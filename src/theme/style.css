@@ -7065,7 +7065,7 @@ ion-content ::-webkit-scrollbar {
   padding-right: 20px;
   align-items: center;
   display: flex;
-  justify-content: space-between;
+
   backdrop-filter: blur(130px);
 }
 .navbar-light {
@@ -7077,7 +7077,6 @@ ion-content ::-webkit-scrollbar {
   padding-right: 20px;
   align-items: center;
   display: flex;
-  justify-content: space-between;
 }
 
 @keyframes shade {
@@ -7116,10 +7115,24 @@ ion-content ::-webkit-scrollbar {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  width: 33vw;
+}
+.navigator-icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 33vw;
+}
+.navigator-icons-end {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 33vw;
 }
 .desktop-logo {
-  margin-right: 50px;
+  margin-right: 10px;
   height: 60px;
+  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.267));
 }
 .desktop-nav {
   display: flex;
@@ -7173,17 +7186,44 @@ ion-content ::-webkit-scrollbar {
 .chat-button {
   font-size: 25px;
 }
-/* .searchbar-all {
-  background-color: #2222228f;
-  backdrop-filter: blur(5px);
-} */
+.player-ico {
+  transition: 0.25s ease;
+}
+.player-ico:hover {
+  transform: scale(1.2);
+}
+.player-ico:active {
+  color: #1eff00;
+  filter: brightness(0.5);
+  transform: scale(0.9);
+}
+.link-white:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.searchbar-all {
+  position: fixed;
+  width: 300px;
+
+  top: 15px;
+  right: 50px;
+  left: 120px;
+  z-index: 3;
+}
 .navigator-discover {
   position: fixed;
   top: 80px;
   z-index: 10;
   width: 100vw;
-  background-color: #ffffff00;
-  backdrop-filter: blur(25px);
+  background-color: #000000;
+}
+.navigator-discover-light {
+  position: fixed;
+  top: 80px;
+  z-index: 10;
+  width: 100vw;
+  background-color: #ffffff;
 }
 .player-track-info {
   width: 220px;

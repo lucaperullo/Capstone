@@ -210,7 +210,7 @@ export default function FullScreenPlayer(props: any) {
             <IonIcon
               color={state?.user?.appTheming?.theme ? "white" : "dark"}
               // onClick={() => repeatOrPlayAll()}
-              className="player-icons "
+              className="player-icons player-ico"
               icon={repeat}
             ></IonIcon>
           </button>
@@ -218,7 +218,7 @@ export default function FullScreenPlayer(props: any) {
             <IonIcon
               color={state?.user?.appTheming?.theme ? "white" : "dark"}
               onClick={() => previousTrack()}
-              className="player-icons "
+              className="player-icons player-ico"
               icon={playSkipBack}
             ></IonIcon>
           </button>
@@ -226,7 +226,7 @@ export default function FullScreenPlayer(props: any) {
             {state.nowPlaying.playing === true ? (
               <IonIcon
                 color={state?.user?.appTheming?.theme ? "white" : "dark"}
-                className="player-icons"
+                className="player-icons player-ico"
                 onClick={() => {
                   playPauseMusic();
                 }}
@@ -235,6 +235,7 @@ export default function FullScreenPlayer(props: any) {
               ></IonIcon>
             ) : (
               <IonIcon
+                className="player-ico"
                 color={state?.user?.appTheming?.theme ? "white" : "dark"}
                 onClick={() => {
                   playPauseMusic();
@@ -248,14 +249,14 @@ export default function FullScreenPlayer(props: any) {
             <IonIcon
               color={state?.user?.appTheming?.theme ? "white" : "dark"}
               onClick={() => nextTrack()}
-              className="player-icons "
+              className="player-icons player-ico"
               icon={playSkipForward}
             ></IonIcon>
           </button>
           <button className="playPause">
             <IonIcon
               color={state?.user?.appTheming?.theme ? "white" : "dark"}
-              className="player-icons "
+              className="player-icons player-ico"
               icon={shuffle}
             ></IonIcon>
           </button>
@@ -270,7 +271,7 @@ export default function FullScreenPlayer(props: any) {
         className="song-track-duration-fs"
       >
         <div
-          color="secondary"
+          color="primary"
           className="timeline-range-fs"
           style={{
             width: `${props.time}%`,
@@ -293,7 +294,7 @@ export default function FullScreenPlayer(props: any) {
           onIonChange={(e: any) => props.setVolume(e.detail.value)}
           min={0}
           max={100}
-          color="tertiary"
+          color="primary"
         ></IonRange>
       </div>
     </IonModal>
