@@ -484,8 +484,8 @@
 }
 .fs-actions-player {
   position: absolute;
-  bottom: 200px;
-  width: 300px;
+  bottom: 300px;
+
   text-align: center;
 }
 .fs-player-track-info {
@@ -553,14 +553,20 @@
   height: 20px;
 }
 .player-volume-fs {
-  position: absolute;
-  bottom: 100px;
-  right: 10vw;
-  width: 20vw;
+  position: fixed;
+  bottom: 65px;
+
+  right: -41vw;
+
+  width: 240px;
   display: flex;
   align-items: center;
 }
-
+.track-name:hover {
+  text-decoration: underline;
+  cursor: pointer;
+  color: rgb(27, 152, 255);
+}
 .music-player-cover {
   cursor: pointer;
   position: fixed;
@@ -7218,6 +7224,58 @@ ion-content ::-webkit-scrollbar {
   width: 100vw;
   background-color: #000000;
 }
+.listButton {
+  cursor: pointer;
+}
+.showContent {
+  transition: 0.25s ease;
+  transform: translateY(-390px);
+  opacity: 1;
+}
+
+.fadeOutContent {
+  transition: 0.25s ease;
+  height: 50vh;
+  width: 80vw;
+  top: 25vh;
+  transform: translateY(-2000px);
+}
+.fadeinContent {
+  transition: 0.25s ease;
+  height: 50vh;
+  width: 80vw;
+  top: 25vh;
+  transform: translateY(-50px);
+}
+.fadeContent {
+  transition: 0.25s ease;
+
+  transform: translateY(200px);
+
+  opacity: 0;
+}
+@media screen and (max-width: 558px) {
+  .showContent {
+    transition: 0.25s ease;
+    transform: translateY(-300px);
+    opacity: 1;
+  }
+  .fadeOutContent {
+    transition: 0.25s ease;
+    height: 50vh;
+    width: 100vw;
+    top: 25vh;
+    transform: translateY(-2000px);
+  }
+  .fadeinContent {
+    transition: 0.25s ease;
+    height: 50vh;
+    width: 100vw;
+    top: 25vh;
+    transform: translateY(-50px);
+  }
+}
+
 .navigator-discover-light {
   position: fixed;
   top: 77px;

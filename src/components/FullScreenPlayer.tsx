@@ -8,12 +8,17 @@ import {
   IonButtons,
   IonHeader,
   IonToolbar,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonThumbnail,
 } from "@ionic/react";
 import {
   addCircle,
   albums,
   arrowDown,
   heartOutline,
+  list,
   pauseOutline,
   pauseSharp,
   play,
@@ -34,7 +39,7 @@ import Link from "react-router";
 
 export default function FullScreenPlayer(props: any) {
   const [state, dispatch] = useStateValue();
-
+  const [showList, setShowList] = useState(false);
   if (props.audiotoplay) {
     props.audiotoplay.onended = () => {
       nextTrack();
@@ -126,58 +131,131 @@ export default function FullScreenPlayer(props: any) {
         <IonToolbar>
           <IonButtons slot="start">
             <IonIcon
+              style={{ cursor: "pointer" }}
+              onClick={() => props.setShowModal(false)}
               size="large"
               color={state?.user?.appTheming?.theme ? "white" : "dark"}
               icon={arrowDown}
+            ></IonIcon>
+            <IonIcon
+              slot="end"
+              className="listButton"
+              onClick={() => setShowList(!showList)}
+              size="large"
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              icon={list}
             ></IonIcon>
           </IonButtons>
         </IonToolbar>
       </IonHeader>
 
       <div className="fullscreen-player">
-        <div
-          style={{
-            display: "flex",
-            height: "90vh",
-            justifyContent: "center",
-            paddingBottom: "300px",
-            alignItems: "center",
-          }}
-        >
-          <div
-            className={state.nowPlaying.playing ? "fs-cd-playing" : "fs-cd"}
-            // src="https://www.pngitem.com/pimgs/m/13-134510_vinyl-record-high-resolution-hd-png-download.png"
-          ></div>
+        <div className={showList ? "fadeinContent" : "fadeOutContent"}>
+          <IonList style={{ height: "50vh", marginTop: "20vh" }}>
+            <IonContent style={{ height: "100%" }}>
+              {state?.nowPlaying?.tracks.map((track: any, index: number) => {
+                return (
+                  <IonItem
+                    key={track.id}
+                    onClick={() => {
+                      dispatch({
+                        type: "SET_CURRENT_PLAYLIST",
+                        payload: {
+                          tracks: state?.nowPlaying?.tracks,
+                          index: index,
+                        },
+                      });
+                      setShowList(false);
+                    }}
+                  >
+                    <IonThumbnail slot="start">
+                      <img
+                        src={
+                          track.track?.album?.images[0]?.url ||
+                          track.album?.images[0]?.url
+                        }
+                      />
+                    </IonThumbnail>
+                    <IonLabel>
+                      <h2 className="track-name">
+                        {track.track?.name || track.name}
+                      </h2>
+                      <p>
+                        {track.track?.artists[0]?.name ||
+                          track.artists[0]?.name}
+                      </p>
+                    </IonLabel>
+                  </IonItem>
+                );
+              })}
+            </IonContent>
+          </IonList>
+        </div>
 
-          <img
-            draggable={false}
-            src={
-              state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track?.album
-                ?.images[0]?.url ||
-              state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.album
-                ?.images[0]?.url
-            }
-            className={
-              state.nowPlaying.playing
-                ? "music-player-cover-playing-fs"
-                : "music-player-cover-fs"
-            }
-            alt="track-cover-fs"
-          />
-        </div>
-        <div className="fs-actions-player">
-          <IonIcon
-            size="large"
-            icon={heartOutline}
-            onClick={() =>
-              likeSong(
+        <div className={!showList ? "showContent" : "fadeContent"}>
+          <div
+            style={{
+              display: "flex",
+              height: "90vh",
+              justifyContent: "center",
+              paddingBottom: "300px",
+              alignItems: "center",
+            }}
+          >
+            <div
+              className={state.nowPlaying.playing ? "fs-cd-playing" : "fs-cd"}
+              // src="https://www.pngitem.com/pimgs/m/13-134510_vinyl-record-high-resolution-hd-png-download.png"
+            ></div>
+
+            <img
+              draggable={false}
+              src={
                 state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
-                  ?.id ||
-                  state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.id
-              )
-            }
-          />
+                  ?.album?.images[0]?.url ||
+                state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.album
+                  ?.images[0]?.url
+              }
+              className={
+                state.nowPlaying.playing
+                  ? "music-player-cover-playing-fs"
+                  : "music-player-cover-fs"
+              }
+              alt="track-cover-fs"
+            />
+          </div>
+          <div className="fs-actions-player">
+            <IonIcon
+              size="large"
+              icon={heartOutline}
+              onClick={() =>
+                likeSong(
+                  state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
+                    ?.id ||
+                    state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.id
+                )
+              }
+            />
+          </div>
+          <div className="player-volume-fs">
+            <IonIcon
+              className="volume-icon"
+              onClick={() => {
+                props.setVolume(0);
+              }}
+              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              icon={volumeIcons()}
+            />
+            <IonRange
+              className="volume-range-fs"
+              value={props.volume}
+              onIonChange={(e: any) => props.setVolume(e.detail.value)}
+              min={0}
+              max={100}
+              color="primary"
+            ></IonRange>
+          </div>
         </div>
+
         <div className="fs-player-track-info">
           <TextLoop mask={true}>
             <h4
@@ -277,25 +355,6 @@ export default function FullScreenPlayer(props: any) {
             width: `${props.time}%`,
           }}
         ></div>
-      </div>
-
-      <div className="player-volume-fs">
-        <IonIcon
-          className="volume-icon"
-          onClick={() => {
-            props.setVolume(0);
-          }}
-          color={state?.user?.appTheming?.theme ? "white" : "dark"}
-          icon={volumeIcons()}
-        />
-        <IonRange
-          className="volume-range-fs"
-          value={props.volume}
-          onIonChange={(e: any) => props.setVolume(e.detail.value)}
-          min={0}
-          max={100}
-          color="primary"
-        ></IonRange>
       </div>
     </IonModal>
   );

@@ -89,19 +89,7 @@ export default function Navbar() {
         </div>
         <div className="navigator-icons">
           <IonIcon
-            size="large"
-            icon={profile ? personCircle : personCircleOutline}
-            color={state?.user?.appTheming?.theme ? "dark" : "white"}
-            onClick={() => {
-              historyy.push("/profile");
-              setDiscover(false);
-              setProfile(true);
-            }}
-            className="desktop-navs"
-          />
-
-          <IonIcon
-            color={state?.user?.appTheming?.theme ? "dark" : "white"}
+            color={discoverr ? "primary" : "dark"}
             className="desktop-navs"
             icon={discoverr ? grid : gridOutline}
             onClick={() => {
@@ -109,6 +97,17 @@ export default function Navbar() {
               setDiscover(true);
               setProfile(false);
             }}
+          />
+          <IonIcon
+            size="large"
+            icon={profile ? personCircle : personCircleOutline}
+            color={profile ? "primary" : "dark"}
+            onClick={() => {
+              historyy.push("/profile");
+              setDiscover(false);
+              setProfile(true);
+            }}
+            className="desktop-navs"
           />
         </div>
         <div className="navigator-icons-end">

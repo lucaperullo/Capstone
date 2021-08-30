@@ -24,28 +24,8 @@ const LoginPage = () => {
   const [password, setPassword] = useState<string>("");
   const [showLoading, setShowLoading] = useState(false);
 
-  // const spotiLoginHandler = async () => {
-  //   setShowLoading(true);
-  //   try {
-  //     const data = await fetch(` {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"https://capstonebe.herokuapp.com"}login/spotify`);
-  //     console.log(data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-
-  // const code = new URLSearchParams(window.location.search).get("code");
-  // const handleLogin = async () => {
-  //   setShowLoading(true);
-  //   const data = await fetch(" {REACT_APP_NODE_ENV===production?"https://capstonebe.herokuapp.com/me":"https://capstonebe.herokuapp.com"}spotify/login");
-  //   console.log(data);
-  // };
-
   return (
     <>
-      {/* {code !== null ? (
-        <Login />
-      ) : ( */}
       <Container>
         <div style={{ marginBottom: "50px", zIndex: 10 }}>
           <div
@@ -56,11 +36,7 @@ const LoginPage = () => {
             }}
           >
             <h1 style={{ fontSize: 40 }}>WELCOME TO OURMUSIC.</h1>
-            {/* <TextLoop mask={true}>
-              <h3>Listen</h3>
-              <h3>Chat</h3>
-              <h3>Discover</h3>
-            </TextLoop> */}
+
             {/* <Typist cursor={{ show: false }}>
               
             </Typist> */}
@@ -84,15 +60,11 @@ const LoginPage = () => {
             }`}
             style={{ textDecoration: "none" }}
           >
-            <IonButton color="dark">
-              C
-              <img
-                draggable="false"
-                height="70"
-                src="https://reports.exodus-privacy.eu.org/reports/30176/icon"
-                alt=""
-              />
-              NNECT
+            <IonButton color="primary">
+              <TextLoop mask={true}>
+                <h1 style={{ paddingBottom: "4px" }}>LOGIN</h1>
+                <h1 style={{ paddingBottom: "4px" }}>SIGNUP</h1>
+              </TextLoop>
             </IonButton>
           </a>
         </LoginForm>
