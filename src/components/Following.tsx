@@ -30,41 +30,40 @@ import { useStateValue } from "../contextApi/stateProvider";
 const Following = () => {
   let history = useHistory();
   const slideOpts = {
-    freeMode: true,
     // Responsive breakpoints
-    breakpoints: {
-      320: {
-        slidesPerView: 2,
-        spaceBetween: 10,
-      },
-      // when window width is >= 320px
-      640: {
-        slidesPerView: 3,
-        spaceBetween: 10,
-      },
-      // when window width is >= 480px
-      720: {
-        slidesPerView: 4,
-        spaceBetween: 10,
-      },
-      // when window width is >= 640px
-      1024: {
-        slidesPerView: 5,
-        spaceBetween: 10,
-      },
-      1080: {
-        slidesPerView: 6,
-        spaceBetween: 10,
-      },
-      1280: {
-        slidesPerView: 7,
-        spaceBetween: 10,
-      },
-      1920: {
-        slidesPerView: 8,
-        spaceBetween: 10,
-      },
-    },
+    // // breakpoints: {
+    // //   320: {
+    // //     slidesPerView: 2,
+    // //     spaceBetween: 10,
+    // //   },
+    // //   // when window width is >= 320px
+    // //   640: {
+    // //     slidesPerView: 3,
+    // //     spaceBetween: 10,
+    // //   },
+    // //   // when window width is >= 480px
+    // //   720: {
+    // //     slidesPerView: 4,
+    // //     spaceBetween: 10,
+    // //   },
+    // //   // when window width is >= 640px
+    // //   1024: {
+    // //     slidesPerView: 5,
+    // //     spaceBetween: 10,
+    // //   },
+    // //   1080: {
+    // //     slidesPerView: 6,
+    // //     spaceBetween: 10,
+    // //   },
+    // //   1280: {
+    // //     slidesPerView: 7,
+    // //     spaceBetween: 10,
+    // //   },
+    // //   1920: {
+    // //     slidesPerView: 8,
+    // //     spaceBetween: 10,
+    // //   },
+    // },
 
     autoplay: { delay: 2000, disableOnInteraction: false },
 
@@ -139,100 +138,108 @@ const Following = () => {
               else return "blue";
             };
             return (
-              <div key={idx}>
-                <IonCol sizeSm="12" sizeMd="6" sizeLg="3">
-                  <IonCard>
-                    <IonCardHeader>
-                      <div
+              <IonCol sizeSm="12" sizeMd="12" sizeLg="3" key={idx}>
+                <IonCard>
+                  <IonCardHeader>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <IonItem
                         style={{
                           display: "flex",
+                          flexDirection: "row",
                           alignItems: "center",
-                          justifyContent: "space-between",
+                          width: "100%",
+                          height: "70px",
+                          borderRadius: "10px",
+                          textOverflow: "ellipsis",
+                          overflow: "hidden",
+                          whiteSpace: "nowrap",
                         }}
                       >
+                        <img
+                          draggable="false"
+                          style={{
+                            height: "40px",
+                            width: "40px",
+                            borderRadius: "50%",
+
+                            marginRight: "10px",
+                          }}
+                          src={
+                            user.profilePic
+                              ? user.profilePic
+                              : "https://media.discordapp.net/attachments/786174311718322227/859063520858341387/LOGO_LUCA.png?width=530&height=530"
+                          }
+                          alt=""
+                        />
+
                         <div
                           style={{
-                            display: "flex",
-                            flexDirection: "row",
-                            alignItems: "center",
+                            backgroundColor: userPresence(),
+                            height: "7px",
+                            width: "7px",
+                            marginTop: "-24px",
+                            marginLeft: "-15px",
+                            marginRight: "15px",
+                            borderRadius: "50%",
                           }}
-                        >
-                          <img
-                            draggable="false"
-                            style={{
-                              height: "40px",
-                              width: "40px",
-                              borderRadius: "50%",
-
-                              marginRight: "10px",
-                            }}
-                            src={
-                              user.profilePic
-                                ? user.profilePic
-                                : "https://media.discordapp.net/attachments/786174311718322227/859063520858341387/LOGO_LUCA.png?width=530&height=530"
-                            }
-                            alt=""
-                          />
-
-                          <div
-                            style={{
-                              backgroundColor: userPresence(),
-                              height: "7px",
-                              width: "7px",
-                              marginTop: "-24px",
-                              marginLeft: "-15px",
-                              marginRight: "15px",
-                              borderRadius: "50%",
-                            }}
-                          ></div>
-                          <IonCardTitle>
-                            <h4
-                              onClick={() =>
-                                history.push(`/users/${user.spotifyId}`)
-                              }
-                              className="link-white"
-                            >
-                              {user.username}
-                            </h4>
-                          </IonCardTitle>
-                          <IonButton
+                        ></div>
+                        <IonCardTitle>
+                          <h4
                             onClick={() =>
-                              toggleFollow(user._id, user.spotifyId)
+                              history.push(`/discover/user/${user._id}`)
                             }
+                            className="link-white"
                           >
-                            Follow
-                          </IonButton>
-                        </div>
-                      </div>
-                    </IonCardHeader>
+                            {user.username}
+                          </h4>
+                        </IonCardTitle>
+                        <IonButton
+                          slot="end"
+                          onClick={() => toggleFollow(user._id, user.spotifyId)}
+                        >
+                          Follow
+                        </IonButton>
+                      </IonItem>
+                    </div>
+                  </IonCardHeader>
 
-                    <IonCardContent>
-                      <IonSlides
-                        key={user?.playlists?.userPlaylists?.items
-                          ?.map((slide: any) => slide.id)
-                          .join("_")}
-                        options={slideOpts}
-                      >
-                        {user?.playlists?.userPlaylists?.items?.map(
-                          (playlist: any, i: number) => (
-                            <IonSlide key={i}>
-                              <div>
-                                <img
-                                  draggable="false"
-                                  src={playlist.images[0]?.url}
-                                  alt=""
-                                />
+                  <IonCardContent style={{ height: "150px", width: "310px" }}>
+                    <IonSlides
+                      key={user?.playlists?.userPlaylists?.items
+                        ?.map((slide: any) => slide.id)
+                        .join("_")}
+                      options={slideOpts}
+                    >
+                      {user?.playlists?.userPlaylists?.items?.map(
+                        (playlist: any, i: number) => (
+                          <IonSlide key={i}>
+                            <div style={{ height: "150px", width: "150px" }}>
+                              <img
+                                style={{
+                                  height: "100px",
+                                  width: "100px",
+                                  borderRadius: "10px",
+                                }}
+                                draggable="false"
+                                src={playlist.images[0]?.url}
+                                alt=""
+                              />
 
-                                <h4>{playlist.name}</h4>
-                              </div>
-                            </IonSlide>
-                          )
-                        )}
-                      </IonSlides>
-                    </IonCardContent>
-                  </IonCard>
-                </IonCol>
-              </div>
+                              <h4>{playlist.name}</h4>
+                            </div>
+                          </IonSlide>
+                        )
+                      )}
+                    </IonSlides>
+                  </IonCardContent>
+                </IonCard>
+              </IonCol>
             );
           })}
         </IonRow>

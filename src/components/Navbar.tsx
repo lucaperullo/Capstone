@@ -82,7 +82,7 @@ export default function Navbar() {
           <img
             draggable="false"
             className="desktop-logo"
-            src="https://media.discordapp.net/attachments/786174311718322227/859042386185682944/outMusic-removebg-preview.png"
+            src="https://media.discordapp.net/attachments/786174311718322227/859041060809474048/outMusic.png?width=533&height=530"
             alt=""
           />
           <Searchbar />

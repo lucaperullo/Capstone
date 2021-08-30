@@ -72,7 +72,7 @@ export default function Navigator() {
       {nrc && <DiscoverMusic />}
       {/* {mru && <SavedTracks />} */}
       {feed && <Following />}
-      <div style={{ height: "500px" }}></div>
+      <div style={{ height: "300px" }}></div>
     </IonContent>
   );
 }

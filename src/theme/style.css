@@ -7130,9 +7130,9 @@ ion-content ::-webkit-scrollbar {
   width: 33vw;
 }
 .desktop-logo {
+  border-radius: 50%;
   margin-right: 10px;
-  height: 60px;
-  filter: drop-shadow(0px 0px 10px rgba(0, 0, 0, 0.267));
+  height: 50px;
 }
 .desktop-nav {
   display: flex;
@@ -7213,17 +7213,33 @@ ion-content ::-webkit-scrollbar {
 }
 .navigator-discover {
   position: fixed;
-  top: 80px;
+  top: 77px;
   z-index: 10;
   width: 100vw;
   background-color: #000000;
 }
 .navigator-discover-light {
   position: fixed;
-  top: 80px;
+  top: 77px;
   z-index: 10;
   width: 100vw;
   background-color: #ffffff;
+}
+@media (max-width: 558px) {
+  .navigator-discover {
+    position: fixed;
+    top: 50px;
+    z-index: 10;
+    width: 100vw;
+    background-color: #000000;
+  }
+  .navigator-discover-light {
+    position: fixed;
+    top: 50px;
+    z-index: 10;
+    width: 100vw;
+    background-color: #ffffff;
+  }
 }
 .player-track-info {
   width: 220px;

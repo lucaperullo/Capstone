@@ -7,17 +7,15 @@ import {
   IonSegmentButton,
 } from "@ionic/react";
 import { useState } from "react";
-import { useStateValue } from "../contextApi/stateProvider";
 import DiscoverMusic from "./DiscoverMusic";
 import Following from "./Following";
 import ProfilePlaylists from "./ProfilePlaylists";
 import SavedTracks from "./SavedTracks";
 
-export default function ProfileNavigator() {
+export default function ProfileNavigator2() {
   const [nrc, setNrc] = useState(true);
   const [mru, setMru] = useState(false);
   const [feed, setFeed] = useState(false);
-  const [state, dispatch] = useStateValue();
   return (
     <>
       <IonContent
@@ -59,14 +57,12 @@ export default function ProfileNavigator() {
           <IonSegmentButton value="Playlists">
             <IonLabel>Playlists</IonLabel>
           </IonSegmentButton>
-          {state?.selectedUser === null && (
-            <IonSegmentButton value="Liked">
-              <IonLabel>Saved</IonLabel>
-            </IonSegmentButton>
-          )}
+          <IonSegmentButton value="Liked">
+            <IonLabel>Saved</IonLabel>
+          </IonSegmentButton>
           {/* <IonSegmentButton value="Feed">
-            <IonLabel>Feed</IonLabel>
-          </IonSegmentButton> */}
+              <IonLabel>Feed</IonLabel>
+            </IonSegmentButton> */}
         </IonSegment>
       </IonContent>
       {nrc && <ProfilePlaylists />}

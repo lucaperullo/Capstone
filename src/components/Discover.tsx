@@ -158,10 +158,9 @@ const Discover = () => {
       if (response.ok) {
         const res = await response.json();
 
-        const data = res.filter((item: any) => item.track.preview_url !== null);
         dispatch({
           type: "SET_RECENT",
-          payload: data,
+          payload: await res,
         });
       } else {
         console.log("Error while fetching categories");

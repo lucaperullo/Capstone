@@ -28,7 +28,7 @@ import {
   IonThumbnail,
   IonCol,
 } from "@ionic/react";
-import ReactAudioPlayer from "react-audio-player";
+
 import {
   arrowDownOutline,
   caretBackOutline,

@@ -44,6 +44,7 @@ import SongList from "./components/SongList";
 
 import Chat from "./components/Chat";
 import AppUrlListener from "./components/AppUrlListener";
+import UserProfile from "./components/UserProfile";
 
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
@@ -117,6 +118,9 @@ const App: React.FC = () => {
         </Route>
         <Route exact path="/conversations/:id">
           <Chat />
+        </Route>
+        <Route path="/discover/user/:id">
+          <UserProfile />
         </Route>
         <Route path="/" component={Player} />
         <Route path="/login" exact component={LoginPage} />

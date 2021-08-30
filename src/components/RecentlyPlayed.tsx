@@ -12,13 +12,51 @@ import { useStateValue } from "../contextApi/stateProvider";
 
 export default function RecentlyPlayed() {
   const [state, dispatch] = useStateValue();
-  const toggleLike = async (id: any) => {
-    const data = await fetch(
-      `https://capstonebe.herokuapp.com/spotify/likeTrack/${id}`,
-      {
-        credentials: "include",
+  const getRecent = async () => {
+    try {
+      const code = state?.user?.spotifyTokens?.access_token;
+
+      const response = await fetch(
+        `${
+          process.env.REACT_APP_NODE_ENV === "Dev"
+            ? "http://localhost:3999/spotify/recently-played"
+            : "https://capstonebe.herokuapp.com/spotify/recently-played"
+        }`,
+        {
+          headers: {
+            Authorization: `Bearer ${code}`,
+          },
+          credentials: "include",
+        }
+      );
+      if (response.ok) {
+        const res = await response.json();
+
+        dispatch({
+          type: "SET_RECENT",
+          payload: await res,
+        });
+      } else {
+        console.log("Error while fetching categories");
       }
-    );
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  const toggleLike = async (id: any) => {
+    if (id) {
+      const data = await fetch(
+        process.env.REACT_APP_NODE_ENV === "Dev"
+          ? `http://localhost:3999/spotify/likeTrack/${id}`
+          : `https://capstonebe.herokuapp.com/spotify/likeTrack/${id}`,
+        {
+          credentials: "include",
+        }
+      );
+      if (data) {
+        getRecent();
+      }
+    }
   };
   const recentlyPlayed = {
     // Responsive breakpoints
@@ -74,9 +112,7 @@ export default function RecentlyPlayed() {
       </div>
       <IonSlides
         style={{ paddingTop: "30px" }}
-        key={state?.categories?.categories?.items
-          ?.map((slide: any) => slide.id)
-          .join("_")}
+        key={state.recent?.length}
         options={recentlyPlayed}
       >
         {state?.recent?.map((song: any, i: number) => (

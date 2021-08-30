@@ -11,7 +11,7 @@ import {
 import { bookmark, play } from "ionicons/icons";
 import { useStateValue } from "../contextApi/stateProvider";
 
-export default function SavedTracks() {
+export default function SavedTracks(props: any) {
   //TODO: ADD remove From saved function FOR SAVED PLAYLIST
   const dislike = async (id: any) => {
     const data = await fetch(
