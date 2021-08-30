@@ -94,6 +94,13 @@ const App: React.FC = () => {
 
   useEffect(() => {
     fetchUser();
+    if (state?.socket) {
+      socket.on("RECIVE_MESSAGE", () => {
+        if (socket.id === state?.socket?.id) {
+          alert("new message!");
+        }
+      });
+    }
   }, []);
 
   const themeCheck = () => {
@@ -106,11 +113,7 @@ const App: React.FC = () => {
     }
   };
   const actualTheme = state?.user?.appTheming?.theme;
-  socket.on("RECIVE_MESSAGE", () => {
-    if (socket.id === state?.socket?.id) {
-      alert("new message!");
-    }
-  });
+
   useEffect(() => {
     themeCheck();
   }, [actualTheme]);
