@@ -62,7 +62,8 @@
   justify-content: space-between;
   position: fixed;
   bottom: 0;
-  height: 90px;
+  padding: 5px;
+  height: 80px;
   width: 100vw;
   background: rgb(212, 212, 212);
 }
@@ -76,7 +77,8 @@
   justify-content: space-between;
   position: fixed;
   bottom: 0;
-  height: 90px;
+  padding: 5px;
+  height: 80px;
   width: 100vw;
 
   background-color: black;
@@ -502,7 +504,6 @@
   width: 100px;
 }
 .timeline-range-fs {
-  border-radius: 8px;
   transition: 0.25s ease;
   height: 6px;
   background-color: rgb(64, 152, 224);
@@ -513,7 +514,7 @@
 .song-track-duration-fs {
   cursor: pointer;
   transition: 0.25s ease;
-  border-radius: 8px;
+
   position: absolute;
   bottom: 0;
   height: 6px;
@@ -528,10 +529,35 @@
 .timeline-range-fs:active {
   background-color: rgb(80, 175, 253);
 }
+.timeline-range {
+  transition: 0.25s ease;
+  height: 6px;
+  background-color: rgb(64, 152, 224);
+}
+.song-track-duration:hover {
+  height: 20px;
+}
+.song-track-duration {
+  cursor: pointer;
+  transition: 0.25s ease;
+  margin-left: 80px;
+  position: absolute;
+  bottom: 0;
+  height: 6px;
+  background-color: grey;
+}
+
+.song-track-duration:hover > .timeline-range {
+  cursor: pointer;
+  height: 20px;
+}
+
+.timeline-range:active {
+  background-color: rgb(80, 175, 253);
+}
 .song-track-duration {
   position: absolute;
-  border-radius: 8px;
-  width: 500px;
+
   bottom: -35px;
 }
 .song-track-duration:hover {
@@ -7188,6 +7214,15 @@ ion-content ::-webkit-scrollbar {
   .title-logo {
     display: none;
   }
+  .song-track-duration {
+    cursor: pointer;
+    transition: 0.25s ease;
+    margin-left: 200px;
+    position: absolute;
+    bottom: 0;
+    height: 6px;
+    background-color: grey;
+  }
 }
 .chat-button {
   font-size: 25px;
@@ -7317,11 +7352,7 @@ ion-content ::-webkit-scrollbar {
   flex-direction: column;
   align-items: center;
 }
-@media (max-width: 558px) {
-  .navigator-discover {
-    top: 60px;
-  }
-}
+
 @media (max-width: 768px) {
   .player-volume-fs {
     display: none;
@@ -7329,9 +7360,7 @@ ion-content ::-webkit-scrollbar {
   .volume-icon {
     display: none;
   }
-  .timeline-range {
-    display: none;
-  }
+
   .volume-range {
     display: none;
   }

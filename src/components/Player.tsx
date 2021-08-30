@@ -276,7 +276,6 @@ export default function Player() {
               className="song-track-duration"
             >
               <div
-                color="primary"
                 className="timeline-range"
                 style={{
                   width: `${time}%`,

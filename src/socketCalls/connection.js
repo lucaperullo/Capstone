@@ -11,5 +11,8 @@ export const socketConnection = () => {
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
+  socket.on("RECIVE_MESSAGE", () => {
+    alert("message incoming");
+  });
   return socket;
 };

@@ -50,7 +50,6 @@ import { useEffect, useState } from "react";
 import { useStateValue } from "../contextApi/stateProvider";
 import ProfileNavigator from "./ProfileNavigator";
 
-import ProfileNavigator2 from "./ProfileNavigator2";
 export interface User {
   spotifyTokens: SpotifyTokens;
   playlists: Playlists;
@@ -179,9 +178,14 @@ const UserProfile = () => {
     }
   };
   const getUser = async (id: any) => {
-    const data = await fetch(`http://localhost:3999/auth/${id}`, {
-      credentials: "include",
-    });
+    const data = await fetch(
+      process.env.REACT_APP_NODE_ENV === "Dev"
+        ? `http://localhost:3999/auth/${id}`
+        : `http://capstonebe.herokuapp.com/auth/${id}`,
+      {
+        credentials: "include",
+      }
+    );
     const user = await data.json();
     dispatch({
       type: "SET_USER_PROFILE",
