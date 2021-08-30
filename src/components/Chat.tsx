@@ -398,6 +398,7 @@ const MusiContainer = styled(IonContent)`
   @media (max-width: 768px) {
     display: none;
   }
+  display: none;
   heigth: 100vh;
   width: 30vw;
 `;
@@ -442,7 +443,7 @@ const SenderContainer = styled.div`
   }
   position: fixed;
   height: 60px;
-  width: 50vw;
+  width: 100vw;
   bottom: 0px;
   box-shadow: inset 0px 0px 20px 0px rgba(37, 37, 37, 0.461);
 `;

@@ -8,11 +8,14 @@ export const socketConnection = () => {
         : "https://capstonebe.herokuapp.com"
     }`
   );
+
   socket.on("connect", () => {
     console.log(socket.id); // x8WIv7-mJelg7on_ALbx
   });
-  socket.on("RECIVE_MESSAGE", () => {
-    alert("message incoming");
+
+  socket.on("disconnect", () => {
+    console.log("disconnected");
   });
+
   return socket;
 };
