@@ -23,7 +23,7 @@ export default function Conversations() {
   let history = useHistory();
 
   // };
-
+  useEffect(() => {}, [searchText]);
   return (
     <IonContent style={{ display: "flex" }}>
       <IonToolbar>
@@ -39,6 +39,7 @@ export default function Conversations() {
             (p: any) => p.userId._id !== state.user._id
           )[0];
           const { profilePic, bio, username, status } = userId;
+
           return (
             <IonItem
               key={i}
