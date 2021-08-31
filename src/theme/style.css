@@ -7215,13 +7215,7 @@ ion-content ::-webkit-scrollbar {
     display: none;
   }
   .song-track-duration {
-    cursor: pointer;
-    transition: 0.25s ease;
     margin-left: 200px;
-    position: absolute;
-    bottom: 0;
-    height: 6px;
-    background-color: grey;
   }
 }
 .chat-button {
