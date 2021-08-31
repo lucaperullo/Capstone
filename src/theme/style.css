@@ -129,12 +129,14 @@
   padding-right: 50px;
 }
 .music-player-cover-fs {
-  height: 150px;
-  width: 150px;
-  border-radius: 25%;
-  transition: 0.6s ease;
+  height: 280px;
+  width: 280px;
+  border-radius: 50%;
+  transition: 0.15s ease;
 }
 .fs-cd {
+  opacity: 0;
+  left: -1000px;
   position: absolute;
   background: radial-gradient(
       circle closest-side,
@@ -338,6 +340,7 @@
   animation: zoom 1.7910447761s linear infinite;
 }
 .fs-cd-playing {
+  transform: scale(1.5);
   background: radial-gradient(
       circle closest-side,
       black 35%,
@@ -481,7 +484,7 @@
   height: 150px;
   width: 150px;
   border-radius: 50%;
-  transition: 0.6s ease;
+  transition: 0.1s ease;
   animation: rotate-cover-playing 5.5s infinite linear;
 }
 .fs-actions-player {
