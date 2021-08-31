@@ -12,11 +12,13 @@ import {
   IonLabel,
   IonList,
   IonThumbnail,
+  IonToast,
 } from "@ionic/react";
 import {
   addCircle,
   albums,
   arrowDown,
+  heart,
   heartOutline,
   list,
   pauseOutline,
@@ -40,6 +42,7 @@ import Link from "react-router";
 export default function FullScreenPlayer(props: any) {
   const [state, dispatch] = useStateValue();
   const [showList, setShowList] = useState(false);
+  const [hearthed, setHearthed] = useState(false);
   if (props.audiotoplay) {
     props.audiotoplay.onended = () => {
       nextTrack();
@@ -71,7 +74,11 @@ export default function FullScreenPlayer(props: any) {
         : `https://capstone_be.herokuapp.com/spotifty/likeTrack/${id}`,
       { credentials: "include" }
     );
+    if (like.status === 200) {
+      setHearthed(true);
+    }
   };
+
   const playPauseMusic = () => {
     dispatch({
       type: "SET_PLAY_PAUSE",
@@ -92,6 +99,7 @@ export default function FullScreenPlayer(props: any) {
     });
   };
   const nextTrack = () => {
+    setHearthed(false);
     dispatch({
       type: "SET_CURRENT_PLAYLIST",
       payload: {
@@ -226,7 +234,7 @@ export default function FullScreenPlayer(props: any) {
           <div className="fs-actions-player">
             <IonIcon
               size="large"
-              icon={heartOutline}
+              icon={hearthed ? heart : heartOutline}
               onClick={() =>
                 likeSong(
                   state?.nowPlaying?.tracks[state?.nowPlaying?.index]?.track
@@ -356,6 +364,14 @@ export default function FullScreenPlayer(props: any) {
           }}
         ></div>
       </div>
+      <IonToast
+        isOpen={hearthed}
+        position="top"
+        color="danger"
+        // onDidDismiss={() => setHearthed(false)}
+        message="Added to library."
+        duration={1500}
+      />
     </IonModal>
   );
 }
