@@ -45,7 +45,6 @@ import SongList from "./components/SongList";
 import Chat from "./components/Chat";
 import AppUrlListener from "./components/AppUrlListener";
 import UserProfile from "./components/UserProfile";
-import { io } from "socket.io-client";
 
 //TODO: get users related artist albums and tracks for best suggestion
 //TODO: optimize the relations between users (follow/unfollow !== chat)
@@ -55,7 +54,7 @@ import { io } from "socket.io-client";
 const App: React.FC = () => {
   const [state, dispatch] = useStateValue();
   const [searchText, setSearchText] = useState<string>();
-  const { socket } = state;
+
   // const fetchUser = async () => {
   const fetchUser = async () => {
     let socket: { disconnect: () => any };
@@ -94,13 +93,6 @@ const App: React.FC = () => {
 
   useEffect(() => {
     fetchUser();
-    if (state?.socket) {
-      socket.on("RECIVE_MESSAGE", () => {
-        if (socket.id === state?.socket?.id) {
-          alert("new message!");
-        }
-      });
-    }
   }, []);
 
   const themeCheck = () => {

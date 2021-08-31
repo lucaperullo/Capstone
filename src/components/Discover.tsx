@@ -24,6 +24,7 @@ import {
   IonHeader,
   IonToolbar,
   IonSpinner,
+  IonToast,
 } from "@ionic/react";
 import axios from "axios";
 import { useHistory } from "react-router-dom";
@@ -51,8 +52,10 @@ import Navigator from "./Navigator";
 const Discover = () => {
   let history = useHistory();
   const [searchText, setSearchText] = useState<string>("");
-  const [state, dispatch] = useStateValue();
+  const [notification, setNotification] = useState(false);
 
+  const [state, dispatch] = useStateValue();
+  const { socket } = state;
   const getMoreCategories = async () => {
     try {
       const code = state?.user?.spotifyTokens?.access_token;
@@ -200,6 +203,15 @@ const Discover = () => {
   };
 
   useEffect(() => {
+    if (state?.socket) {
+      socket.on("RECIVE_MESSAGE", () => {
+        if (socket.id !== state?.socket?.id) {
+          console.log(socket.id, state?.socket?.id);
+          setNotification(true);
+        }
+      });
+    }
+
     getMoreReleases();
     getMoreCategories();
     // fetchUser();
@@ -208,7 +220,18 @@ const Discover = () => {
     getRecent();
   }, []);
 
-  return <Navigator />;
+  return (
+    <>
+      <IonToast
+        isOpen={notification}
+        onDidDismiss={() => setNotification(false)}
+        message="New message, check the inbox."
+        duration={2000}
+        position="top"
+      />
+      <Navigator />
+    </>
+  );
 };
 
 export default Discover;
