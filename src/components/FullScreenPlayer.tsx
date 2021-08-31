@@ -136,13 +136,13 @@ export default function FullScreenPlayer(props: any) {
       isOpen={props.showModal}
     >
       <IonHeader>
-        <IonToolbar>
+        <IonToolbar color="primary">
           <IonButtons slot="start">
             <IonIcon
               style={{ cursor: "pointer" }}
               onClick={() => props.setShowModal(false)}
               size="large"
-              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              color={state?.user?.appTheming?.theme ? "light" : "light"}
               icon={arrowDown}
             ></IonIcon>
             <IonIcon
@@ -150,7 +150,7 @@ export default function FullScreenPlayer(props: any) {
               className="listButton"
               onClick={() => setShowList(!showList)}
               size="large"
-              color={state?.user?.appTheming?.theme ? "white" : "dark"}
+              color={state?.user?.appTheming?.theme ? "light" : "light"}
               icon={list}
             ></IonIcon>
           </IonButtons>

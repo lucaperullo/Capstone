@@ -151,10 +151,11 @@ const App: React.FC = () => {
           </Route>
         </div>
       </IonReactRouter>
-
-      <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
-        <Player />
-      </div>
+      {state?.nowPlaying?.tracks.length > 0 && (
+        <div style={{ position: "fixed", bottom: "0", width: "100%" }}>
+          <Player />
+        </div>
+      )}
     </IonApp>
   );
 };

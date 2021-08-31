@@ -15,6 +15,7 @@ export default function Navigator() {
   const [mru, setMru] = useState(false);
   const [feed, setFeed] = useState(false);
   const [state, dispatch] = useStateValue();
+  const [loaded, setLoaded] = useState(true);
   return (
     <IonContent
       style={{
@@ -58,13 +59,22 @@ export default function Navigator() {
             }
           }}
         >
-          <IonSegmentButton color="primary" value="Music">
+          <IonSegmentButton
+            className={loaded ? "segment-button-checked" : "segment-button"}
+            aria-selected={true}
+            color="primary"
+            value="Music"
+          >
             <IonLabel>Music</IonLabel>
           </IonSegmentButton>
           {/* <IonSegmentButton value="Tranding">
           <IonLabel>People</IonLabel>
         </IonSegmentButton> */}
-          <IonSegmentButton color="primary" value="Feed">
+          <IonSegmentButton
+            onClick={() => setLoaded(false)}
+            color="primary"
+            value="Feed"
+          >
             <IonLabel>Feed</IonLabel>
           </IonSegmentButton>
         </IonSegment>
